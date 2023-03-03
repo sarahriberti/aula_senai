@@ -1,9 +1,23 @@
 body{
     background-color: black;
 }
-.cabeçalho-1{
+.header{
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     font-family: Arial;
     list-style: none;
+    justify-content: space-around;  
+     
+}
+.roxo{
+    color: rgb(56, 56, 136);
+    font-size: 40px;
+}
+.branco{
+    color: aliceblue;
+    font-size: 40px;
+    
+}
+.branquinho{
+    color: aliceblue;
 }
