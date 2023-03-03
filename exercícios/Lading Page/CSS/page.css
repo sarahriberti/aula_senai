@@ -23,5 +23,18 @@ body{
 }
 .branquinho{
     color: aliceblue;
-    font-size: 10px;
+    font-size: 15px;
 }
+.Imagem{
+    display: flex;
+
+}
+.cidade{
+    line-height: 50px;
+    
+}
+section.container {
+	width: 50px;
+	display: inline-block;
+}
+
