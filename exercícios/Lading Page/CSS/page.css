@@ -6,18 +6,22 @@ body{
     justify-content: right;
     font-family: Arial;
     list-style: none;
-    justify-content: space-around;  
+    justify-content: space-around; 
+    
      
 }
 .roxo{
     color: rgb(56, 56, 136);
     font-size: 40px;
+    line-height: 1px;
 }
 .branco{
     color: aliceblue;
     font-size: 40px;
+    line-height: 1px;
     
 }
 .branquinho{
     color: aliceblue;
+    font-size: 10px;
 }
