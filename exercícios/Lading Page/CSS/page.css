@@ -1,0 +1,9 @@
+body{
+    background-color: black;
+}
+.cabeçalho-1{
+    display: flex;
+    justify-content: space-between;
+    font-family: Arial;
+    list-style: none;
+}
