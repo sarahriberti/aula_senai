@@ -1,17 +1,16 @@
 body{
     background-color: black;
 }
-.header{
+.header2{
     display: flex;
     justify-content: right;
     font-family: Arial;
     list-style: none;
     justify-content: space-around; 
-    
-     
+
 }
 .roxo{
-    color: rgb(56, 56, 136);
+    color: rgb(109, 80, 189);
     font-size: 40px;
     line-height: 1px;
 }
