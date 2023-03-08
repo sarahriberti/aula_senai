@@ -128,22 +128,34 @@ main{
 /*Servicos*/
 
 .servicos_item{
-    background-color: #c1c1c1;
+    background-color: #000000;
+    height: 100px;
+    text-align: center;
+    padding: 25px;
+    font-weight: bold;
     
+}
+.servicos_item img{
+    max-width: 50px;
+}
+.servicos_item img:hover{
+    max-width: 70px;
+    transition: 400ms linear;
 }
 
 #item_1{grid-area: card1;}
-#item_1{grid-area: card2;}
-#item_1{grid-area: card3;}
-#item_1{grid-area: card4;}
-#item_1{grid-area: card5;}
-#item_1{grid-area: card6;}
+#item_2{grid-area: card2;}
+#item_3{grid-area: card3;}
+#item_4{grid-area: card4;}
+#item_5{grid-area: card5;}
+#item_6{grid-area: card6;}
 
 #servicos{
     display: grid;
     grid-template-areas: 
     "card1 card2 card3"
     "card4 card5 card6";
+    border-top: 1px;
     gap: 10px;
     margin-top: 20px;
     padding: 20px;
