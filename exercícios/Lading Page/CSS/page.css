@@ -1,39 +1,150 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
+}
 body{
     background-color: black;
 }
-.header2{
+header{
     display: flex;
-    justify-content: right;
-    font-family: Arial;
-    list-style: none;
-    justify-content: space-around; 
+}
+.cabeçalho-1{
+    display: flex;
+    
+    list-style-type: none;
+   
+    margin: 50px 0 0 600px;
 
 }
-.roxo{
-    color: rgb(109, 80, 189);
-    font-size: 40px;
-    line-height: 1px;
+li{
+    color: white;
 }
+.cabeçalho-1 li ul{
+    display: none;
+    width: 100px;
+    position: absolute;
+    top: 120px;
+    left: 1050px;
+    color: white;
+    list-style-type: none;
+
+}
+.cabeçalho-1 li:hover ul{
+    display: block;
+}
+.cabeçalho-1 a {
+    text-decoration: none;
+}
+title{
+    list-style-type: none;
+    padding: 10px;
+    font-size: 17px;
+    color: aliceblue;
+}
+.title:hover{
+    color: blueviolet;
+}
+#pedido:hover{
+    background-color: blueviolet;
+    color: aliceblue;
+    border-radius: 10px;
+}
+.pedido{
+    border: 2px solid;
+    border-radius: 10px;
+    border-color: blueviolet;
+}
+.roxo{
+    color: blueviolet;
+    font-size: 30px;
+}
+
 .branco{
     color: aliceblue;
-    font-size: 40px;
-    line-height: 1px;
+    font-size: 30px;
     
 }
-.branquinho{
+
+p{
     color: aliceblue;
-    font-size: 15px;
+    font-size: 20px;
+}
+hr{
+    background-color: aliceblue;
+    height: 1px;
 }
 .Imagem{
     display: flex;
 
 }
+
 .cidade{
     line-height: 50px;
     
 }
-section.container {
+.container {
 	width: 50px;
 	display: inline-block;
 }
 
+.whatsapp{
+    position: fixed;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    top: 650px;
+    
+}
+.hamburguer{
+    width: 900px;
+    height: 600px;
+}
+input{
+    width: 400px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 4px;
+}
+.button:hover{
+    background-color: grey;
+}
+button{
+    background-color: blueviolet;
+    cursor: pointer;
+    width: 180px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 10px 0 0 10px;
+    color: aliceblue;
+    font-size: 17px;
+}
+main{
+    display: flex;
+}
+.sobrenós{
+    display: flex;
+    color: white;
+}
+/*Servicos*/
+
+.servicos_item{
+    background-color: #c1c1c1;
+    
+}
+
+#item_1{grid-area: card1;}
+#item_1{grid-area: card2;}
+#item_1{grid-area: card3;}
+#item_1{grid-area: card4;}
+#item_1{grid-area: card5;}
+#item_1{grid-area: card6;}
+
+#servicos{
+    display: grid;
+    grid-template-areas: 
+    "card1 card2 card3"
+    "card4 card5 card6";
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+}
