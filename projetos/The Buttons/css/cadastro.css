@@ -1,7 +1,6 @@
 body{
     background-color:#EAC0FF;
     margin: 100px;
-    align-items: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -10,14 +9,21 @@ text-align: center;
 color: #5A0A83;
 }
 
-.formulario{
+h3{
+    text-align: center;
+    color: #5A0A83;
+    }
+
+.formulario {
+    color: #5A0A83;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cadastro{
     margin: auto;
     width: 40%;
     font-size: 15px;
     color: #5A0A83;
-}
-label{
-    align-items: center;
 }
 
 input[type=text], select {
@@ -28,6 +34,7 @@ input[type=text], select {
     border:1px solid #ccc ;
     border-radius:4px ;
     box-sizing:border-box ;
+    background-color: #fffbe8;
 }
 
 input[type=date], select {
@@ -38,6 +45,7 @@ input[type=date], select {
     border:1px solid #ccc ;
     border-radius:4px ;
     box-sizing:border-box ;
+    background-color: #fffbe8;
 }
 
 input[type=tel], select {
@@ -48,6 +56,7 @@ input[type=tel], select {
     border:1px solid #ccc ;
     border-radius:4px ;
     box-sizing:border-box ;
+    background-color: #fffbe8;
 }
 input[type=email], select {
     width: 100%;
@@ -57,6 +66,7 @@ input[type=email], select {
     border:1px solid #ccc ;
     border-radius:4px ;
     box-sizing:border-box ;
+    background-color: #fffbe8;
 }
 input[type=password], select {
     width: 100%;
@@ -66,19 +76,7 @@ input[type=password], select {
     border:1px solid #ccc ;
     border-radius:4px ;
     box-sizing:border-box ;
-}
-input[type=submit], select{
-    width: 100%;
-    padding:12px 20px ;
-    margin: 8px 0 ;
-    display:inline-block ;
-    border:1px solid ;
-    border-radius:4px ;
-    box-sizing:border-box ;
-    cursor: pointer;
-    background-color: #5A0A83;
-    color: #ccc;
-    font-weight: bold;
+    background-color: #fffbe8;
 }
 input[type=button], select {
     width: 100%;
@@ -90,6 +88,17 @@ input[type=button], select {
     box-sizing:border-box ;
     cursor: pointer;
     background-color: #5A0A83;
-    color: #ccc;
+    color: #fff;
     font-weight: bold;
+
+}
+
+input[type=button]:hover{
+    background-color: #a218e7;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 20px;
 }
