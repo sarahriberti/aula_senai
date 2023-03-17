@@ -9,7 +9,7 @@ nav {
     justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
-    padding: 42px;
+    padding: 50px;
 }
 a{
     color: white;
@@ -22,7 +22,7 @@ li{
 #corujonautaaa {
     position: absolute;
     width: 90px;
-    top: 2px;
+    top: 15px;
     left: 7px;
     padding: 12px;
 }
