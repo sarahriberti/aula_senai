@@ -1,0 +1,95 @@
+body{
+    background-color:#EAC0FF;
+    margin: 100px;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+text-align: center;
+color: #5A0A83;
+}
+
+.formulario{
+    margin: auto;
+    width: 40%;
+    font-size: 15px;
+    color: #5A0A83;
+}
+label{
+    align-items: center;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid #ccc ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+}
+
+input[type=date], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid #ccc ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+}
+
+input[type=tel], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid #ccc ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+}
+input[type=email], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid #ccc ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+}
+input[type=password], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid #ccc ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+}
+input[type=submit], select{
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+    cursor: pointer;
+    background-color: #5A0A83;
+    color: #ccc;
+    font-weight: bold;
+}
+input[type=button], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border:1px solid ;
+    border-radius:4px ;
+    box-sizing:border-box ;
+    cursor: pointer;
+    background-color: #5A0A83;
+    color: #ccc;
+    font-weight: bold;
+}
