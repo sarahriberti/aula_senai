@@ -4,43 +4,51 @@
 .eventos1{grid-area:time3;}
 .tarefas1{grid-area:time4;}
 
-.Ferramenta_img{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    display: grid;
-    grid-template-areas:
-    "time0 time1"
-    "tiem2"
-    "time3 time4";
-    gap: 10px;
-}
-.ferramentas_1{
+.ferramentas_1 img{
    max-width: 50px;
-   
 }
 .calendario1{
+    background-color: #5a0a83;
   margin-left: 10px;
   height: 100px;
    width: 480px;
 }
 .lembretes1{
+    background-color: #5a0a83;
     height: 100px;
    width: 480px;
+   margin-left: 10px;
 
 }
 .personalize1{
+    background-color: #5a0a83;
     height: 100px;
    width: 480px;
-
+   margin-left: 10px;
 }
 .eventos1{
+    background-color: #5a0a83;
     height: 100px;
-   width: 480px;
+    width: 480px;
+    margin-left: 10px;
+
 }
 .tarefas1{
+    background-color: #5a0a83;
     height: 100px;
    width: 480px;
+   margin-left: 10px;
 }
 #Ferramenta_img{
     display: grid;
+    grid-template-areas: 
+    "time0 time0 time1 time1"
+    "time2 tiem2 time2 time2"
+    "time3 time3 time4 time4";
+    gap: 10px;
+    font-size: 20px;
+}
+.ferramentas_corpo{
+    text-align: center;
+    background-color: #5a0a83;
 }
