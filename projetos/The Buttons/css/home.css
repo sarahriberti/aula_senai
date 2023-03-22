@@ -42,19 +42,19 @@ li{
     display: flex;
 }
 .coruja_aponta img{
-    width: 60%;
+    margin-left: 60px;
+    width: 70%;
 }
 
 .fotinha{
-    width: 40%;
-    margin-right: 50px;
+    width: 60%;
 }
 .fotinha img{
     margin-top: 10px;
-    margin-left: 200px;
+    margin-left: 40px;
     margin-bottom: 600px;
     width: 79%;
-    height: 55%;
+    height: 54%;
 }
 /*inicio balaum de fale conosco*/
 .fale {
