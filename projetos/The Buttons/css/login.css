@@ -1,3 +1,5 @@
+
+/*corpo do site com a fonte e gif do background*/
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-image: url(../image/teste.gif);
@@ -5,16 +7,19 @@ body {
     background-repeat: no-repeat;
 }
 
+/*h1 do formulario*/
 h1 {
     text-align: center;
     color: #5A0A83;
 }
 
+/*configuração da cor e fonte da letra do formulario*/
 .formulario {
     color: #5A0A83;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/*espaço, tamanho da letra e margem do formulario*/
 .login {
     width: 40%;
     font-size: 15px;
@@ -22,18 +27,21 @@ h1 {
 
   }
 
+/*espaço, tamanho da letra e margem do formulario inferior*/
   .logininferior {
     margin: auto;
     width: 40%;
     font-size: 15px;
 
   }
-
+/*configurações de todos os h3 do formulario*/
 h3 {
     text-align: center;
     color: #5A0A83;
 }
 
+
+/*configuração de todos os inputs presentes no formuario, como tamanho, cor, espaço e borda*/
 input[type=text], select {
     width: 100%;
     padding: 12px 20px;
@@ -66,11 +74,13 @@ input[type=text], select {
     border-radius: 4px;
     cursor: pointer;
   }
-
+/*hover do botão*/
    input[type=button]:hover {
     background-color: #a218e7;
   }
- 
+  /*fim da configuração do input*/
+
+ /*parte para fazer o quadro do formulario*/
   div.formulario {
     border-radius: 5px;
     background-color: #fff;
