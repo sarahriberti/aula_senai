@@ -1,38 +1,52 @@
-#calendario1{grid-area: time0;}
-#lembretes1{grid-area: time1;}
-#personalize1{grid-area: time2;}
-#eventos1{grid-area: time3;}
-#tarefas1{grid-area: time4;}
+.ferramentas_2{grid-area: time0;} /*calendario*/
+.ferramentas_3{grid-area: time1;} /*lembretes*/
+.ferramentas_4{grid-area: time2;} /*personalize*/
+.ferramentas_5{grid-area: time3;} /*eventos*/
+.ferramentas_6{grid-area: time4;} /*tarefas*/
 
 .ferramentas_corpo img{
-   max-width: 50px;
+    /*essa parte do codigo se localiza a parte de borda das imagens na parte de ferramentas*/
+   max-width: 70px;
+   text-align: center;
+   width: 500px;
+    margin: auto;
+    border: 3px solid #b75ce4;
 }
-#calendario1{
-    margin-left: 10px;
-}
-#lembretes1{ 
-   margin-left: 10px;
-}
-#personalize1{
-   margin-left: 10px;
-}
-#eventos1{
-    margin-left: 10px;
-}
-#tarefas1{
-   margin-left: 10px;
+.ferramentas_corpo img:hover{
+    /*botões de ferramentas*/
+    max-width: 100px;
+    transition: 400ms linear;
 }
 .ferramentas_corpo{
+    /*Bordas das imagens e cor das letras*/
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     display: grid;
     grid-template-areas:
-        "TIME0 TIME0 TIME0"
-        "time1 time2 time3"
-        "time4 time5 time6 "
-        "time7 time7 time7";
-    gap: 30px;
-    background-color: #5a0a83;
+        "time0 time1 time2"
+        "time3 time1 time4";
     color: white;
     text-align: center;
+    margin-left: 10px;
+    border-style: solid;
+    border-width: 20px;
+    border-color:#b75ce4;
+    gap: 10px;
+}
+#ferramentas_imagem{
+    border-top: 1px solid #fff;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    display: grid;
+    margin: 20px;
+    border: 2px;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    align-items: center;
+}
+.ferramentas_corpo div{
+    border: 2px solid;
+    background-color: #5a0a83;
 }
