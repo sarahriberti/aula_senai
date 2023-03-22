@@ -3,6 +3,7 @@
 .ferramentas_4{grid-area: time2;} /*personalize*/
 .ferramentas_5{grid-area: time3;} /*eventos*/
 .ferramentas_6{grid-area: time4;} /*tarefas*/
+.imagem_ferramenta{grid-area: ferramentas_imagem;}
 
 .ferramentas_corpo img{
     /*essa parte do codigo se localiza a parte de borda das imagens na parte de ferramentas*/
@@ -22,6 +23,7 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     display: grid;
+
     grid-template-areas:
         "time0 time1 time2"
         "time3 time1 time4";
