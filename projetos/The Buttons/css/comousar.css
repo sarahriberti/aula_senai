@@ -1,11 +1,11 @@
 #comousar{
     display: grid;
-    display: flex;
+  
 }
 .comousar_item{
     background-color: #5a0a83;
-    height: 100px;
-    width: 120px;
+    height: 200px;
+    width: 200px;
     text-align: center;
     padding: 25px;
     font-weight: bold;
@@ -18,12 +18,18 @@
 }
 #item_3{
     margin-left: 10px;
+    height: 500px;
 }
 #item_4{
     margin-left: 10px;
 }
 #item_5{
     margin-left: 10px;
+}
+#item_6 img{
+    margin-left: 20px;
+    width: 80%;
+    height: 70%;
 }
 .comousar_item img{
     max-width: 50px;
@@ -38,11 +44,8 @@
     grid-template-areas:
     "card1 card2 card3 card6"
     "card4 card5 card3 card6";
+    gap: 5px;
 }
 .corujonauta_comousar{
     display: flex;
-}
-#item_6{
-    width: 50%;
-    height: 50%;
 }

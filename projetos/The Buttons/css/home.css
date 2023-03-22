@@ -1,5 +1,7 @@
 body{
     background-color:  #eac0ff;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 /* Início Menu*/
 nav {
@@ -40,11 +42,11 @@ li{
     width: 40%;
 }
 .fotinha img{
-    margin-top: 200px;
+    margin-top: 10px;
     margin-left: 120px;
     margin-bottom: 600px;
-    width: 100%;
-    height: 50%;
+    width: 90%;
+    height: 80%;
 }
 .fale {
     display: flex;
