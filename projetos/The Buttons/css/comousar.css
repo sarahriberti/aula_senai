@@ -4,7 +4,7 @@
 .comousar_item{
     background-color: #5a0a83;
     height: 100px;
-    width: 400px;
+    width: 120px;
     text-align: center;
     padding: 25px;
     font-weight: bold;
@@ -36,4 +36,7 @@
     grid-template-areas:
     "card1 card2 card3"
     "card4 card5 card3";
+}
+.corujonauta_comousar{
+    display: flex;
 }
