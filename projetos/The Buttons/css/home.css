@@ -48,7 +48,7 @@ li{
     width: 90%;
     height: 80%;
 }
-.fale {
+/*inicio balaum de fale conosco*/.fale {
     display: flex;
     position: fixed;
     bottom: 0;
@@ -70,3 +70,4 @@ li{
 #chat{
     filter: invert(100%);
 }
+/*fim de balaum de fale conosco*/
