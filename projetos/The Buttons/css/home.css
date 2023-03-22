@@ -59,9 +59,12 @@ li{
     background-color: #5A0A83;
     cursor: pointer;
 }
-.fale p{
+.fale img{
     margin-left: 10px;
 }
 .fale:hover{
     background-color: #a218e7;
+}
+#chat{
+    filter: invert(100%);
 }
