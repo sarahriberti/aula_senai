@@ -1,10 +1,22 @@
-.ferramentas_2{grid-area: time0;} /*calendario*/
-.ferramentas_3{grid-area: time1;} /*lembretes*/
-.ferramentas_4{grid-area: time2;} /*personalize*/
-.ferramentas_5{grid-area: time3;} /*eventos*/
-.ferramentas_6{grid-area: time4;} /*tarefas*/
-.imagem_ferramenta{grid-area: ferramentas_imagem;}
-
+#ferramentas_1{
+    margin-left: 10px;
+}
+#ferramentas_2{
+    margin-left: 10px;
+}
+#ferramentas_3{
+    margin-left: 10px;
+}
+#ferramentas_4{
+    margin-left: 10px;
+}
+#ferramentas_5{
+    margin-left: 10px;
+}
+.imagem_ferramenta img{
+    margin-left: 20px;
+    max-width: 500px;
+}
 .ferramentas_corpo img{
     /*essa parte do codigo se localiza a parte de borda das imagens na parte de ferramentas*/
    max-width: 70px;
@@ -23,10 +35,6 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     display: grid;
-
-    grid-template-areas:
-        "time0 time1 time2"
-        "time3 time1 time4";
     color: white;
     text-align: center;
     margin-left: 10px;
@@ -34,6 +42,17 @@
     border-width: 20px;
     border-color:#b75ce4;
     gap: 10px;
+}
+#ferramentas_1{grid-area: time0;} /*calendario*/
+#ferramentas_2{grid-area: time1;} /*lembretes*/
+#ferramentas_3{grid-area: time2;} /*personalize*/
+#ferramentas_4{grid-area: time3;} /*eventos*/
+#ferramentas_5{grid-area: time4;} /*tarefas*/
+#ferramentas_imagem{grid-area:time9;}
+#Ferramentas_img{
+    grid-template-areas:
+    "time9 time0 time2 time1"
+    "time3 time4";
 }
 #ferramentas_imagem{
     border-top: 1px solid #fff;
@@ -51,4 +70,8 @@
 .ferramentas_corpo div{
     border: 2px solid;
     background-color: #5a0a83;
+    display: flex;
+}
+.ferramentas{
+    display: flex;
 }
