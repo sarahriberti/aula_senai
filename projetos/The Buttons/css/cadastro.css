@@ -1,7 +1,8 @@
-body{
-    background-color:#EAC0FF;
-    margin: 100px;
+body {
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../image/teste.gif);
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 h1{

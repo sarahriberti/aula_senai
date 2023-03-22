@@ -1,7 +1,8 @@
 body {
-    background-color:#EAC0FF;
-    margin: 100px;
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../image/teste.gif);
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 
 h1 {
@@ -15,6 +16,13 @@ h1 {
 }
 
 .login {
+    width: 40%;
+    font-size: 15px;
+    margin-left: 30%;
+
+  }
+
+  .logininferior {
     margin: auto;
     width: 40%;
     font-size: 15px;
@@ -63,12 +71,8 @@ input[type=text], select {
     background-color: #a218e7;
   }
  
-  div {
+  div.formulario {
     border-radius: 5px;
     background-color: #fff;
     padding: 20px;
   }
-
-
-
-
