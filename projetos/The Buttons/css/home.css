@@ -24,23 +24,25 @@ li{
     position: absolute;
     width: 90px;
     top: 0;
-    left: 7px;
-    padding: 12px;
+    left: 50px;
+    padding: 10px;
 }
 /*Final Menu*/
 /* Início Página*/
-.container_menu{
+#container_menu{
     display: flex;
 }
-.Deus{
+.home_opus{
     width: 50%;
 }
 
 .fotinha{
-    width: 50%;
+    width: 40%;
 }
 .fotinha img{
     margin-top: 200px;
+    margin-left: 120px;
+    margin-bottom: 600px;
     width: 100%;
     height: 50%;
 }
