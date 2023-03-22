@@ -48,7 +48,8 @@ li{
     width: 90%;
     height: 80%;
 }
-/*inicio balaum de fale conosco*/.fale {
+/*inicio balaum de fale conosco*/
+.fale {
     display: flex;
     position: fixed;
     bottom: 0;
@@ -71,3 +72,11 @@ li{
     filter: invert(100%);
 }
 /*fim de balaum de fale conosco*/
+.container_sobre{
+    display: flex;
+}
+.container_sobre img{
+    width: 600px;
+    height: 800px;
+    margin-left: 50px;
+}
