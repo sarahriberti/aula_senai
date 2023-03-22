@@ -49,4 +49,5 @@
 .ferramentas_corpo div{
     border: 2px solid;
     background-color: #5a0a83;
+    align-items: center;
 }
