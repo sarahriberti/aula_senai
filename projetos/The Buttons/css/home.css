@@ -8,10 +8,10 @@ nav {
     background-color: #5a0a83;
 }
 .menu {
-    justify-content: space-evenly;
+    justify-content: right;
     display: flex;
     flex-wrap: wrap;
-    padding: 50px;
+    padding: 40px;
     font-family: Arial, Helvetica, sans-serif;
 }
 a{
@@ -21,12 +21,19 @@ a{
 }
 li{
     list-style-type: none;
+    padding: 15px;
+}
+.login{
+    background-color: #5a0a83;
+    color: white;
+    border: 2px solid white;
+    
 }
 #corujonautaaa {
     position: absolute;
     width: 90px;
     top: 0;
-    left: 50px;
+    left: 130px;
     padding: 10px;
 }
 /*Final Menu*/
@@ -34,19 +41,20 @@ li{
 #container_menu{
     display: flex;
 }
-.home_opus{
-    width: 50%;
+.coruja_aponta img{
+    width: 60%;
 }
 
 .fotinha{
     width: 40%;
+    margin-right: 50px;
 }
 .fotinha img{
     margin-top: 10px;
-    margin-left: 120px;
+    margin-left: 200px;
     margin-bottom: 600px;
-    width: 90%;
-    height: 80%;
+    width: 79%;
+    height: 55%;
 }
 .fale {
     display: flex;
@@ -61,12 +69,9 @@ li{
     background-color: #5A0A83;
     cursor: pointer;
 }
-.fale img{
+.fale p{
     margin-left: 10px;
 }
 .fale:hover{
     background-color: #a218e7;
-}
-#chat{
-    filter: invert(100%);
 }
