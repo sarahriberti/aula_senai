@@ -44,7 +44,7 @@
 .ferramentas img{
     width: 50px;
 }
-.clara{
+.corpo_parte_2{
     display: flex;
     margin: 20px;
    height: 200px;
@@ -60,7 +60,7 @@
 #ferramentas_3{
     background-color: #652087;
 }
-.luisa {
+.corpo_parte_1 {
     display: flex;
     margin: 20px;
     height: 200px;
