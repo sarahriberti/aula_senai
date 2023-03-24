@@ -1,15 +1,17 @@
+.fooo{
+    background-color: #5a0a83;
+}
 .redes_sociais{
     display: flex;
     flex-direction: row;
     justify-content: center;
     cursor: pointer;
 }
-footer{
-    background-color: #5a0a83;
-}
-.texto_footer{
+
+.texto_f{
     color: white;
     background-color: #5a0a83;
     text-align: center;
     font-weight: bold;
 }
+
