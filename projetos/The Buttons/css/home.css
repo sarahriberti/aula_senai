@@ -10,12 +10,9 @@ nav {
     width: 90%;
 }
 nav a:hover{
-    background-color: aqua;
+    background-color: #a218e7;
     color: #000;
     border-radius: 10px;
-}
-nav a.ana_e_um_real{
-    background-color: #800;
 }
 .menu {
     justify-content: right;
@@ -41,7 +38,7 @@ li{
     
 }
 #corujonautaaa {
-    position: absolute;
+    position: fixed;
     width: 90px;
     top: 0;
     left: 130px;
@@ -51,9 +48,9 @@ li{
 /*Final Menu*/
 /* Início Página*/
 #menu_2{
-    font-family: a;
+    font-family: Arial, Helvetica, sans-serif;
 }
-.container_menu{
+#container_menu{
     display: flex;
 }
 .coruja_aponta img{
@@ -67,10 +64,10 @@ li{
     margin-top: 120px;
 }
 .fotinha img{
-    margin-top: 10px;
+    margin-top: 40px;
     margin-left: 40px;
     margin-bottom: 60px;
-    width: 100%;
+    width: 80%;
     height: 90%;
 }
 /*inicio balaum de fale conosco*/
