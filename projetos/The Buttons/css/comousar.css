@@ -1,9 +1,11 @@
-#comousar{
+/*Geral da section*/
+#comousar{ 
     display: grid;
     color: white;
     
 }
-.comousar_item{
+/*Configuração das DIV'S*/
+.comousar_item{ 
     background-color: #5a0a83;
     height: 200px;
     width: 200px;
@@ -15,6 +17,7 @@
 .container_comousar{
     filter: invert(100%);
 }
+/* Início do Grid*/
 #item_1{
     margin-left: 10px;
     margin-top: 50px;
@@ -57,3 +60,4 @@
 .corujonauta_comousar{
     display: flex;
 }
+/* Final do Grid*/
