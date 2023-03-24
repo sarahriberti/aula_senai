@@ -1,8 +1,11 @@
-#comousar{
+/*Geral da section*/
+#comousar{ 
     display: grid;
-  
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
-.comousar_item{
+/*Configuração das DIV'S*/
+.comousar_item{ 
     background-color: #5a0a83;
     height: 200px;
     width: 200px;
@@ -10,6 +13,7 @@
     padding: 25px;
     font-weight: bold;
 }
+/* Início do Grid*/
 #item_1{
     margin-left: 10px;
     margin-top: 50px;
@@ -30,9 +34,9 @@
     margin-left: 10px;
 }
 #item_6 img{
-    margin-left: 20px;
-    width: 80%;
-    height: 70%;
+    margin-left: 5px;
+    width: 90%;
+    height: 80%;
     margin-top: 50px;
 }
 .comousar_item img{
@@ -52,3 +56,4 @@
 .corujonauta_comousar{
     display: flex;
 }
+/* Final do Grid*/
