@@ -1,77 +1,73 @@
-#ferramentas_1{
-    margin-left: 10px;
-}
-#ferramentas_2{
-    margin-left: 10px;
-}
-#ferramentas_3{
-    margin-left: 10px;
-}
-#ferramentas_4{
-    margin-left: 10px;
-}
-#ferramentas_5{
-    margin-left: 10px;
-}
-.imagem_ferramenta img{
-    margin-left: 20px;
-    max-width: 500px;
-}
+
 .ferramentas_corpo img{
     /*essa parte do codigo se localiza a parte de borda das imagens na parte de ferramentas*/
-   max-width: 70px;
-   text-align: center;
-   width: 500px;
-    margin: auto;
-    border: 3px solid #b75ce4;
-}
-.ferramentas_corpo img:hover{
-    /*botões de ferramentas*/
-    max-width: 100px;
-    transition: 400ms linear;
+   max-width: 50px;
+   width: center;
+   margin: 40px 90px;
 }
 .ferramentas_corpo{
     /*Bordas das imagens e cor das letras*/
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
-    display: grid;
+    display:grid;
     color: white;
-    text-align: center;
-    margin-left: 10px;
-    border-style: solid;
-    border-width: 20px;
-    border-color:#b75ce4;
     gap: 10px;
+    border-radius: 50px;
+    height: 50px;
+    margin-top: 100px;
 }
-#ferramentas_1{grid-area: time0;} /*calendario*/
-#ferramentas_2{grid-area: time1;} /*lembretes*/
-#ferramentas_3{grid-area: time2;} /*personalize*/
-#ferramentas_4{grid-area: time3;} /*eventos*/
-#ferramentas_5{grid-area: time4;} /*tarefas*/
-#ferramentas_imagem{grid-area:time9;}
-#Ferramentas_img{
-    grid-template-areas:
-    "time9 time0 time2 time1"
-    "time3 time4";
-}
+
 #ferramentas_imagem{
-    border-top: 1px solid #fff;
     gap: 10px;
-    margin-top: 20px;
-    padding: 20px;
-    display: grid;
-    margin: 20px;
-    border: 2px;
     font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
     align-items: center;
 }
+.ferramentas_corpo {
+    background-color: #EAC0FF;
+    border-radius: 40px;
+}
 .ferramentas_corpo div{
-    border: 2px solid;
-    background-color: #5a0a83;
+    background-color: #5A0A83;
+
+}
+p {
+    text-align:right;
+    border-radius: 20px;
+    width: 80px;
+    margin: 10px 90px;
+}
+
+#Ferramenta_img{
     display: flex;
 }
-.ferramentas{
+.ferramentas img{
+    width: 50px;
+}
+.clara{
     display: flex;
+    margin: 20px;
+   height: 200px;
+   width: 50px;
+
+}
+#ferramentas_5{
+    background-color:#3b0e52;
+}
+#ferramentas_2{
+    background-color: #76279e;
+}
+#ferramentas_3{
+    background-color: #652087;
+}
+.luisa {
+    display: flex;
+    margin: 20px;
+    height: 200px;
+}
+#ferramentas_1{
+    height: 200px;
+    background-color: #802eaa;
+}
+#ferramentas_4{
+    background-color: #501c6a;
 }
