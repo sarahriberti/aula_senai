@@ -2,20 +2,19 @@
 /*corpo do site com a fonte e gif do background*/
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url(../image/teste.gif);
     background-size: 100%;
-    background-repeat: no-repeat;
+    background-color: rgb(25, 29, 42);
 }
 
 /*h1 do formulario*/
 h1 {
     text-align: center;
-    color: #5A0A83;
+    color:rgb(25, 29, 42);
 }
 
 /*configuração da cor e fonte da letra do formulario*/
 .formulario {
-    color: #5A0A83;
+    color:rgb(25, 29, 42);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -37,7 +36,7 @@ h1 {
 /*configurações de todos os h3 do formulario*/
 h3 {
     text-align: center;
-    color: #5A0A83;
+    color:rgb(25, 29, 42);
 }
 
 
@@ -66,18 +65,7 @@ input[type=password]{
 
   input[type=button] {
     width: 100%;
-    background-color: #5A0A83;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  input[type=submit] {
-    width: 100%;
-    background-color: #5A0A83;
+    background-color: #344f8e;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -87,7 +75,7 @@ input[type=password]{
   }
 /*hover do botão*/
    input[type=button]:hover {
-    background-color: #a218e7;
+    background-color: #110d2d;
   }
   /*fim da configuração do input*/
 

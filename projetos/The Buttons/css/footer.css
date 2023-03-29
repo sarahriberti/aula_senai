@@ -1,5 +1,7 @@
 .fooo{
-    background-color: #5a0a83;
+    margin-top: 200px;
+    border-top: 1px solid rgb(214, 189, 1);
+
 }
 .redes_sociais{
     display: flex;
@@ -9,9 +11,9 @@
 }
 
 .texto_f{
-    color: white;
-    background-color: #5a0a83;
+    color: rgb(214, 189, 1);
     text-align: center;
     font-weight: bold;
+    font-size: 20px;
 }
 

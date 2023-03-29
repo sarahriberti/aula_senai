@@ -1,22 +1,20 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url(../image/teste.gif);
-    background-size: 100%;
-    background-repeat: no-repeat;
+    background-color: rgb(25, 29, 42);
 }
 
 h1{
 text-align: center;
-color: #5A0A83;
+color:rgb(25, 29, 42);
 }
 
 h3{
     text-align: center;
-    color: #5A0A83;
+    color:rgb(25, 29, 42);
     }
 
 .formulario {
-    color: #5A0A83;
+    color: rgb(25, 29, 42);
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -88,14 +86,14 @@ input[type=button], select {
     border-radius:4px ;
     box-sizing:border-box ;
     cursor: pointer;
-    background-color: #5A0A83;
+    background-color: #344f8e;
     color: #fff;
     font-weight: bold;
 
 }
 
 input[type=button]:hover{
-    background-color: #a218e7;
+    background-color:#110d2d;
 }
 
 div {
