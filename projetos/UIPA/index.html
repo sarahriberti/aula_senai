@@ -6,46 +6,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
     <script src="js/bootstrap.js"></script>
-    <title>UIPA</title>
-</head>
-<body style="background-color: black;">
-    <nav class="navbar bg-dark navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="images/cropped-logo-uipa-itapira-1.png" style="width: 250px;"/>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUipa" style="cursor:pointer" aria-expanded="true">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse collapse" id="menuUipa">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Sobre</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Como Ajudar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Adote</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Maus Tratos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contatos</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-      
-
+    <head>
+        <title>UIPA</title>
+    </head>
+    <!--inicio menu-->
     
-    <div class="image" style="text-align:right;">
-        <img class="img-fluid" src="images/doberman.png" width="50%">
-    </div>
-    <div class="container">
-    </div>
-</body>
-</html>
+    <body style="background-color: black;">
+        <nav class="navbar bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="images/cropped-logo-uipa-itapira-1.png" style="width: 250px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUipa" style="cursor:pointer" aria-expanded="true">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <!--opções menu-->
+                <div class="navbar-collapse collapse" id="menuUipa">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="sobre.html">Sobre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="comoajudar.html">Como Ajudar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="adote.html">Adote</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="maustratos.html">Maus Tratos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contato.html">Contatos</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--fim opções menu-->
+            </div>
+        </nav>
+        <!--fim menu-->
+    
+    
+        <!--carrosel-->
+        <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/doberman.png" class="d-block w-100" alt="doguinho1">
+                    <div class="carousel-caption d-none d-md-block" style="text-align: right; margin-bottom: 200px; font-size:50px; font-weight: bold;">
+                        <h1 style="color: red; font-size: 50px; font-weight: bold;">Os Animais</h1>
+                        <p>Não devem sofrer pelo <br> egoísmo humano</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="text-align: right; margin-bottom: 100px; font-size:50px; font-weight: bold;">
+                    <img src="images/5f1c3929-a57a-4bfd-a9c6-8f65323c8037.jpg" width="800" height="800" class="d-block w-100" alt="doguinho2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h1 style="color: red; font-size: 50px; font-weight: bold;">UIPA,</h1>
+                        <p>A ONG mais antiga do Brasil</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style=" text-align: right; margin-bottom: 100px; font-size:30px; font-weight: normal;">
+                    <img src="images/denuncie.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="font-size: 40px; font-weight: bold; text-align:start;">"Os animais não <br>existem em
+                            função do <br>homem. Eles possuem <br>uma existência e um <br>valor próprio. Uma <br>moral que
+                            não <br>incorpore essa <br>verdade é vazia. Um <br>sistema jurídico que a <br>exclua é cego"
+                        </h5>
+                        <p style="text-align: left;">-Tom Regan</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!--fim carrosel-->
+        <!--inicio denuncie-->
+        <section class="row align-items-center " style="display: flex; background-color: rgb(0, 0, 0); margin: 100px; ">
+            <div class="col-6">
+                <img src="images/dogui_denuncie dolado dos quadrado branco.jpg" class="card-img-top" alt="imagem_denucie_2" width="500px" height="500px">
+            </div>
+    
+            <div class="col-6" style="text-align: left; font-family: Arial, Helvetica, sans-serif; color:white;">
+                <h1 style="color: rgb(255, 255, 255); width: 70%;">Denuncie maus-tratos </h1>
+                <p><b>Quando o assunto é denúncia de maus-tratos ou crueldade contra animais, <br>o Brasil possui iuma
+                        legislação que pertinente as autoridades competentes que são <br> responsáveis pela manutenção da lei e
+                        punição de crimes.</b></p>
+                <p>Na esfera penal, o crime é previsto pelo artigo 32 da lei nº 9.605, <br> com alteração da lei nº
+                    14.064/2020,prevendo pena de reclusão de 2 a 5 anos, multa e <br> proibição da guarda. </p>
+                <p>
+                    Por se tratar de prática prevista como crime, a competência para apurar maus-tratos pertence às
+                    autoridades públicas, e não às entidades de proteção aos animais, que apenas podem encaminhar cartas
+                    educativas, realizar alguma intervenção amistosa junto ao responsável pelo animal, ou encaminhar o
+                    caso aos órgãos competentes.
+                </p><p>
+                     Sempre que houver necessidade de investigação para apurar a prática da infração penal e identificar
+                    a sua autoria, o fato deve ser levado ao conhecimento do Departamento de <br> Proteção e Bem Estar Animal,
+                    por meio do site próprio para denúncias.
+    
+                    Já a Polícia Militar deve ser acionada se o fato exigir a intervenção policial para a repressão imediata
+                    da infração como, por exemplo, no caso de um animal que esteja sendo espancado, ou sofrendo qualquer
+                    tipo de violência ou abuso.
+               
+    
+                </p><p class="fst-italic" style="font-family: Arial, Helvetica, sans-serif">“Chegará o dia em que todo homem
+                    conhecerá o íntimo de um animal. <br> E neste dia, todo o crime contra o animal será um crime contra a
+                    humanidade”, <br> Leonardo da Vinci.
+                </p>
+            </div>
+        </section>
+        <section class="ajude_aqui" style=" background-color: black; padding: 50px; right: 500px; text-align: center; ">
+            <div class="row">
+                <div class="col-6">
+                    <div class="ajuda_denuncie" style=" width: 500px; background: #fff;border-radius: 20px;padding: 30px 30px;margin-bottom: 16px;box-shadow: 0 5px 8px rgba(0,0,0,.1);z-index: 10;position: relative; color: black; margin: padding 10px; ;border: 0; font-size: 100%;font: inherit; vertical-align: baseline;box-sizing: border-box;">
+                        <b>
+                            <p> 1.Polícia Militar:190.</p>
+                        </b>
+                    </div>
+                    <div class="disque" style="width: 500px; background: #fff;border-radius: 20px;padding: 30px 30px;margin-bottom: 16px;box-shadow: 0 5px 8px rgba(0,0,0,.1);z-index: 10;position: relative; color: black; margin: padding 10px; ;border: 0; font-size: 100%;font: inherit; vertical-align: baseline;box-sizing: border-box;">
+                        <b>
+                            <p>2.Disque Denúncia:181.</p>
+                        </b>
+                    </div>
+                    <div class="Ministerio_publico" style="width: 500px; background: #fff;border-radius: 20px;padding: 30px 30px;margin-bottom: 16px;box-shadow: 0 5px 8px rgba(0,0,0,.1);z-index: 10;position: relative; color: black; margin: padding 10px; ;border: 0; font-size: 100%;font: inherit; vertical-align: baseline;box-sizing: border-box;">
+                        <b>
+                            <p>Ministério Público Federal: <a href="http://www.mpf.mp.br/servicos/sac" rel="noopener noreferrer" target="_blank">http://www.mpf.mp.br/servicos/sac</a></p>
+                        </b>
+                    </div>
+                    <div class="ibama" style="width: 500px; background: #fff;border-radius: 20px;padding: 30px 30px;margin-bottom: 16px;box-shadow: 0 5px 8px rgba(0,0,0,.1);z-index: 10;position: relative; color: black; margin: padding 10px; ;border: 0; font-size: 100%;font: inherit; vertical-align: baseline;box-sizing: border-box;">
+                        <b>
+                            <p> 3.IBAMA (no caso de animais silvestres) <br> - Linha Verde: 0800 61 8080. <a href="http://www.ibama.gov.br/denuncias" rel="noopener noreferrer" target="_blank">www.ibama.gov.br/denuncias</a> </p>
+                        </b>
+                    </div>
+                    <div class="safer" style="width: 500px; background: #fff;border-radius: 20px;padding: 30px 30px;margin-bottom: 16px;box-shadow: 0 5px 8px rgba(0,0,0,.1);z-index: 10;position: relative; color: black; margin: padding 10px; ;border: 0; font-size: 100%;font: inherit; vertical-align: baseline;box-sizing: border-box;">
+                        <b>
+                            <p> 4.Safer Net (crimes de crueldade ou apologia aos maus-tratos na internet): <a href="https://new.safernet.org.br/denuncie" rel="noopener noreferrer" target="_blank">www.safernet.org.br</a> </p>
+                        </b>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <img src="images/dogui_denuncie.jpg" alt="" width="600px">
+                </div>
+            </div>
+        </section>
+        <!--fim denuncie-->
+       <section class="container_sobre"
+            style="display: flex; background-color: rgb(212, 210, 210); margin-left: 40px; margin-right: 40px; margin-top: 40px;" <!-quadrado cinza grande-->
+           
+            <div class="img_sobre"> <!--imagem gato do sobre-->
+                <img src="images/gato_sobre.png" alt="" width="550px">
+            </div>
+           
+            <div class="texto_sobre" style=" margin-top: 150px; text-align: center; margin-right: 50px; font-family: Arial, Helvetica, sans-serif;
+                color: rgb(0, 0, 0);"><!--inicio texto primeiro sobre-->
+                <h2 class="b_sobre"><b>UIPA, uma entidade sem fins lucrativos que atua para a defesa e proteção dos animais.
+                        <br> <br></b></h2>
+                <p>União Internacional Protetora dos Animais, Obedece às legislações em vigor, tem como objetivo
+                    impedir e reprimir atos de crueldade, maus tratos, resgatar animais doentes,
+                    feridos ou vítimas de brutalidade e animais abandonados. <br><br>
+                    Atualmente, abrigamos 130 animais, tratando e cuidando devidamente deles. Todos os animais que chegam
+                    à instituição foram vítimas de maus tratos ou abandono, sendo atendidos em todas as suas necessidades
+                    e tendo assistência veterinários, abrigados na entidade e posteriormente encaminhados para adoção
+                    consciente.
+                    <br>
+                </p>
+                <!--fim do texto de sobre primeira pagina-->
+    
+                <!--botao de ir para a outra página-->
+                <div class="botao_sobre">
+                    <a href="sobre2.html"><button type="button" class="btn btn-outline-secondary">Mais sobre nós</button></a>
+                </div>
+            </div>
