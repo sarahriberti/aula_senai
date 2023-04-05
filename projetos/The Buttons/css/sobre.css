@@ -1,12 +1,15 @@
+/*alinhamento da imagem do sobre nós*/
 .imagemsobre {
     margin-left: 500px;
     margin-top: 330px;
 }
 
+/*display para deixar a imagem do cervo ao lado do texto de sobre*/
 .imagemcervo {
     display: flex;
 }
 
+/*margem, alinhamento, cor da div e borda da imagem do cervo e p*/
 .imagemcervo {
     margin: 200px;
     justify-content: center;
@@ -15,11 +18,13 @@
     margin-top: 10px;
 }
 
+/*cor, tamanho e alinhamento do p */
 .imagemcervo p {
     color: #fff;
     font-size: 23px;
     text-align: center;
     margin-right: 120px;
     margin-top:30px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 

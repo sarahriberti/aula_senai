@@ -1,19 +1,22 @@
+/*fonte e cor de fundo de todo site*/
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-size: 100%;
     background-color: rgb(25, 29, 42);
 }
 
+/*alinhamneto e cor dos h1*/
 h1 {
     text-align: center;
     color:rgb(25, 29, 42);
 }
 
+/*cor e fonte dos textos*/
 .formulario {
     color:rgb(25, 29, 42);
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/*tamanho que a div ocupa no site, com o tamanho do texto e o alinhamento*/
 .login {
     width: 40%;
     font-size: 15px;
