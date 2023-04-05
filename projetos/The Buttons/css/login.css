@@ -24,6 +24,7 @@ h1 {
 
   }
 
+  /*tamanho, alinhamento e tamanho da fonte da parte do login com*/
   .logininferior {
     margin: auto;
     width: 40%;
@@ -31,11 +32,13 @@ h1 {
 
   }
 
+  /*alinhamento e cor dos h3*/
 h3 {
     text-align: center;
     color:rgb(25, 29, 42);
 }
 
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
 input[type=text], select {
     width: 100%;
     padding: 12px 20px;
@@ -69,10 +72,12 @@ input[type=password]{
     cursor: pointer;
   }
 
+  /*hover dos botões*/
    input[type=button]:hover {
     background-color: #110d2d;
   }
- 
+
+/*borda, cor e espaçamento de toda a div*/
   div.formulario {
     border-radius: 5px;
     background-color: #fff;
