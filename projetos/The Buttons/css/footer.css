@@ -1,24 +1,89 @@
 /*alinhamento e borda do footer*/
-.rodape{
-    margin-top: 200px;
-    border-top: 1px solid rgb(214, 189, 1);
+.bembolado{
+  margin-top: 200px;
+  display: flex;
+  border-top: 3px solid rgb(214, 189, 1);
 }
-
+.rodape {
+  margin-top: 30px;
+  display: flex;
+  margin-left: 150px;
+  flex-direction: column;
+}
+.odeiotudo{
+  margin-top: 30px;
+  margin-left: 20px;
+}
+.correria{
+  margin-top: 30px;
+  margin-left: 100px;
+}
 /*display, alinhamento e cursor da imagens*/
-.redes_sociais{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    cursor: pointer;
+.redes_sociais {
+  cursor: pointer;
+  justify-content: center;
+  color: white;
+  display: flex;
+  margin-right: 50px;
 }
 
 /*fonte, cor, tamanho e alinhamento do p do footer*/
-.texto_f{
-    font-family: Arial, Helvetica, sans-serif;
-    color: rgb(214, 189, 1);
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px;
+.texto_f {
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(214, 189, 1);
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
-/*fim do footer*/
+.instagram {
+  display: flex;
+  padding: 5px;
 
+}
+
+.rede{
+  margin-left: 10px;
+}
+/*alinhar listas*/
+.peRoda{
+    display: flex;
+    justify-content: center;
+    padding: 7px;
+    color: white;
+}
+textarea, select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #fdf3c5;
+}
+input[type=button] {
+  width: 100%;
+  background-color: rgb(107, 120, 163);
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+input[type=button]:hover {
+  background-color: #7acada;
+}
+.corujita{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.monu {
+  padding: 5px;
+  border: 3px;
+  list-style-type: none;
+  margin-left: 73px;
+}
+
+/*fim do footer*/

@@ -13,6 +13,7 @@ nav {
     align-items: center;
     margin-top: 0;
     width: 100%;
+
 }
 
 /*hover do li do menu*/
@@ -34,13 +35,14 @@ a{
 }
 
 /*ajuste e espaçamento do li*/
-li{
+.manu {
     list-style-type: none;
     padding: 20px;
 }
 
 /*borda arredondada e espaçamento do li do login */
 .login {
+    list-style-type: none;
     border: 2px solid #ffee00;
     padding: 12px;
     border-radius: 50px;
@@ -50,7 +52,7 @@ li{
 #logo {
     position: absolute;
     top:5px;
-    left: 30px;
+    left: 20px;
     display: block;
 }
 /*Final Menu*/

@@ -1,18 +1,20 @@
 /*fonte e cor de fundo de todo site*/
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(25, 29, 42);
+    background-size: 100%;
+    background-image: url(../image/magic.gif);
+
 }
 
 /*alinhamneto e cor dos h1*/
 h1 {
     text-align: center;
-    color:rgb(25, 29, 42);
+    color:white;
 }
 
 /*cor e fonte dos textos*/
 .formulario {
-    color:rgb(25, 29, 42);
+    color:white;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -35,7 +37,7 @@ h1 {
   /*alinhamento e cor dos h3*/
 h3 {
     text-align: center;
-    color:rgb(25, 29, 42);
+    color:white;
 }
 
 /*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
@@ -45,41 +47,42 @@ input[type=text], select {
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 15px;
     box-sizing: border-box;
-    background-color: #fffbe8;
+    background-color: #fdf3c5;
   }
 
 input[type=password]{
-  width: 100%;
+    width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 15px;
     box-sizing: border-box;
-    background-color: #fffbe8;
+    background-color: #fdf3c5;
 }
 
   input[type=button] {
     width: 100%;
-    background-color: #344f8e;
+    background-color: rgb(107, 120, 163);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
+    font-weight: bold;
   }
 
   /*hover dos botões*/
    input[type=button]:hover {
-    background-color: #110d2d;
+    background-color: #7acada;
   }
 
 /*borda, cor e espaçamento de toda a div*/
   div.formulario {
-    border-radius: 5px;
-    background-color: #fff;
+    border-radius: 50px;
+    background-color: rgb(25, 29, 42);
     padding: 20px;
   }
