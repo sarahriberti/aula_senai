@@ -18,22 +18,37 @@
 
             <div class="formulario">
                 
-                <form action="">
+                <form id="form_cadastro" action="">
                     <h1>Cadastro</h1>
                     <label for="">Nome</label><br>
-                    <input type="text" name="Nome" id="Nome" placeholder="Digite seu Nome" >
-                    <label for="">Data de nascimento</label>
-                    <input type="date" name="Data de nascimento" id="Data de nascimento">
-                    <label for="">Celular</label>
-                    <input type="tel" name="Celular" id="Celular" placeholder="+55/Digite seu número">
+                    <input type="text" name="nome" class="nome" id="nome" placeholder="Digite seu Nome" >
+                    
+                    <div class="date_cel">
+                        <div class="class_date">
+                            <label for="" >Data de nascimento</label>
+                            <input type="date" name="data_nasc" class="data_nasc" id="data_nasc">
+                        </div>
+                        
+                        <div class="class_cel">
+                            <label for="">Celular</label>
+                        <input type="tel" name="celular" class="celular" id="celular" placeholder="+55/Digite seu número">
+                        </div>
+                    </div>
                     <label for="">E-mail</label>
-                    <input type="email" name="E-mail" id="E-mail" placeholder="  Digite seu E-mail">
+                    <input type="email" name="e-mail" class="e-mail" id="e-mail" placeholder="Digite seu E-mail">
                     <label for="">Senha</label>
-                    <input type="password" name="Senha" id="Senha" placeholder="Digite sua Senha">
+                    <input type="password" name="senha" class="senha" id="senha" placeholder="Digite sua Senha" validatePassword>
                     <label for=""> Confirmar senha</label>
-                    <input type="password" name="Senha" id="Senha" placeholder="Digite sua senha novamente">
-                    <input type="button" value="Cadastrar-se">
-
+                    <input type="password" name="senha_conf" class="senha_conf" id="senha_conf" placeholder="Digite sua senha novamente">
+                    <div class="botoes_cad">
+                        <input type="submit" value="Cadastrar-se" id="cancel_cad">
+                        <input type="submit" value="Cancelar" id="cancel_cad">
+                    </div>
+                    <ul class="return_log">
+                        <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/login.html">
+                            <li class="text_return">Já possui uma conta? Faça Login</li>
+                        </a>
+                    </ul>
                     <h3>Cadastrar-se com</h3>
                     <div class="cadastro">
                         <a href="https://www.instagram.com/"><input type="button" value="Facebook"></a>
@@ -48,6 +63,5 @@
         <!--fim do formulário de cadastro-->
     
     </main>
-    
 </body>
 </html>

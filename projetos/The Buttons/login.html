@@ -18,16 +18,18 @@ para os icones de facebook e google-->
     <section class="login">
 
         <div class="formulario">
-            <form action="">
+            <form id="form_login" action="">
                 <h1>Login</h1>
-                <label for="Nome" class="nomeia">Nome/E-mail</label>
-                <input type="text" name="nome" placeholder="Digite seu nome/e-mail">
-                <label for="Senha" class="nomeia">Senha</label>
-                <input type="password" name="senha" placeholder="Digite sua senha">
-                <input type="button" value="Entrar">
-                <h3>Não possuí login?</h3>
-                <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/cadastro.html"><input
-                        type="button" value="Cadastrar-se"></a>
+                <label for="email" class="nomeia">E-mail</label>
+                <input type="email" id="email" class="email" name="email" placeholder="Digite seu e-mail">
+                <label for="senha" class="nomeia">Senha</label>
+                <input type="password" id="senha" class="senha" name="senha" placeholder="Digite sua senha">
+                <div class="botoes_cad">
+                    <input type="submit" value="Entrar" id="cancel_ent">
+                    <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/cadastro.html"><input
+                        type="submit" value="Cancelar" id="cancel_cad">
+                </div>
+                <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/cadastro.html"><li class="text_return">Não possui conta? Cadastre-se</li></a>
                 <h3>Login com</h3>
                 <div class="logininferior">
                     <a href="https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1"><input type="button"

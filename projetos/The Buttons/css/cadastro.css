@@ -84,7 +84,7 @@ input[type=password], select {
     background-color: #fdf3c5;
 }
 /*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
-input[type=button], select {
+input[type=submit], select {
     width: 100%;
     padding:12px 20px ;
     margin: 8px 0 ;
@@ -98,12 +98,72 @@ input[type=button], select {
     font-weight: bold;
 }
  /*hover dos botões*/
+input[type=submit]:hover{
+    background-color: #7acada;
+}
+input[type=button], select {
+    width: 100%;
+    padding:12px 20px ;
+    margin: 8px 0 ;
+    display:inline-block ;
+    border: none;
+    border-radius:4px ;
+    box-sizing:border-box ;
+    cursor: pointer;
+    background-color: rgb(107, 120, 163);
+    color: #fff;
+    font-weight: bold;
+}
 input[type=button]:hover{
     background-color: #7acada;
+}
+/*botões de cadastrar e cancelar*/
+.botoes_cad{
+    display: flex;
+}
+#cancel_cad{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.class_date{
+    width: 70%;
+    flex-direction: column;
+    padding:10px 5px;
+    margin-left: -25px;
+    margin-top: -20px;
+    margin-bottom: -20px;
+}
+.date_cel{
+    display: flex;
+    
+}
+.class_cel{
+    width: 70%;
+    margin-left: 30px;
+    flex-direction: column;
+    margin-right: -38px;
+    margin-top: -25px;
+    margin-bottom: -30px;
 }
 /*borda, cor e espaçamento de toda a div*/
 div {
     border-radius: 50px;
     background-color:rgb(25, 29, 42);
     padding: 20px;
+}
+/*voltar pro login*/
+.return_log{
+    text-align: center;
+    list-style-type: none;
+    margin-right: 50px;
+    text-decoration: none;
+    margin-bottom: 40px;
+    cursor: pointer;
+}
+.text_return{
+    color: rgb(228, 228, 228);
+}
+
+a{
+    text-decoration: none;
 }
