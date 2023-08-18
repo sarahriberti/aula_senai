@@ -3,20 +3,20 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background-size: 100%;
     background-image: url(../image/magic.gif);
-    
-
-
 }
+
 /*alinhamneto e cor dos h1*/
 h1{
 text-align: center;
 color:white;
 }
+
 /*alinhamneto e cor dos h3*/
-h3{
+.cadastro h3{
     text-align: center;
     color:white;
     }
+    
 /*cor e fonte dos textos*/
 .formulario {
     color: white;
@@ -125,31 +125,11 @@ input[type=button]:hover{
     margin-left: 30px;
     margin-right: 30px;
 }
-.class_date{
-    width: 70%;
-    flex-direction: column;
-    padding:10px 5px;
-    margin-left: -25px;
-    margin-top: -20px;
-    margin-bottom: -20px;
-}
-.date_cel{
-    display: flex;
-    
-}
-.class_cel{
-    width: 70%;
-    margin-left: 30px;
-    flex-direction: column;
-    margin-right: -38px;
-    margin-top: -25px;
-    margin-bottom: -30px;
-}
 /*borda, cor e espaçamento de toda a div*/
 div {
     border-radius: 50px;
     background-color:rgb(25, 29, 42);
-    padding: 20px;
+    padding: 10px;
 }
 /*voltar pro login*/
 .return_log{
@@ -157,7 +137,6 @@ div {
     list-style-type: none;
     margin-right: 50px;
     text-decoration: none;
-    margin-bottom: 40px;
     cursor: pointer;
 }
 .text_return{
@@ -167,3 +146,14 @@ div {
 a{
     text-decoration: none;
 }
+
+.error-validation {
+    color: rgb(214, 189, 1);
+    font-size: 13px;
+    position: relative;
+  }
+  
+  .template {
+    display: none;
+  }
+  

@@ -20,37 +20,45 @@
                 
                 <form id="form_cadastro" action="">
                     <h1>Cadastro</h1>
-                    <label for="">Nome</label><br>
-                    <input type="text" name="nome" class="nome" id="nome" placeholder="Digite seu Nome" >
-                    
-                    <div class="date_cel">
+
+                    <div class="class_nome">
+                        <label for="">Nome</label><br>
+                        <input type="text" name="nome" class="nome" id="nome" placeholder="Digite seu Nome" data-min-length="3" data-max-length="40" >
+                    </div>
                         <div class="class_date">
                             <label for="" >Data de nascimento</label>
                             <input type="date" name="data_nasc" class="data_nasc" id="data_nasc">
                         </div>
-                        
                         <div class="class_cel">
                             <label for="">Celular</label>
-                        <input type="tel" name="celular" class="celular" id="celular" placeholder="+55/Digite seu número">
+                        <input type="tel" name="celular" class="celular" id="celular" placeholder="+55/Digite seu número" data-max-length="15" data-min-length="15">
                         </div>
+                    <div class="class_email">
+                        <label for="">E-mail</label>
+                        <input type="email" name="e-mail" class="e-mail" id="e-mail" placeholder="Digite seu E-mail" data-email-validate data-max-length="40" data-min-length="8" >
                     </div>
-                    <label for="">E-mail</label>
-                    <input type="email" name="e-mail" class="e-mail" id="e-mail" placeholder="Digite seu E-mail">
-                    <label for="">Senha</label>
-                    <input type="password" name="senha" class="senha" id="senha" placeholder="Digite sua Senha" validatePassword>
-                    <label for=""> Confirmar senha</label>
-                    <input type="password" name="senha_conf" class="senha_conf" id="senha_conf" placeholder="Digite sua senha novamente">
+                    <div class="class_senha">
+                        <label for="">Senha</label>
+                        <input type="password" name="senha" class="senha" id="senha" placeholder="Digite sua Senha" data-min-length="8" data-max-length="40">
+                    </div>
+                    <div class="class_confir">
+                        <label for=""> Confirmar senha</label>
+                        <input type="password" name="senha_conf" class="senha_conf" id="senha_conf" placeholder="Digite sua senha novamente" data-equal="password">
+                    </div>
                     <div class="botoes_cad">
-                        <input type="submit" value="Cadastrar-se" id="cancel_cad">
+                        <input type="submit" value="Cadastrar-se" id="enter_cad">
                         <input type="submit" value="Cancelar" id="cancel_cad">
                     </div>
-                    <ul class="return_log">
-                        <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/login.html">
-                            <li class="text_return">Já possui uma conta? Faça Login</li>
-                        </a>
-                    </ul>
-                    <h3>Cadastrar-se com</h3>
+                    <div class="class_botoes">
+                        <ul class="return_log">
+                            <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/login.html">
+                                <li class="text_return">Já possui uma conta? Faça Login</li>
+                            </a>
+                        </ul>
+                    </div>
+
                     <div class="cadastro">
+                        <h3>Cadastrar-se com</h3>
                         <a href="https://www.instagram.com/"><input type="button" value="Facebook"></a>
                         <a href="https://www.google.com/intl/pt-BR/account/about/"><input type="button" value="Google"></a>
                     </div>
@@ -63,5 +71,7 @@
         <!--fim do formulário de cadastro-->
     
     </main>
+    <p class="error-validation template"></p>
+    <script src="js/email.js"></script>
 </body>
 </html>

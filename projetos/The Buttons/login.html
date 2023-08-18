@@ -20,10 +20,14 @@ para os icones de facebook e google-->
         <div class="formulario">
             <form id="form_login" action="">
                 <h1>Login</h1>
-                <label for="email" class="nomeia">E-mail</label>
-                <input type="email" id="email" class="email" name="email" placeholder="Digite seu e-mail">
-                <label for="senha" class="nomeia">Senha</label>
-                <input type="password" id="senha" class="senha" name="senha" placeholder="Digite sua senha">
+                <div class="email_log">
+                    <label for="email" class="nomeia">E-mail</label>
+                    <input type="email" id="email" class="email" name="email" placeholder="Digite seu e-mail"  data-email-validate data-max-length="40" data-min-length="8" >
+                </div>
+                <div class="senha_log">
+                    <label for="senha" class="nomeia">Senha</label>
+                    <input type="password" id="senha" class="senha" name="senha" placeholder="Digite sua senha">
+                </div>
                 <div class="botoes_cad">
                     <input type="submit" value="Entrar" id="cancel_ent">
                     <a href="file:///C:/Users/Aluno/Documents/GitHub/aula_senai/projetos/The%20Buttons/cadastro.html"><input
@@ -43,6 +47,8 @@ para os icones de facebook e google-->
     </section>
 
     <!--fim formulário-->
+    <p class="error-validation template"></p>
+    <script src="js/email.js"></script>
 </body>
 
 </html>

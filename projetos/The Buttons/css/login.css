@@ -129,3 +129,13 @@ input[type=password]{
 a{
   text-decoration: none;
 }
+
+.error-validation {
+  color: rgb(214, 189, 1);
+  font-size: 13px;
+  position: relative;
+}
+
+.template {
+  display: none;
+}
