@@ -1,5 +1,6 @@
 /*configuração da imagem de fundo, cor de fundo e a fonte utilizada em todo site*/
-body{
+body {
+
     background-image: url(../image/castel_resized.jpg);
     background-repeat: no-repeat;
     background-color: rgb(25, 29, 42);
@@ -8,16 +9,16 @@ body{
 
 /* Início Menu, com display, alinhamento e tamanho de toda nav*/
 nav {
+    position: fixed;
     display: flex;
     justify-content: end;
     align-items: center;
     margin-top: 0;
     width: 100%;
-
 }
 
 /*hover do li do menu*/
-li:hover{
+li:hover {
     color: #ffee00;
 }
 
@@ -28,7 +29,7 @@ li:hover{
 }
 
 /*cor e display em todos os a*/
-a{
+a {
     color: white;
     text-decoration: none;
     display: block;
@@ -42,6 +43,7 @@ a{
 
 /*borda arredondada e espaçamento do li do login */
 .login {
+    margin-right: 15px;
     list-style-type: none;
     border: 2px solid #ffee00;
     padding: 12px;
@@ -50,26 +52,28 @@ a{
 
 /*posição, alinhamento e display no logo na parte superior do site */
 #logo {
-    position: absolute;
-    top:5px;
+    position: fixed;
+    top: 5px;
     left: 20px;
     display: block;
 }
+
 /*Final Menu*/
 
 /* Início Página*/
 /*dispaly e cor de todos os elementos dentro do container_menu*/
-#container_menu{
+#container_menu {
     display: flex;
     color: #fff;
 }
 
 /*tamanho, display e alinhamento da imagem da frase do home*/
-.frase{
+.frase {
+    padding: 60px;
     width: 60%;
     display: block;
-    margin-left: 185px;
-    margin-top: 240px;
+    margin-left: 125px;
+    margin-top: 270px;
 }
 
 /*tamanho da letra e alinhamento do p da div frase*/
@@ -79,6 +83,7 @@ a{
     width: 100%;
     text-align: center;
 }
+
 /*fim da página inicial*/
 
 /*inicio balão do fale conosco, com o display, alinhamneto, espaçamento, borda, cor e cursor do fale conosco*/
@@ -97,14 +102,15 @@ a{
 }
 
 /*alinhamento, cor e bold do p dentro do fale*/
-.fale p{
+.fale p {
     margin: 10px;
     color: #000000;
     font-weight: bold;
 }
 
 /*hover do fale conosco*/
-.fale:hover{
+.fale:hover {
     background-color: #409ed5;
 }
+
 /*fim de balão do fale conosco*/

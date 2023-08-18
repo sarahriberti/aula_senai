@@ -1,14 +1,19 @@
 /*Geral da section*/
-#comousar{ 
-    display: grid; /*Para mover cada bloco de uma forma mais organizada*/
+#comousar {
+    display: grid;
+    /*Para mover cada bloco de uma forma mais organizada*/
     color: white;
-    font-family: Arial, Helvetica, sans-serif; /*Colocar uma fonte padrão para todos os elementos*/
+    font-family: Arial, Helvetica, sans-serif;
+    /*Colocar uma fonte padrão para todos os elementos*/
     font-size: 14px;
     font-weight: bold;
 }
+
 /*Configuração das DIV'S*/
-.comousar_item{ /*Parte de maior design dos blocos, desde o tamanho, incluindo largura e altura, além de background e alinhamento de texto*/
-    background-color:rgb(214, 189, 1);
+.comousar_item {
+    /*Parte de maior design dos blocos, desde o tamanho, incluindo largura e altura, além de background e alinhamento de texto*/
+    background-color: #000000;
+    border: 2px solid rgb(214, 189, 1);
     height: 200px;
     width: 200px;
     text-align: center;
@@ -20,48 +25,75 @@
 /* Início do Grid*/
 /*Feito para dar tamanho específico para cada um dos grids, tendo opções para configurar de forma exata cada bloco, colocando
 sua posição de acordo com o planejamento do wireframe.*/
-#item_1{
+#item_1 {
     margin-left: 50px;
     margin-top: 50px;
 }
-#item_2{
+
+#item_2 {
     margin-left: 10px;
     margin-top: 50px;
 }
-#item_3{
+
+#item_3 {
     margin-left: 10px;
     height: 510px;
     margin-top: 120px;
 }
-#item_4{
+
+#item_4 {
     margin-left: 50px;
 }
-#item_5{
+
+#item_5 {
     margin-left: 10px;
 }
-#item_6 img{
+
+#item_6 img {
     margin-left: 0px;
     width: 90%;
     height: 80%;
     margin-top: 50px;
 }
-.comousar_item img{
+
+.comousar_item img {
     max-width: 50px;
 }
+
 /*Parte para identificar cada bloco no grid*/
-#item_1{grid-area: card1;}
-#item_2{grid-area: card2;}
-#item_3{grid-area: card3;}
-#item_4{grid-area: card4;}
-#item_5{grid-area: card5;}
-#item_6{grid-area: card6;}
-/*Layout do grid*/
-#comousar{
-    grid-template-areas:
-    "card1 card2 card3 card6"
-    "card4 card5 card3 card6";
+#item_1 {
+    grid-area: card1;
 }
-.corujonauta_comousar{
+
+#item_2 {
+    grid-area: card2;
+}
+
+#item_3 {
+    grid-area: card3;
+}
+
+#item_4 {
+    grid-area: card4;
+}
+
+#item_5 {
+    grid-area: card5;
+}
+
+#item_6 {
+    grid-area: card6;
+}
+
+/*Layout do grid*/
+#comousar {
+    grid-template-areas:
+        "card1 card2 card3 card6"
+        "card4 card5 card3 card6";
+}
+
+.corujonauta_comousar {
     display: flex;
 }
+
 /* Final do Grid*/
