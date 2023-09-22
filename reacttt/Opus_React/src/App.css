@@ -1,0 +1,217 @@
+/*Cor do body*/
+.bd {
+background-color: #191D2A;
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.today-task{
+  margin-left: 70px;
+  width: 300px;
+  margin-top: 50px;
+}
+.today-task-one.list-group-item {
+  padding: 30px;
+  align-items: center;
+  display: flex;
+  background-color: #F4EFDF;
+  border: 3px solid;
+}
+.today-task-one-1.list-group-item {
+  background-color: #404060;
+  color: white;
+  border: 3px solid #000;
+}
+.corr{
+  align-items: start;
+  margin-right: 30px;
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+}
+/* >>> INÍCIO MODAL <<< */
+#adicionar-click { /* >>> BOTÃO DO FORMULÁRIO <<< */
+  background-color: #365cd7;
+  border: none;
+  position: absolute;
+  right: 475px;
+  bottom: 85px;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+}
+.logo{
+  position: absolute;
+  top: 15px;
+  right: 70px;
+  width: 200px;
+}
+.image1{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 30px;
+}
+.modal-body { /* >>> COR DO MODAL <<< */
+  background-image: linear-gradient(#1d2234 60%, #3d4b80);
+  color: aliceblue;
+}
+.modal-header {
+  background-color: #1d2234;
+  color: white;
+}
+.adicionar-compromisso { /* >>> COR DE ONDE ESTÁ ESCRITO "COMPROMISSO" <<< */
+  background-color: #191D2A;
+  text-align: center;
+}
+
+.rodape { /* >>> COR DO FOOTER <<< */
+  background-color:#3d4b80;
+}
+
+.horario-compromisso{ /* >>> COR DO HORÁRIO <<< */
+  background-color: #F4EFDF;
+  color: black;
+  border: none;
+  border-radius: 10px;
+}
+button.btn.btn-primary {
+  background-color:#191D2A;
+  border: none;
+} 
+button.btn.btn-primary:hover{
+  background-color: #191D2A;
+}
+.hor-edit { /* >>> DISPLAY PARA DEIXAR O O INÍCIO DO HORÁRIO E O TÉRMINO UM DO LADO DO OUTRO <<< */
+  display: flex;
+  color: black;
+}
+.descri{
+  background-color: #F4EFDF !important;
+}
+.repeat-color{
+  background-color: #F4EFDF !important;
+}
+.category-color{
+  background-color: #F4EFDF !important;
+}
+.ini-color{
+  background-color: #F4EFDF !important;
+}
+.ate-color{
+  background-color: #F4EFDF !important;
+}
+.date-color{
+  background-color: #F4EFDF !important;
+}
+.til-color{
+  background-color: #F4EFDF !important;
+}
+/* >>> FINAL MODAL <<<*/
+
+/*container*/
+.container{
+  display: flex;
+  background-color: #191D2A;
+}
+button.text.btn.btn-primary {
+  background-color: #191D2A;
+}
+
+/*Inicio MenuLateral*/
+/*display e margem da parte que fica com a logo e o menu */
+.parte_superior{
+  position: absolute;
+  left: 40px;
+  top:15px;
+}
+/*cor do botão que chama o menu*/
+button.chamar_menu.btn.btn-primary {
+  background-color:#191D2A;
+  border: none;
+}
+/*cor de fundo do menu*/
+.offcanvas-body {
+  background-image: linear-gradient(#191D2A, #3d4b80);
+}
+.offcanvas.offcanvas-start.show {
+  background-image: linear-gradient(#191D2A, #3d4b80);
+}
+.modal-body { /* >>> COR DO MODAL <<< */
+  background-image: linear-gradient(#1d2234 60%, #3d4b80);
+  color: aliceblue;
+}
+/*tamanho da logo*/
+.logo_coruja img {
+  width: 20%;
+}
+/*display nos elementos do perfil*/
+.perfil {
+  display: flex;
+}
+/*margem do x que fecha o menu*/
+.fechar_menu {
+  margin-left: 350px;
+}
+/*tamanho da imagem de perfil*/
+.imagem1 {
+  margin-left: 125px;
+}
+/*css do nome do usuarioa*/
+.name {
+  font-size: larger;
+  color: rgb(255, 255, 255);
+  margin-left: 147px;
+}
+p {
+  color: white;
+}
+/*tamanho logo do instagram e margin para posicionar*/
+.insta{
+  width: 50px;
+}
+/*tamanho logo facebook e margin para distanciafr do i nstagram*/
+.face{
+  width: 50px;
+}
+/*tamanho da logo do whatsapp e distanciamento do facebook*/
+.whats{
+  width: 50px;
+}
+/*posicionamento logos parte inferior dop menu lateral*/
+.redes{
+  margin-top: 360px;
+  justify-content: space-around;
+  
+  display: flex;
+}
+/*fim MenuLateral*/
+/*Inicio das atividades*/
+button.text.btn.btn-primary {
+  width: 0px;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*Fim das atividades*/
+
+/*inicio do calendario*/
+/*ajustar tamanho*/
+.image{
+  margin-left: -250px;
+  margin-top: 50px;
+  max-width: 170%;
+}
+/*fim do calendario*/
+
+div.modal-content {
+  background-color: #3d4b80;
+}
+
+.description-color{
+  background-color: #F4EFDF !important;
+}
