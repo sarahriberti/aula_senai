@@ -5,6 +5,7 @@ class Validator{
             'data-min-length',
             'data-max-length',
             'data-only-letters',
+            'data-space-validate',
             'data-email-validate',
             'data-required',
             'data-equal',
@@ -73,7 +74,15 @@ class Validator{
                 this.printMessage(input, errorMessage);
             }
         }
+        spacevalidate(input) {
+            let re = /^[A-Za-z-' ']+$/;;
+            let space = input.value;
+            let errorMessage = `Este campo não aceita números nem caracteres especiais`;
 
+            if(!re.test(space)) {
+                this.printMessage(input, errorMessage);
+            }
+        }
         //Método para validar email
         emailvalidate(input) {
             let re = /\S+@\S+\.\S+/;
