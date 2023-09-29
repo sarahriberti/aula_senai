@@ -1,4 +1,8 @@
 /*Cor do body*/
+.offcanvas {
+  background-image: linear-gradient(#1d2234 60%, #3d4b80);
+
+}
 .bd {
 background-color: #191D2A;
 }
@@ -134,12 +138,7 @@ button.chamar_menu.btn.btn-primary {
   border: none;
 }
 /*cor de fundo do menu*/
-.offcanvas-body {
-  background-image: linear-gradient(#191D2A, #3d4b80);
-}
-.offcanvas.offcanvas-start.show {
-  background-image: linear-gradient(#191D2A, #3d4b80);
-}
+
 .modal-body { /* >>> COR DO MODAL <<< */
   background-image: linear-gradient(#1d2234 60%, #3d4b80);
   color: aliceblue;
