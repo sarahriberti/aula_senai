@@ -182,7 +182,7 @@ p {
 }
 /*posicionamento logos parte inferior dop menu lateral*/
 .redes{
-  margin-top: 360px;
+  margin-top: 320px;
   justify-content: space-around;
   
   display: flex;
