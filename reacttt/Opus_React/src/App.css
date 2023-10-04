@@ -60,11 +60,11 @@ background-color: #191D2A;
   width: 30px;
 }
 .modal-body { /* >>> COR DO MODAL <<< */
-  background-image: linear-gradient(#1d2234 60%, #3d4b80);
+  background-color: #B6BCF1;
   color: aliceblue;
 }
 .modal-header {
-  background-color: #1d2234;
+  background-color: #B6BCF1;
   color: white;
 }
 .adicionar-compromisso { /* >>> COR DE ONDE ESTÁ ESCRITO "COMPROMISSO" <<< */
@@ -73,7 +73,7 @@ background-color: #191D2A;
 }
 
 .rodape { /* >>> COR DO FOOTER <<< */
-  background-color:#3d4b80;
+  background-color:#B6BCF1;
 }
 
 .horario-compromisso{ /* >>> COR DO HORÁRIO <<< */
@@ -139,10 +139,6 @@ button.chamar_menu.btn.btn-primary {
 }
 /*cor de fundo do menu*/
 
-.modal-body { /* >>> COR DO MODAL <<< */
-  background-image: linear-gradient(#1d2234 60%, #3d4b80);
-  color: aliceblue;
-}
 /*tamanho da logo*/
 .logo_coruja img {
   width: 20%;
@@ -167,6 +163,7 @@ button.chamar_menu.btn.btn-primary {
 }
 p {
   color: white;
+  font-size: larger;
 }
 /*tamanho logo do instagram e margin para posicionar*/
 .insta{
@@ -184,8 +181,13 @@ p {
 .redes{
   margin-top: 320px;
   justify-content: space-around;
-  
   display: flex;
+}
+.item {
+  background-color: #283970;
+  height: 40px;
+  border-radius: 10px;
+  padding: 5px;
 }
 /*fim MenuLateral*/
 /*Inicio das atividades*/
@@ -213,4 +215,16 @@ div.modal-content {
 
 .description-color{
   background-color: #F4EFDF !important;
+}
+
+div.modal-footer{
+  background-color: #B6BCF1;
+}
+
+h3 {
+  text-align: center;
+}
+
+button.linke.btn.btn-primary {
+  margin-left: 120px;
 }

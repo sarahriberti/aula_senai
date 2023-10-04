@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import Diario from '../Diario';
+import Diario from './Diario';
 /*Fim das importações */
 /*Inicio da function */
 function Tarefa() {
@@ -49,7 +49,7 @@ function Tarefa() {
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer >
+                <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
                         Editar
                     </Button>

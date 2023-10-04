@@ -21,7 +21,7 @@ function Sair() {
         keyboard={false}
       >
         <Modal.Body>
-          Você deseja realmente sair?
+          <h3>Você deseja realmente sair?</h3>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

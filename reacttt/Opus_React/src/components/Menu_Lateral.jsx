@@ -23,9 +23,9 @@ function MenuLateral() {
           <Offcanvas.Body>
           <img src="https://cdn-icons-png.flaticon.com/128/848/848006.png" alt="user" width={100} className='imagem1'/>
           <p className='name'><b>Nome</b></p>
-          <a href=""><p>Calendário</p></a>
-          <a href=""><p>Adicionar Tarefa</p></a>
-          <a href=""><p>Editar Perfil</p></a>
+          <a href=""><p className='item'>Gerenciar Conta</p></a>
+          <a href=""><p className='item'>Adicionar Tarefa</p></a>
+          <a href=""><p className='item'>Calendário</p></a>
           <Sair />
           <div className='redes'>
             <img src="https://cdn-icons-png.flaticon.com/128/3955/3955024.png" alt="insta" className='insta' />
