@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import Content from './components/Content';
 import React from 'react';
 
