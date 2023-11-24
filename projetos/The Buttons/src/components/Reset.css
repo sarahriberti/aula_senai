@@ -1,0 +1,59 @@
+/* >>> INÍCIO RESET CSS <<< */
+
+*{
+
+    /* >>> RESETANDO AS CONFIGURAÇÕES <<< */
+    margin: 0;
+    padding: 0;
+    font-family:'arial';
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+  
+  /* >>> RESET BASICO DAS MÍDIAS <<< */
+  
+  object, embed, video, iframe, img{
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  ul{
+    list-style: none;
+  }
+  
+  /* >>> RESET PARA FORMULÁRIOS EM TODOS DISPOSITIVOS <<< */
+  
+  fieldset{
+    border: 0;
+  }
+  input, select, textarea{
+    padding: 10px;
+    width: 100%;
+  }
+  input.btn{
+    width: auto;
+    cursor: pointer;
+  }
+  
+  /* >>> VAI SER A BOX DE CONTROLE <<< */
+  .container{
+    float: left;
+    width: 100%;
+    background-color: #e9ecf0;
+  }
+  .clear{
+    clear: both;
+  }
+  .fontzero{
+    font-size: 0;
+  }
+  
+  /* >>>  É UMA SEÇÃO DE TÍTULO <<< */
+  
+  .section_title{
+    font-size: 1em;
+    text-align: center;
+    color: #333;
+  }
+  
+  /* >>> FINAL REST CSS <<< */

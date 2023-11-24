@@ -1,22 +1,23 @@
 /*alinhamento e borda do footer*/
-.bembolado{
+.container_footer{
+  border-top: 3px solid  rgb(214, 189, 1);
   margin-top: 200px;
   display: flex;
-  border-top: 3px solid rgb(214, 189, 1);
 }
-.rodape {
+.abertura {
   margin-top: 30px;
   display: flex;
   margin-left: 150px;
-  flex-direction: column;
+  background-color: rgb(25, 29, 42);
 }
-.odeiotudo{
+.menu_baixo{
   margin-top: 30px;
   margin-left: 20px;
 }
-.correria{
+.logo_footer{
   margin-top: 30px;
   margin-left: 100px;
+  background-color: rgb(25, 29, 42);
 }
 /*display, alinhamento e cursor da imagens*/
 .redes_sociais {
@@ -45,12 +46,7 @@
   margin-left: 10px;
 }
 /*alinhar listas*/
-.peRoda{
-    display: flex;
-    justify-content: center;
-    padding: 7px;
-    color: white;
-}
+
 textarea, select {
   width: 100%;
   padding: 12px 20px;
@@ -63,7 +59,7 @@ textarea, select {
 }
 input[type=button] {
   width: 100%;
-  background-color: rgb(107, 120, 163);
+
   color: white;
   padding: 12px 20px;
   margin: 8px 0;
@@ -79,7 +75,7 @@ input[type=button]:hover {
   margin-top: 10px;
   margin-left: 10px;
 }
-.monu {
+.menu_list{
   padding: 5px;
   border: 3px;
   list-style-type: none;

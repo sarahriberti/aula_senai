@@ -1,0 +1,41 @@
+/*dispaly e cor de todos os elementos dentro do container_menu*/
+
+
+#container_menu {
+  display: flex;
+  color: #fff;
+  background-image: url(./src/image/castel_resized.jpg);
+  background-repeat: no-repeat;
+  background-color: rgb(25, 29, 42);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*tamanho, display e alinhamento da imagem da frase do home*/
+.frase {
+  padding: 60px;
+  width: 60%;
+  display: block;
+  margin-top: 270px;
+  box-sizing: content-box;
+}
+
+/*tamanho da letra e alinhamento do p da div frase*/
+.frase p {
+  font-size: 18px;
+  width: 100%;
+  margin-left: 250px;
+  text-align: center;
+
+
+}
+
+.letra {
+  vertical-align: super;
+  text-align: center;
+  max-width: none;
+  margin-left: 130px;
+  width: 1100px;
+
+}
+
+/*fim da página inicial*/
