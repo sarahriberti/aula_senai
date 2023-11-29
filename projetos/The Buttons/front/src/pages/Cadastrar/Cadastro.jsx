@@ -1,68 +1,94 @@
 import './Cadastro.css'
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
-function Cadastro() {
+const Cadastro = () => {
+
+    const [formValues, setFormValues] = useState({
+        nome: '',
+        email: '',
+        celular:'',
+        dataNascimento: '',
+        senha: '',
+        confirmsenha:'',
+    });
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:5000/receber-dados', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formValues),
+            });
+
+            // Verifica se os dados foram bem-sucedidos
+            if (response.ok) {
+                console.log('Dados enviados com sucesso!');
+            } else {
+                console.error('Erro ao enviar dados.');
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
+    }
     return (
         <>
-        <main className='container_cad'>
-        <section className="cadastro">
+            <main className='container_cad'>
+                <section className="cadastro">
 
-            <div className="formulario">
-                
-                <form id="form_cadastro" action="">
-                    <h1>Cadastro</h1>
+                    <div className="formulario">
+                        <h1>Cadastro</h1>
 
-                    <div className="class_nome">
-                        <label for="">Nome</label><br/>
-                        <input type="text" name="nome" className="nome" id="nome" placeholder="Digite seu Nome" data-min-length="3" data-max-length="40" data-space-validate/>
-                    </div>
-                        <div className="class_date">
-                            <label for="" >Data de nascimento</label>
-                            <input type="date" name="data_nasc" className="data_nasc" id="data_nasc"/>
-                        </div>
-                        <div className="class_cel">
-                            <label for="">Celular</label>
-                        <input type="tel" name="celular" className="celular" id="celular" placeholder="+55/Digite seu número" data-max-length="15" data-min-length="15"/>
-                        </div>
-                    <div className="class_email">
-                        <label for="">E-mail</label>
-                        <input type="email" name="e-mail" className="e-mail" id="e-mail" placeholder="Digite seu E-mail" data-email-validate data-max-length="40" data-min-length="8" />
-                    </div>
-                    <div className="class_senha">
-                        <label for="">Senha</label>
-                        <input type="password" name="senha" className="senha" id="senha" placeholder="Digite sua Senha" data-min-length="8" data-max-length="40"/>
-                    </div>
-                    <div className="class_confir">
-                        <label for=""> Confirmar senha</label>
-                        <input type="password" name="senha_conf" className="senha_conf" id="senha_conf" placeholder="Digite sua senha novamente" data-equal="password"/>
-                    </div>
-                    <div className="botoes_cad">
-                        <input type="submit" value="Cadastrar-se" id="enter_cad"/>
-                        <input type="submit" value="Cancelar" id="cancel_cada"/>
-                    </div>
-                    <div className="class_botoes">
-                            <li className="text_return">
+                        {/* Formulário para cadastro*/}
+                        <form onSubmit={handleSubmit} id='form_cadastro'>
+                            <div className="class_nome">
+                                <label htmlFor="">Nome</label><br />
+                                {/* Nome do usuário */}
+                                <input type="text" name="nome" className="nome" id="nome" placeholder="Digite seu Nome" value={formValues.nome} onChange={handleChange} required />
+                            </div>
+
+                            {/* Botões para enviar e cancelar o formulário dp cadastro */}
+                            <div className="botoes_cad">
+                                <input type="submit" value="Cadastrar-se" id="enter_cad" />
+                                <input type="submit" value="Cancelar" id="cancel_cada" />
+                            </div>
+
+                            {/* Link para página do login */}
+                            <div className="class_botoes">
+                                <li className="text_return">
                                     <Link to="/Login">Já possui uma conta? Faça login</Link>
-                            </li>
+                                </li>
+                            </div>
+
+                            {/* Cadastro com o google ou instagram*/}
+                            <div className="cadastro">
+                                <h3>Cadastrar-se com</h3>
+                                <a href="https://www.instagram.com/"><input type="button" value="Facebook" /></a>
+                                <a href="https://www.google.com/intl/pt-BR/account/about/"><input type="button" value="Google" /></a>
+                            </div>
+
+                        </form>
                     </div>
 
-                    <div className="cadastro">
-                        <h3>Cadastrar-se com</h3>
-                        <a href="https://www.instagram.com/"><input type="button" value="Facebook"/></a>
-                        <a href="https://www.google.com/intl/pt-BR/account/about/"><input type="button" value="Google"/></a>
-                    </div>
-                </form>
-            
-            </div>
-            
-
-        </section>
-        <p className="error-validation template"></p>
-        <script src="js/email.js"></script>
-    
-    </main>
+                </section>
+            </main>
         </>
     )
 }
+
 
 export { Cadastro };
