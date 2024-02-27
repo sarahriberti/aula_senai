@@ -70,7 +70,7 @@ const Cadastro = () => {
                             </div>
                             <div className="class_senha">
                                 <label htmlFor="">Senha</label>
-                                <input type="password" name="senha" className="senha" id="senha" value={formValues.senha} onChange={handleChange} required />
+                                <input type="password" name="senha" className="senha" id="senha" placeholder="Digite sua senha" value={formValues.senha} onChange={handleChange} required />
                             </div>
                             <div className="class_confir">
                                 <label htmlFor="confirmsenha"> Confirmar senha</label>
