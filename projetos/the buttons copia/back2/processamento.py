@@ -7,6 +7,7 @@ from validacoes import (
     validar_senha,
     confirmar_senha,
 )
+import Gravar_BD
 
 #Função para processar os dados do cadastro
 #Autor: Anna Clara e Sarah
@@ -44,8 +45,14 @@ def processar_dados_cad(dados):
     if mensagens_erro:
         return {'erro': True, 'mensagens': mensagens_erro}
     else:
-        #Chama a função para gravar os dados em um arquivo
-        gravar_em_arquivo(dados_processados_cad, 'dados_cadastro.txt')
+        #Chama a função para gravar os dados no banco de dados
+        Gravar_BD.gravar_dados_bd(
+            dados_processados_cad['nome'],
+            dados_processados_cad['dataNascimento'],
+            dados_processados_cad['celular'],
+            dados_processados_cad['email'],
+            dados_processados_cad['senha']
+        )
         return {'erro': False, 'mensagem': 'Dados processados com sucesso!'}
 
 #Função para processar os dados do login

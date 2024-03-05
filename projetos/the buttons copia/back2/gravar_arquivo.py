@@ -11,6 +11,7 @@ def gravar_em_arquivo(dados, nome_arquivo):
             arquivo.write(f"Nome: {dados.get('nome')}\n")
             arquivo.write(f"E-mail: {dados.get('email')}\n")
             arquivo.write(f"Data de Nascimento: {dados.get('dataNascimento')}\n")
+            arquivo.write(f"Celular: {dados.get('celular')}\n")
             arquivo.write(f"Senha: {dados.get('senha')}\n")
             arquivo.write(f"Confirmacao de senha: {dados.get('confirmsenha')}\n")
             arquivo.write("\n")
