@@ -1,0 +1,98 @@
+*{ /* >>> CONFIGURAÇÃO GERAL <<< */
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  body{ /* >>> COR DO BODY <<< */
+    background-color: #191D2A !important;
+  }
+  /* >>> INÍCIO HEADER <<< */
+  .cabecalho{
+    display: flex;
+  }
+  .img-menu{
+    width: 40px;
+  }
+  .img-logo{
+    width: 280px;
+    margin-left: 1200px;
+  }
+  /* >>> FINAL HEADER <<< */
+  /* >>> INÍCIO MENU <<< */
+  .menu-main{
+    color: white;
+    background-color: #C39910;
+    border-radius: 100px;
+    max-width: 1300px;
+  }
+  .pages{
+    color: white;
+    display: flex;
+  }
+  li{
+    list-style: none;
+    color: white;
+  }
+  /* >>> FINAL MENU <<< */
+  /* >>> INÍCIO DADOS BÁSICOS <<< */
+  .dados-main form {
+    max-width: 400px;
+    height: 200px;
+  }
+  .alt-user{
+    color: #C39910;
+  }
+  .space-user{
+    width: 30px;
+  }
+  .alt-name{
+    color: #C39910;
+  }
+  .space-name{
+    width: 390px;
+  }
+  .alt-date-box{
+    display: flex;
+  }
+  .alt-date-born{
+    color: #C39910;
+    max-width: 400px;
+  }
+  .alt-month{
+    margin-left: 20px;
+  }
+  .alt-year{
+    margin-left: 20px;
+  }
+  .space-day{
+    width: 70px;
+  }
+  .space-month{
+    width: 180px;
+  }
+  .space-year{
+    width: 107px;
+  }
+  /* >>> FINAL DADOS BÁSICOS <<< */
+  /* >>> INÍCIO AVATAR <<<*/
+  .avatar-main{
+    color: #C39910;
+  }
+  .avatar-actual{
+    display: flex;
+  }
+  /* >>> FINAL AVATAR <<< */
+  /* >>> INÍCIO SENHA <<< */
+  .senha-main{
+    color: #C39910;
+  }
+  /* >>> FINAL SENHA <<< */
+  /* >>> INÍCIO EMAIL <<< */
+  .email-main{
+    color: #C39910;
+  }
+  /* >>> FINAL EMAIL <<< */
+  /* >>> INÍCIO TELEFONE <<< */
+  .telefone-main{
+    color: #C39910;
+  }
+  /* >>> FINAL TELEFONE <<< */
