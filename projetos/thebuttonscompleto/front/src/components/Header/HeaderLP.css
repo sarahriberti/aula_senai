@@ -1,0 +1,111 @@
+/* >>> INÍCIO RESET CSS <<< */
+
+*{
+
+    /* >>> RESETANDO AS CONFIGURAÇÕES <<< */
+    margin: 0;
+    padding: 0;
+    font-family:'arial';
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+  
+  /* >>> RESET BASICO DAS MÍDIAS <<< */
+  
+  object, embed, video, iframe, img{
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  ul{
+    list-style: none;
+  }
+  
+  /* >>> RESET PARA FORMULÁRIOS EM TODOS DISPOSITIVOS <<< */
+  
+  fieldset{
+    border: 0;
+  }
+  input, select, textarea{
+    padding: 10px;
+    width: 100%;
+  }
+  input.btn{
+    width: auto;
+    cursor: pointer;
+  }
+  
+  /* >>> VAI SER A BOX DE CONTROLE <<< */
+  .container{
+    float: left;
+    width: 100%;
+    background-color: #e9ecf0;
+  }
+  .clear{
+    clear: both;
+  }
+  .fontzero{
+    font-size: 0;
+  }
+  
+  /* >>>  É UMA SEÇÃO DE TÍTULO <<< */
+  
+  .section_title{
+    font-size: 1em;
+    text-align: center;
+    color: #333;
+  }
+  
+  /* >>> FINAL REST CSS <<< */
+#menu {
+    position: fixed;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 0;
+    width: 100%;
+}
+
+/*hover do li do menu*/
+li:hover {
+    color: #ffee00;
+}
+
+/*alinhamento e display nos elementos do inicio*/
+.inicio {
+    justify-content: right;
+    display: flex;
+}
+
+/*cor e display em todos os a*/
+a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+/*ajuste e espaçamento do li*/
+.menu_header {
+    list-style-type: none;
+    padding: 20px;
+}
+
+/*borda arredondada e espaçamento do li do login */
+.login {
+    margin-right: 15px;
+    list-style-type: none;
+    border: 2px solid #ffee00;
+    padding: 13px;
+    border-radius: 50px;
+    margin-top: 8px;
+}
+
+/*posição, alinhamento e display no logo na parte superior do site */
+#logo {
+    position: fixed;
+    top: 5px;
+    left: 20px;
+    display: block;
+}
+
+/*Final Menu*/
