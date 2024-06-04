@@ -49,3 +49,4 @@ def receber_dados():
 if __name__ == '__main__':
     #Inicia o Flask
     app.run(debug=True)
+    app.run(port=8085, host='10.135.60.39', debug=True, threaded=True)

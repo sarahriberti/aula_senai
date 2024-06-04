@@ -1,52 +1,52 @@
+
 * {
-  /* >>> CONFIGURAÇÃO GERAL <<< */
+  /* Remove sublinhados e define a família de fontes para todos os elementos */
   text-decoration: none;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* COR DO BODY */
+/* Define a cor de fundo para o corpo da página */
 body {
-  /* >>> COR DO BODY <<< */
   background-color: #191D2A !important;
-
 }
 
-/* >>> FINAL MENU <<< */
-/* >>> INÍCIO DADOS BÁSICOS <<< */
+/* FINAL MENU */
+/* INÍCIO DADOS BÁSICOS */
+
+/* Remove marcadores de lista para elementos <li> */
 li {
   list-style: none;
 }
 
+/* Configuração de um contêiner flexível para elementos de data */
 .alt-date-box {
   display: flex;
   justify-content: space-between;
-  
 }
 
-.alt-day {
+/* Define a largura de vários elementos de entrada de data */
+.alt-day, .alt-month, .alt-year {
   width: 200px;
 }
 
-.alt-month {
-  width: 200px;
-}
-
-.alt-year {
-  width: 200px;
-}
-
+/* Configuração de um contêiner flexível para outros elementos */
 .bbb {
   display: flex;
   width: 100%;
 }
 
+/* Estiliza um botão de salvar */
 input.saver.btn.btn-primary {
   width: 48%;
 }
 
+/* Estiliza um botão de salvar avatar */
 input.salvar-avatar.btn.btn-primary {
   width: 15%;
 }
 
+/* Estiliza um botão de cancelar avatar */
 input.cancelar-avatar.btn.btn-primary {
   width: 100%;
   border: none;
@@ -54,15 +54,17 @@ input.cancelar-avatar.btn.btn-primary {
   background-color: rgb(107, 120, 163);
 }
 
-button.linke.btn.btn-primary{
+/* Estiliza um botão de link */
+button.linke.btn.btn-primary {
   width: 50%;
   border: none;
   margin-left: 1px;
-  background-color:  rgb(107, 120, 163);
+  background-color: rgb(107, 120, 163);
   margin-bottom: 7px;
   margin-top: 7px;
 }
 
+/* Estiliza um botão de cancelar */
 input.cancelarr.btn.btn-primary {
   width: 50%;
   border: none;
@@ -72,6 +74,7 @@ input.cancelarr.btn.btn-primary {
   margin-top: 7px;
 }
 
+/* Estiliza um contêiner de conteúdo tabulado */
 .tab-content {
   margin: auto;
   width: 40%;
@@ -81,83 +84,58 @@ input.cancelarr.btn.btn-primary {
   border-radius: 10px;
 }
 
+/* Define a cor da fonte */
 font {
   color: rgb(255, 255, 255);
 }
 
-button#gerenciarconta-tab-Email {
-  background-color: #191D2A;
-  color: white;
-  border: 1px solid #fff;
-}
-
-button#gerenciarconta-tab-Email:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-Telefone {
-  background-color: #191D2A;
-  color: white;
-  border: 1px solid #fff;
-}
-
-button#gerenciarconta-tab-Telefone:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-Avatar {
+/* Estiliza botões de aba específica */
+button#gerenciarconta-tab-Email,
+button#gerenciarconta-tab-Telefone,
+button#gerenciarconta-tab-Avatar,
+button#gerenciarconta-tab-Senha,
+button#gerenciarconta-tab-DadosBasicos,
+button#gerenciarconta-tab-menu-lat-geren {
   background-color: #191D2A;
   color: white;
   border: 1px solid #fff;
   cursor: pointer;
 }
 
-button#gerenciarconta-tab-Avatar:hover {
+/* Estilização ao passar o mouse sobre os botões de aba */
+button#gerenciarconta-tab-Email:hover,
+button#gerenciarconta-tab-Telefone:hover,
+button#gerenciarconta-tab-Avatar:hover,
+button#gerenciarconta-tab-Senha:hover,
+button#gerenciarconta-tab-DadosBasicos:hover,
+button#gerenciarconta-tab-menu-lat-geren:hover {
   background-color: rgb(107, 120, 163);
-
 }
 
-button#gerenciarconta-tab-Senha {
-  background-color: #191D2A;
-  color: white;
-  border: 1px solid #fff;
-}
-
-button#gerenciarconta-tab-Senha:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-DadosBasicos {
-  background-color: #191D2A;
-  color: white;
-  border: 1px solid #fff;
-}
-button#gerenciarconta-tab-DadosBasicos:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-menu-lat-geren:hover{
-  background-color:  rgb(107, 120, 163);
-}
+/* Margem superior para um grupo de abas */
 ul.mb-3.nav.nav-tabs {
   margin-top: 20px;
 }
+
+/* Define a largura de uma imagem arredondada */
 img.rounded {
   width: 900px;
 }
+
+/* Repetição de estilização para botão de cancelar avatar com ajuste de margem */
 input.cancelar-avatar.btn.btn-primary {
   width: 15%;
   padding: 0px;
   margin-left: 20px;
-  margin:  8px ;
+  margin: 8px;
 }
+
+/* Estiliza um botão de menu */
 button.chamar_menu.btn.btn-primary {
   margin-top: -10px;
 }
+
+/* Estiliza um botão de menu lateral específico */
 button#gerenciarconta-tab-menu-lat-geren {
   width: 90px;
   height: 41.5px;
@@ -166,11 +144,12 @@ button#gerenciarconta-tab-menu-lat-geren {
   border: 1px solid #fff;
 }
 
-button#gerenciar-tab-menu-lat-geren:hover{
+/* Estilização ao passar o mouse sobre o botão de menu lateral */
+button#gerenciar-tab-menu-lat-geren:hover {
   background-color: rgb(107, 120, 163);
- 
 }
 
+/* Estilização adicional para um contêiner flexível */
 .bbb2 {
   display: flex;
 }

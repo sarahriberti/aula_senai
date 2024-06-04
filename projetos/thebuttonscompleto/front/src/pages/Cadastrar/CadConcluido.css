@@ -1,20 +1,18 @@
-.cad_sucess{
-    text-align: center;
-    justify-content: center;
-    margin-top: 20%
+.cad_sucess {
+    text-align: center; /* Centraliza o texto horizontalmente */
+    justify-content: center; /* Centraliza os itens no eixo principal */
+    margin-top: 20%; /* Adiciona uma margem superior de 20% */
 }
 
-
-.mens_sucess h2{
-    color: rgb(214, 189, 1);
-    font-weight: bold;
+.mens_sucess h2 {
+    color: rgb(214, 189, 1); /* Define a cor do texto como amarelo */
+    font-weight: bold; /* Define o peso da fonte como negrito */
 }
-
 .mens_sucess p {
-    font-size: 25px;
+    font-size: 25px; /* Define o tamanho da fonte como 25 pixels */
 }
 
-.link_login{
-    font-size: 25px;
-    color: rgb(214, 189, 1);
+.link_login {
+    font-size: 25px; /* Define o tamanho da fonte como 25 pixels */
+    color: rgb(214, 189, 1); /* Define a cor do texto como amarelo */
 }

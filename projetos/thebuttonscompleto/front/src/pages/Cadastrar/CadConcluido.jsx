@@ -1,3 +1,7 @@
+/* Nome: CadConcluido */
+/*Autor: Emily*/
+/* Descrição : Página que aparece após a conclusão do cadastro do usuário */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './CadConcluido.css'

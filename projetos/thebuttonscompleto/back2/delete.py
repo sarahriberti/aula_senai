@@ -1,6 +1,8 @@
+#Função para deletar as tarefas e o usuário
+#Autor: Arthur
+#Data: realizado no mês de fevereiro
+
 import conexao
-
-
 # Função para excluir uma tarefa
 def excluir_tarefa():
     id_tarefa = int(input("Digite o ID da tarefa que deseja deletar: "))

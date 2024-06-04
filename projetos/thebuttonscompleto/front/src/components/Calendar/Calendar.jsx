@@ -24,13 +24,14 @@ const daysOfWeek = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'];
 
 /* >>> CONSTANTE DO CALENDÁRIO COM USESTATE E DEMAIS FUNÇÕES <<< */
 const Calendar = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const [events, setEvents] = useState([]);
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); // Estado para o mês atual
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); // Estado para o ano atual
+  const [events, setEvents] = useState([]); // Estado para eventos do calendário
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // Primeiro dia do mês
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Número de dias no mês atual
 
   const handlePrevMonth = () => {
+    // Função para ir ao mês anterior
     if (currentMonth === 0) {
       setCurrentMonth(11);
       setCurrentYear(currentYear - 1);
@@ -40,6 +41,7 @@ const Calendar = () => {
   };
 
   const handleNextMonth = () => {
+    // Função para ir ao próximo mês
     if (currentMonth === 11) {
       setCurrentMonth(0);
       setCurrentYear(currentYear + 1);
@@ -59,17 +61,18 @@ const Calendar = () => {
       <div className="calendar-grid"> {/* >>> DIV DA GRID DO CALENDÁRIO <<< */}
         {daysOfWeek.map((day) => (
           <div key={day} className="day-of-week">
-            {day}
+            {day} {/* Renderiza os dias da semana */}
           </div>
         ))}
         {[...Array(firstDayOfMonth).fill(null)].map((_, index) => (
-          <div key={`empty-${index}`} className="empty-day"></div>
+          <div key={`empty-${index}`} className="empty-day"></div> /* Dias vazios antes do primeiro dia do mês */
         ))}
         {[...Array(daysInMonth).keys()].map((day) => (
           <div key={day} className="day">
-            <span className="day-number">{day + 1}</span>
-            <Formulario/>
+            <span className="day-number">{day + 1}</span> /* Número do dia */
+            <Formulario/> /* Componente do formulário */
             {events.map((event, index) => {
+              // Renderiza eventos no dia específico
               if (event.date === day + 1) {
                 return <Event key={index} title={event.title} />;
               }
@@ -81,8 +84,6 @@ const Calendar = () => {
     </div>
   );
   /* >>> FIM DO RETURN <<< */
-
-
 };
 
 export default Calendar;

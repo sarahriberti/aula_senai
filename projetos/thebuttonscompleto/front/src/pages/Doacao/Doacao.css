@@ -1,42 +1,42 @@
 .container_doc {
-    max-width: 800px;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    max-width: 800px; /* Define a largura máxima do contêiner para 800 pixels */
+    padding: 20px; /* Adiciona um preenchimento interno de 20 pixels ao redor do contêiner */
+    font-family: Arial, sans-serif; /* Define a família de fontes para Arial, com sans-serif */
 }
 
 .form-pag {
-    width: 400px;
-    margin: 0 auto;
+    width: 400px; /* Define a largura do formulário para 400 pixels */
+    margin: 0 auto; /* Centraliza o formulário horizontalmente */
 }
 
 .form-pag label {
-    display: block;
-    margin-bottom: 10px;
+    display: block; /* Exibe os rótulos como blocos, ocupando a largura total disponível */
+    margin-bottom: 10px; /* Adiciona uma margem inferior de 10 pixels */
 }
 
 .form-pag input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 100%; /* Define a largura dos campos de entrada para 100% do contêiner */
+    padding: 8px; /* Adiciona um preenchimento interno de 8 pixels */
+    margin-top: 5px; /* Adiciona uma margem superior de 5 pixels */
+    margin-bottom: 15px; /* Adiciona uma margem inferior de 15 pixels */
+    border: 1px solid #ccc; /* Define uma borda de 1 pixel sólida com cor cinza claro */
+    border-radius: 5px; /* Define bordas arredondadas com um raio de 5 pixels */
 }
-
 .form-pag button {
-    background-color: #A28408;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    background-color: #A28408; /* Define a cor de fundo dos botões como um tom de amarelo escuro */
+    color: white; /* Define a cor do texto dos botões como branca */
+    padding: 10px 20px; /* Adiciona um preenchimento interno de 10 pixels verticalmente e 20 pixels horizontalmente */
+    border: none; /* Remove qualquer borda padrão dos botões */
+    border-radius: 5px; /* Define bordas arredondadas com um raio de 5 pixels */
+    cursor: pointer; /* Muda o cursor para uma mão apontando quando o usuário passa o mouse sobre o botão */
 }
 
 .form-pag button:hover {
-    background-color: #C39910;
+    background-color: #C39910; /* Altera a cor de fundo dos botões para um tom mais claro de amarelo ao passar o mouse */
 }
+
 .menu_doacao {
-    position: absolute;
-    top: 10px;
-    left: 30px;
+    position: absolute; /* Define o posicionamento absoluto do menu */
+    top: 10px; /* Define a posição do menu a 10 pixels do topo da tela */
+    left: 30px; /* Define a posição do menu a 30 pixels da borda esquerda da tela */
 }

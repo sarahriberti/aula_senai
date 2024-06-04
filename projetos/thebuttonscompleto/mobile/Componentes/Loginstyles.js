@@ -1,92 +1,90 @@
 import { StyleSheet } from "react-native";
 
 export default Loginstyles = StyleSheet.create({
-    background: {
-        flex: 1,
-        backgroundColor: '#34374F',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width:'100%',
+    background: { // Estilo para o fundo da tela de login
+        flex: 1, // Ocupa todo o espaço disponível
+        backgroundColor: '#34374F', // Cor de fundo
+        alignItems: 'center', // Alinha os itens no centro horizontalmente
+        justifyContent: 'center', // Alinha os itens no centro verticalmente
+        width:'100%', // Largura de 100%
     },
-    containerLogo: {
-        flex: 1,
-        justifyContent: 'center',
+    containerLogo: { // Estilo para o container do logo
+        flex: 1, // Ocupa uma parte do espaço disponível
+        justifyContent: 'center', // Alinha os itens no centro verticalmente
     },
-    logo: {
-        width: 300,
-        height: 150,
+    logo: { // Estilo para o logo
+        width: 300, // Largura de 300
+        height: 150, // Altura de 150
     },
-    container: {
-        flex: 2,
-        width: 380,
-        backgroundColor: '#516292',
-        color: '#fff',
-        borderRadius: 35,
-        marginBottom: '10%',
-        justifyContent: 'center',
-        
+    container: { // Estilo para o container principal
+        flex: 2, // Ocupa mais espaço que o container do logo
+        width: 380, // Largura de 380
+        backgroundColor: '#516292', // Cor de fundo
+        color: '#fff', // Cor do texto
+        borderRadius: 35, // Borda arredondada
+        marginBottom: '10%', // Margem inferior de 10%
+        justifyContent: 'center', // Alinha os itens no centro verticalmente
     },
-    label: {
-        color: '#fff',
-        fontSize: 20,
-        marginLeft: 20,
+    label: { // Estilo para o label
+        color: '#fff', // Cor do texto
+        fontSize: 20, // Tamanho da fonte
+        marginLeft: 20, // Margem esquerda
     },
-    inputs: {
-        backgroundColor: '#34374F',
-        width: '90%',
-        color: '#fff',
-        marginLeft: 20,
-        marginBottom: 20,
-        fontSize: 17,
-        borderRadius: 2,
-        padding: 10,
-        alignItems: 'center',
+    inputs: { // Estilo para as entradas de texto
+        backgroundColor: '#34374F', // Cor de fundo
+        width: '90%', // Largura de 90%
+        color: '#fff', // Cor do texto
+        marginLeft: 20, // Margem esquerda
+        marginBottom: 20, // Margem inferior
+        fontSize: 17, // Tamanho da fonte
+        borderRadius: 2, // Borda arredondada
+        padding: 10, // Preenchimento interno
+        alignItems: 'center', // Alinha os itens no centro horizontalmente
     },
-    btnSubmit: {
-        backgroundColor: '#34374F',
-        justifyContent: 'center',
-        marginBottom: 15,
-        alignItems: 'center',
-        width: '40%',
-        height: 45,
-        borderRadius: 2,
+    btnSubmit: { // Estilo para o botão de envio
+        backgroundColor: '#34374F', // Cor de fundo
+        justifyContent: 'center', // Alinha os itens no centro verticalmente
+        marginBottom: 15, // Margem inferior
+        alignItems: 'center', // Alinha os itens no centro horizontalmente
+        width: '40%', // Largura de 40%
+        height: 45, // Altura de 45
+        borderRadius: 2, // Borda arredondada
     },
-    submitTxt: {
-        color: '#fff',
-        fontSize: 18,
+    submitTxt: { // Estilo para o texto do botão de envio
+        color: '#fff', // Cor do texto
+        fontSize: 18, // Tamanho da fonte
     },
-    botoes: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-
+    botoes: { // Estilo para os botões inferiores
+        display: 'flex', // Exibição flexível
+        flexDirection: 'row', // Direção do fluxo dos itens
+        justifyContent: 'space-around', // Alinhamento dos itens com espaço ao redor
     },
-    textCad: {
-        color: '#fff',
-        fontSize: 17,
-        textAlign: 'center',
+    textCad: { // Estilo para o texto de cadastro
+        color: '#fff', // Cor do texto
+        fontSize: 17, // Tamanho da fonte
+        textAlign: 'center', // Alinhamento centralizado
     },
-    logarCom: {
-        width: 75,
-        height: 75,
-        borderRadius: 100, 
-        borderWidth: 3,
-        borderColor: '#C39910',
+    logarCom: { // Estilo para os botões de login social
+        width: 75, // Largura de 75
+        height: 75, // Altura de 75
+        borderRadius: 100, // Borda circular
+        borderWidth: 3, // Largura da borda
+        borderColor: '#C39910', // Cor da borda
     },
-    logarInferior: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+    logarInferior: { // Estilo para a seção de login inferior
+        display: 'flex', // Exibição flexível
+        flexDirection: 'row', // Direção do fluxo dos itens
+        justifyContent: 'space-around', // Alinhamento dos itens com espaço ao redor
     },
-    textLogar: {
-        color: '#fff',
-        fontSize: 20,
-        textAlign: 'center',
-        marginTop: 15,
+    textLogar: { // Estilo para o texto de login
+        color: '#fff', // Cor do texto
+        fontSize: 20, // Tamanho da fonte
+        textAlign: 'center', // Alinhamento centralizado
+        marginTop: 15, // Margem superior
     },
-    scrollViewContent: {
-        flexGrow: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+    scrollViewContent: { // Estilo para o conteúdo da ScrollView
+        flexGrow: 1, // Permite que o conteúdo seja rolado
+        alignItems: 'center', // Alinha os itens no centro horizontalmente
+        justifyContent: 'center', // Alinha os itens no centro verticalmente
       },
 });

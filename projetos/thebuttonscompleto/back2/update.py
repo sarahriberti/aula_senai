@@ -1,3 +1,6 @@
+#atualiza o cadastro do usuario
+#Autor: Arthur
+#Data: aproximadamente fevereiro
 import conexao
 import datetime
 
