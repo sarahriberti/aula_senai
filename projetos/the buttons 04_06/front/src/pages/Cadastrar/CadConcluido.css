@@ -1,0 +1,20 @@
+.cad_sucess{
+    text-align: center;
+    justify-content: center;
+    margin-top: 20%
+}
+
+
+.mens_sucess h2{
+    color: rgb(214, 189, 1);
+    font-weight: bold;
+}
+
+.mens_sucess p {
+    font-size: 25px;
+}
+
+.link_login{
+    font-size: 25px;
+    color: rgb(214, 189, 1);
+}

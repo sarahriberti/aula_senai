@@ -1,0 +1,42 @@
+.container_doc {
+    max-width: 800px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.form-pag {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.form-pag label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-pag input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-pag button {
+    background-color: #A28408;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-pag button:hover {
+    background-color: #C39910;
+}
+.menu_doacao {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+}

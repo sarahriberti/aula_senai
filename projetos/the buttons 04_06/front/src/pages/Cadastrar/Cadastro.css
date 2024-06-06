@@ -1,0 +1,174 @@
+.container_cad {
+    font-family: Arial, Helvetica, sans-serif;
+    background-size: 130%;
+    background-image: url(/src/image/magic.gif);
+}
+
+/*alinhamneto e cor dos h1*/
+h1 {
+    text-align: center;
+    color: white;
+}
+
+/*alinhamneto e cor dos h3*/
+.cadastro h3 {
+    text-align: center;
+    color: white;
+}
+
+/*cor e fonte dos textos*/
+.formulario {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(25, 29, 42);
+    padding: 20px;
+    border-radius: 30px;
+}
+
+/*tamanho que a div ocupa no site, com o tamanho do texto e o alinhamento*/
+.cadastro {
+    margin: auto;
+    width: 40%;
+    font-size: 15px;
+}
+
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
+input[type=text],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fdf3c5;
+}
+
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
+input[type=date],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fdf3c5;
+}
+
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
+input[type=tel],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fdf3c5;
+}
+
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
+input[type=email],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fdf3c5;
+}
+
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
+input[type=password],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fdf3c5;
+}
+
+/*configurações de todos os inputs como tamanho, espaçamento, alinhamneto, display, borda e cor da div*/
+input[type=submit],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: rgb(107, 120, 163);
+    color: #fff;
+    font-weight: bold;
+}
+
+/*hover dos botões*/
+input[type=submit]:hover {
+    background-color: #7acada;
+}
+
+input[type=button],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: rgb(107, 120, 163);
+    color: #fff;
+    font-weight: bold;
+}
+
+input[type=button]:hover {
+    background-color: #7acada;
+}
+
+/*botões de cadastrar e cancelar*/
+.botoes_cad {
+    display: flex;
+}
+
+#cancel_cada {
+    margin-left: 30px;
+}
+
+/*voltar pro login*/
+.return_log {
+    text-align: center;
+    list-style-type: none;
+    margin-right: 50px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.text_return {
+    color: rgb(228, 228, 228);
+}
+
+a {
+    text-decoration: none;
+}
+
+.error-validation {
+    color: rgb(214, 189, 1);
+    font-size: 13px;
+    position: relative;
+}
+
+.template {
+    display: none;
+}
