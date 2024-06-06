@@ -10,7 +10,8 @@ import PagDoacaoMobile from './Pages/Doacao';
 import Compartilho from './Pages/Compartilhar';
 import Saira from './Componentes/Sair';
 import LoginForm from './Pages/Login';
-
+import ToDoList from './Componentes/FormularioTaf';
+import CadastroConcluido from './Pages/CadConcluido';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -108,6 +109,12 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginForm} options={{ headerShown: false }} />
         <Stack.Screen name="Cadastro" component={CadastroForm} options={{ headerShown: false }} />
         <Stack.Screen name="Calendario" component={Menu} options={{ headerShown: false }} />
+        <Stack.Screen name="FormularioTaf" component={ToDoList} options={{ headerShown: false }} />
+        <Stack.Screen name="CadConcluido" component={CadastroConcluido} options={{ 
+          headerStyle:{
+            backgroundColor:'rgb(25, 29, 42)'
+          }
+         }} />
         <Stack.Screen name="Sair" component={Saira} />
       </Stack.Navigator>
     </NavigationContainer>

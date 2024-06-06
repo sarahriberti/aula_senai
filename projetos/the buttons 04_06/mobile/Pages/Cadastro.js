@@ -47,7 +47,7 @@ const CadastroForm = ({ navigation }) => {
       if (resultado.erro) {
         Alert.alert('Erro', 'Valores inválidos');
       } else {
-        navigation.navigate('Login');
+        navigation.navigate('CadConcluido');
       }
     } catch (error) {
       console.error('Erro ao enviar dados:', error);

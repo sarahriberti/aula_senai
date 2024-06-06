@@ -37,7 +37,7 @@ const Login = () => {
             }));
 
             // Envia os dados do formulário para o servidor
-            const resposta = await fetch('http://localhost:5000/receber_dados', {
+            const resposta = await fetch('http://10.135.60.23:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

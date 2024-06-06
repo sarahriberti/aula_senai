@@ -1,12 +1,14 @@
-/*Nome: Cadstro */
+/*Nome: Cadastro */
 
 /*Data da criação: junho de 2023 */
-/*Descrição : Nesta página foi criado a oportunidde de se cadastrar no nosso site*/
+/*Descrição : Nesta página foi criado a oportunidade de se cadastrar no nosso site*/
 /*Observações : Este documento contém o import do Usestate, Link  */
-import './Cadastro.css'
+import './Cadastro.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import InputMask from 'react-input-mask'; // Adicionada a importação do InputMask
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importação dos ícones de olho
 /*Fim das importações  */
 
 /*nome das constantes que vão ser usadas para validar os campos */
@@ -22,6 +24,9 @@ const Cadastro = () => {
         confirmsenha: '',
     });
 
+    const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para controlar a visibilidade da confirmação de senha
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValues((prevValues) => ({
@@ -29,13 +34,14 @@ const Cadastro = () => {
             [name]: value,
         }));
     };
+
     /*cria a mensagem de erro */
     const [mensagensErro, setMensagensErro] = useState([]);
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         try {
-            const resposta = await fetch('http://localhost:5000/receber_dados', {
+            const resposta = await fetch('http://10.135.60.23:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,10 +66,9 @@ const Cadastro = () => {
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
         }
-    }
+    };
 
     return (
-
         <>
             <main className='container_cad'>
                 {mensagensErro.length > 0 && (
@@ -75,7 +80,6 @@ const Cadastro = () => {
                                 <li key={index}> {mensagem.mensagem}</li>
                             ))}
                         </ul>
-
                     </div>
                 )}
                 <section className="cadastro">
@@ -89,12 +93,18 @@ const Cadastro = () => {
                                 <input type="text" name="nome" className="nome" id="nome" placeholder="Digite seu Nome" value={formValues.nome} onChange={handleChange} required />
                             </div>
                             <div className="class_date">
-                                <label htmlFor="" >Data de nascimento</label>
+                                <label htmlFor="">Data de nascimento</label>
                                 <input type="date" name="dataNascimento" className="dataNascimento" id="dataNascimento" value={formValues.dataNascimento} onChange={handleChange} required />
                             </div>
                             <div className="class_cel">
                                 <label htmlFor="">Celular</label>
-                                <input type="tel" name="celular" className="celular" id="celular" placeholder="Digite seu número" value={formValues.celular} onChange={handleChange} required />
+                                <InputMask
+                                    mask="(99) 99999-9999"
+                                    value={formValues.celular}
+                                    onChange={handleChange}
+                                >
+                                    {() => <input type="tel" name="celular" className="celular" id="celular" placeholder="Digite seu número" required />}
+                                </InputMask>
                             </div>
                             <div className="class_email">
                                 <label htmlFor="">E-mail</label>
@@ -102,15 +112,52 @@ const Cadastro = () => {
                             </div>
                             <div className="class_senha">
                                 <label htmlFor="">Senha</label>
-                                <input type="password" name="senha" className="senha" id="senha" placeholder="Digite sua senha" value={formValues.senha} onChange={handleChange} required />
+                                <div className="input-wrapper">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="senha"
+                                        className="senha"
+                                        id="senha"
+                                        placeholder="Digite sua senha"
+                                        value={formValues.senha}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="toggle-password"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
                             </div>
                             <div className="class_confir">
                                 <label htmlFor="confirmsenha"> Confirmar senha</label>
-                                <input type="password" name="confirmsenha" className="confirmsenha" id="confirmsenha" placeholder="Digite sua senha novamente" data-equal="password" value={formValues.confirmsenha} onChange={handleChange} required />
+                                <div className="input-wrapper">
+                                    <input
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        name="confirmsenha"
+                                        className="confirmsenha"
+                                        id="confirmsenha"
+                                        placeholder="Digite sua senha novamente"
+                                        data-equal="password"
+                                        value={formValues.confirmsenha}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="toggle-password"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    >
+                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
                             </div>
                             <div className="botoes_cad">
                                 <input type="submit" value="Cadastrar-se" id="enter_cad" />
-                                <input type="submit" value="Cancelar" id="cancel_cada" />
+                                <input type="button" value="Cancelar" id="cancel_cada" onClick={() => navigate('/')} />
                             </div>
                             <div className="class_botoes">
                                 <li className="text_return">
@@ -122,15 +169,12 @@ const Cadastro = () => {
                                 <a href="https://www.instagram.com/"><input type="button" value="Facebook" /></a>
                                 <a href="https://www.google.com/intl/pt-BR/account/about/"><input type="button" value="Google" /></a>
                             </div>
-
                         </form>
                     </div>
-
-
                 </section>
-
             </main>
         </>
-    )
-}
+    );
+};
+
 export { Cadastro };

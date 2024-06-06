@@ -21,7 +21,7 @@ def receber_dados():
 
     #Inicializa uma variável de retorno
     ret = ''
-    print(dados)
+    #print(dados)
 
     if dados.get('acao') == 'login': 
         ret = processar_dados_log(dados)

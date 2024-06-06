@@ -1,5 +1,5 @@
 import './Principal.css'
-import '../Reset.css'
+
 
 function Principal() {
     return (

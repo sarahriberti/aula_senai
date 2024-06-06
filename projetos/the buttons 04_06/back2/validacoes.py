@@ -31,7 +31,7 @@ def validar_data_nascimento(data_nascimento):
             return {'erro': True, 'mensagem': 'Você deve ter pelo menos 16 anos.'}
         return {'erro': False, 'mensagem': ''}
     except ValueError:
-        return {'erro': True, 'mensagem': 'Data de nascimento inválida2.'}
+        return {'erro': True, 'mensagem': 'Data de nascimento inválida.'}
     
 
     #Função para a validação do telefone

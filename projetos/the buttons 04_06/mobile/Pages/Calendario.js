@@ -14,7 +14,7 @@ LocaleConfig.locales['pt'] = {
 };
 LocaleConfig.defaultLocale = 'pt';
 
-const TodoListScreen = () => {
+const TodoListScreen = ({navigation}) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [tasks, setTasks] = useState({});
     const [modalVisible3, setModalVisible3] = useState(false);
@@ -133,9 +133,9 @@ const TodoListScreen = () => {
                     <Text style={styles.Text}>Espanhol</Text>
                 </Pressable>
             </View>
-            <Tarefas modalVisible3={modalVisible3} setModalVisible3={setModalVisible3} />
+            <Tarefas modalVisible3={modalVisible3} setModalVisible3={setModalVisible3} navigation={navigation} />
             
-            <ToDoList/>
+            <ToDoList />
             </ScrollView>
         </View>
     );

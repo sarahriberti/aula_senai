@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Text, View, Pressable, TextInput, Button } from 'react-native';
+import { Modal, Text, View, Pressable, TextInput,  } from 'react-native';
 
 export default function Tarefas({modalVisible3, setModalVisible3, navigation}) {
   const [email, setEmail] = useState('');
@@ -32,7 +32,7 @@ export default function Tarefas({modalVisible3, setModalVisible3, navigation}) {
             />
             <View style={{ borderBottomWidth: 3,width:350, borderColor: '#C39910' , marginVertical: 10 , padding: 5}} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-              <Pressable style={{ height:40, width:110, justifyContent:'center',alignItems:'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={() => navigation.navigate('FormularioTaf')}>
+              <Pressable style={{ height:40, width:110, justifyContent:'center',alignItems:'center', backgroundColor: '#34374F', borderRadius: 5 }}>
                 <Text style={{ fontSize: 17, color: 'white' }}>Editar</Text>
               </Pressable>
               <Pressable style={{ height:40, width:110, justifyContent:'center',alignItems:'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={() => setModalVisible3(false)}>
