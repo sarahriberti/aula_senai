@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
 import ToDoList from '../Componentes/FormularioTaf';
@@ -26,6 +26,7 @@ const TodoListScreen = () => {
 
     return (
         <View style={styles.container}>
+            <ScrollView>
             <Calendar
                 onDayPress={handleDayPress}
                 markedDates={{
@@ -135,7 +136,7 @@ const TodoListScreen = () => {
             <Tarefas modalVisible3={modalVisible3} setModalVisible3={setModalVisible3} />
             
             <ToDoList/>
-
+            </ScrollView>
         </View>
     );
 }

@@ -10,20 +10,16 @@ import PagDoacaoMobile from './Pages/Doacao';
 import Compartilho from './Pages/Compartilhar';
 import Saira from './Componentes/Sair';
 import LoginForm from './Pages/Login';
-import ToDoList from './Componentes/FormularioTaf';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-
-function CustomDrawerContent({ props, navigation, }) {
+function CustomDrawerContent({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
-  const [modalVisible3, setModalVisible3] = useState(false);
-
 
   return (
-    <DrawerContentScrollView {...props} style={styles.container}>
+    <DrawerContentScrollView style={styles.container}>
       <Image
         source={require('./assets/Images/user.png')}
         style={styles.logoUser}
@@ -32,35 +28,33 @@ function CustomDrawerContent({ props, navigation, }) {
       <DrawerItem
         label="Calendário"
         labelStyle={styles.drawerItemText}
-        onPress={() => props.navigation.navigate('CalendarioDrawer')}
+        onPress={() => navigation.navigate('CalendarioDrawer')}
         style={styles.drawerItem}
       />
       <DrawerItem
         label="Gerenciar"
         labelStyle={styles.drawerItemText}
-        onPress={() => props.navigation.navigate('Gerenciar')}
+        onPress={() => navigation.navigate('Gerenciar')}
         style={styles.drawerItem}
       />
       <DrawerItem
         label="Contribuição"
         labelStyle={styles.drawerItemText}
-        onPress={() => props.navigation.navigate('Doacao')}
+        onPress={() => navigation.navigate('Doacao')}
         style={styles.drawerItem}
       />
       <DrawerItem
         label="Compartilhar"
         labelStyle={styles.drawerItemText}
         onPress={() => setModalVisible(true)}
-        style={styles.drawerItem} />
+        style={styles.drawerItem}
+      />
       <DrawerItem
         label="Sair"
         labelStyle={styles.drawerItemText}
         onPress={() => setModalVisible2(true)}
-        style={styles.drawerItem} >
-        <Button title="Sair" onPress={() => setModalVisible2(true)} />
-      </DrawerItem>
-
-
+        style={styles.drawerItem}
+      />
       <View style={styles.logos}>
         <Image
           source={require('./assets/Images/facebook.png')}
@@ -77,9 +71,7 @@ function CustomDrawerContent({ props, navigation, }) {
         <Compartilho modalVisible={modalVisible} setModalVisible={setModalVisible} />
         <Saira modalVisible2={modalVisible2} setModalVisible2={setModalVisible2} navigation={navigation} />
       </View>
-
     </DrawerContentScrollView>
-
   );
 }
 
@@ -89,7 +81,7 @@ function Menu() {
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{
           headerStyle: { backgroundColor: '#252942' },
-          headerTintColor: '#c39910',  // Adicionado para definir a cor do ícone do menu lateral
+          headerTintColor: '#c39910',
         }}
       >
         <Drawer.Screen name="CalendarioDrawer" component={Pictures}
@@ -98,15 +90,13 @@ function Menu() {
             headerStyle: {
               backgroundColor: '#252942'
             }
-          }} />
+          }}
+        />
         <Drawer.Screen name="Gerenciar" component={Gerenciarr} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Doacao" component={PagDoacaoMobile} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Compartilhar" component={Compartilho} />
         <Drawer.Screen name="Sair" component={Saira} />
-
-
       </Drawer.Navigator>
-
     </View>
   );
 }
@@ -119,7 +109,6 @@ export default function App() {
         <Stack.Screen name="Cadastro" component={CadastroForm} options={{ headerShown: false }} />
         <Stack.Screen name="Calendario" component={Menu} options={{ headerShown: false }} />
         <Stack.Screen name="Sair" component={Saira} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -129,7 +118,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#34374f',
   },
-
   drawerItem: {
     marginVertical: 15,
     borderBottomWidth: 3,
@@ -137,7 +125,7 @@ const styles = StyleSheet.create({
   },
   drawerItemText: {
     color: 'white',
-    fontSize: 19, // Tamanho do texto ajustado aqui
+    fontSize: 19,
   },
   logos: {
     flexDirection: 'row',
