@@ -5,8 +5,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import stylesTaf from '../Componentes/Styleformulariotaf'
 
-export default function ToDoList() {
-    const [isModalVisible4, setModalVisible4] = useState(false);
+export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
+    //const [isModalVisible4, setModalVisible4] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [startHour, setStartHour] = useState(null);
