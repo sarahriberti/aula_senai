@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
 import Loginstyles from '../Componentes/Loginstyles';
+import { Ionicons } from '@expo/vector-icons';
 
 // Definição do componente de formulário de login
 function LoginForm({ navigation }) {
@@ -18,6 +19,11 @@ function LoginForm({ navigation }) {
       ...prevValues,
       [name]: value,
     }));
+  };
+  const [senhaVisivel, setSenhaVisivel] = useState(false);
+
+  const toggleSenhaVisibilidade = () => {
+    setSenhaVisivel(!senhaVisivel);
   };
 
   // Função para lidar com o processo de login
@@ -70,17 +76,27 @@ function LoginForm({ navigation }) {
             keyboardType="email-address"
             autoCapitalize="none"
             accessibilityLabel="Email"
+            maxLength={39}
           />
+          {/* Rótulo para o campo de senha */}
           <Text style={Loginstyles.label}>Senha</Text>
-          {/* Campo de entrada para a senha */}
-          <TextInput
-            style={Loginstyles.inputs}
-            autoCorrect={false}
-            value={formValues.senha_log}
-            onChangeText={(text) => handleChange('senha_log', text)}
-            secureTextEntry
-            accessibilityLabel="Senha"
-          />
+          {/* Container para o campo de senha */}
+          <View style={Loginstyles.senhaContainer}>
+            {/* Campo de entrada para a senha */}
+            <TextInput
+              style={Loginstyles.senhaInput}
+              autoCorrect={false}
+              value={formValues.senha_log}
+              onChangeText={(text) => handleChange('senha_log', text)}
+              accessibilityLabel="Senha"
+              secureTextEntry={!senhaVisivel}
+              maxLength={30}
+            />
+            <TouchableOpacity onPress={toggleSenhaVisibilidade}>
+              <Ionicons name={senhaVisivel ? 'eye-off' : 'eye'} size={24} color="gray" />
+            </TouchableOpacity>
+          </View>
+         
           <View style={Loginstyles.botoes}>
             {/* Botão de Entrar */}
             <TouchableOpacity
@@ -113,3 +129,4 @@ function LoginForm({ navigation }) {
 
 // Exporta o componente para ser usado em outras partes do aplicativo
 export default LoginForm;
+

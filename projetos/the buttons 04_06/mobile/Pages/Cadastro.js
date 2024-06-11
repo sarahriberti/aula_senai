@@ -69,6 +69,7 @@ const CadastroForm = ({ navigation }) => {
             name="nome"
             value={formValues.nome}
             onChangeText={(value) => handleChange('nome', value)}
+            maxLength={39}
           />
           <Text style={Cadastrostyles.cores}>Data de Nascimento</Text>
           <TextInputMask
@@ -103,6 +104,7 @@ const CadastroForm = ({ navigation }) => {
             name="email"
             value={formValues.email}
             onChangeText={(value) => handleChange('email', value)}
+            maxLength={39}
           />
           <Text style={Cadastrostyles.cores}>Senha</Text>
           <View style={Cadastrostyles.senhaContainer}>
@@ -113,6 +115,7 @@ const CadastroForm = ({ navigation }) => {
               value={formValues.senha}
               onChangeText={(value) => handleChange('senha', value)}
               secureTextEntry={!senhaVisivel}
+              maxLength={30}
             />
             <TouchableOpacity onPress={toggleSenhaVisibilidade}>
               <Ionicons name={senhaVisivel ? 'eye-off' : 'eye'} size={24} color="gray" />
@@ -127,6 +130,7 @@ const CadastroForm = ({ navigation }) => {
               value={formValues.confirmsenha}
               onChangeText={(value) => handleChange('confirmsenha', value)}
               secureTextEntry={!confirmSenhaVisivel}
+              maxLength={30}
             />
             <TouchableOpacity onPress={toggleConfirmSenhaVisibilidade}>
               <Ionicons name={confirmSenhaVisivel ? 'eye-off' : 'eye'} size={24} color="gray" />

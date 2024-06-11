@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -108,7 +107,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='BoasVindas'>
-        <Stack.Screen name="BoasVindas" component={MyPager} options={{ headerShown: false }} />
+      <Stack.Screen name="BoasVindas" component={MyPager} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginForm} options={{ headerShown: false }} />
         <Stack.Screen name="Cadastro" component={CadastroForm} options={{ headerShown: false }} />
         <Stack.Screen name="Calendario" component={Menu} options={{ headerShown: false }} />

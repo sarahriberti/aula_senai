@@ -31,17 +31,7 @@ export default Loginstyles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 20,
     },
-    inputs: {
-        backgroundColor: '#34374F',
-        width: '90%',
-        color: '#fff',
-        marginLeft: 20,
-        marginBottom: 20,
-        fontSize: 17,
-        borderRadius: 2,
-        padding: 10,
-        alignItems: 'center',
-    },
+   
     btnSubmit: {
         backgroundColor: '#34374F',
         justifyContent: 'center',
@@ -89,4 +79,38 @@ export default Loginstyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
+
+      senhaContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#34374f',
+        borderRadius: 2,
+        width: '90%',
+      
+        marginBottom: 20,
+        paddingRight: 10, // Espaço para o ícone
+        marginLeft: 20,
+       
+        fontSize: 17,
+      
+      },
+      senhaInput: {
+        flex: 1,
+        color: '#fff',
+        fontSize: 18,
+        padding: 10,
+        
+      },
+      
+      inputs: {
+        backgroundColor: '#34374F',
+        width: '90%',
+        color: '#fff',
+        marginLeft: 20,
+        marginBottom: 20,
+        fontSize: 17,
+        borderRadius: 2,
+        padding: 10,
+        alignItems: 'center',
+    },
 });
