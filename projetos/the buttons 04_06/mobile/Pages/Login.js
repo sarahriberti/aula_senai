@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
 import Loginstyles from '../Componentes/Loginstyles';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Definição do componente de formulário de login
 function LoginForm({ navigation }) {
@@ -47,6 +48,8 @@ function LoginForm({ navigation }) {
         // Se houver erro, exibe uma mensagem de alerta
         Alert.alert('Erro', 'Credenciais inválidas. Verifique seu e-mail e senha.');
       } else {
+        await AsyncStorage.setItem('ID', resultado.mensagem[0].toString());
+        await AsyncStorage.setItem('nome', resultado.mensagem[1]);
         // Se o login for bem-sucedido, redireciona para a tela do calendário
         navigation.navigate('Calendario');
       }

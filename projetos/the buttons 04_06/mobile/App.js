@@ -13,20 +13,29 @@ import LoginForm from './Pages/Login';
 import ToDoList from './Componentes/FormularioTaf';
 import CadastroConcluido from './Pages/CadConcluido';
 import MyPager from './Pages/BoasVindas';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
-
+  const getnome = async () => {
+    let nome = '';
+    try {
+      nome = await AsyncStorage.getItem('nome') || 'erro';
+    } catch (error) {
+      console.log(error.message);
+    }  return nome;
+  }
   return (
     <DrawerContentScrollView style={styles.container}>
       <Image
         source={require('./assets/Images/user.png')}
         style={styles.logoUser}
       />
-      <Text style={styles.textName}>Nome</Text>
+      <Text style={styles.textName}>{getnome()}</Text>
       <DrawerItem
         label="Calendário"
         labelStyle={styles.drawerItemText}
