@@ -74,7 +74,7 @@ const CadastroForm = ({ navigation }) => {
           <TextInputMask
             type={'datetime'}
             options={{
-              format: 'YYYY/MM/DD',
+              format: 'DD/MM/YYYY',
             }}
             style={Cadastrostyles.inputs}
             autoCorrect={false}

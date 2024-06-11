@@ -23,7 +23,7 @@ def validar_data_nascimento(data_nascimento):
     
     try:
         # referenciando a biblioteca e alinhando para uso com dia, mês e ano
-        data_nascimento = datetime.strptime(data_nascimento, '%Y/%m/%d')
+        data_nascimento = datetime.strptime(data_nascimento, '%d/%m/%Y')
         #criando a variável para validar a idade minima e maxima baseada em uma subtração de anos
         print(data_nascimento)
         idade = datetime.now().year - data_nascimento.year
@@ -31,7 +31,7 @@ def validar_data_nascimento(data_nascimento):
             return {'erro': True, 'mensagem': 'Você deve ter pelo menos 16 anos.'}
         return {'erro': False, 'mensagem': ''}
     except ValueError:
-        return {'erro': True, 'mensagem': 'Data de nascimento inválida.'}
+        return {'erro': True, 'mensagem': 'Data de nascimento inválida!!'}
     
 
     #Função para a validação do telefone

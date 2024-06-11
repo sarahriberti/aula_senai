@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +13,7 @@ import Saira from './Componentes/Sair';
 import LoginForm from './Pages/Login';
 import ToDoList from './Componentes/FormularioTaf';
 import CadastroConcluido from './Pages/CadConcluido';
+import MyPager from './Pages/BoasVindas';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -105,7 +107,8 @@ function Menu() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login'>
+      <Stack.Navigator initialRouteName='BoasVindas'>
+        <Stack.Screen name="BoasVindas" component={MyPager} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginForm} options={{ headerShown: false }} />
         <Stack.Screen name="Cadastro" component={CadastroForm} options={{ headerShown: false }} />
         <Stack.Screen name="Calendario" component={Menu} options={{ headerShown: false }} />

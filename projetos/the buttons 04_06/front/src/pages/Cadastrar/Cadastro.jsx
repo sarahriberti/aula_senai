@@ -1,5 +1,4 @@
 /*Nome: Cadastro */
-
 /*Data da criação: junho de 2023 */
 /*Descrição : Nesta página foi criado a oportunidade de se cadastrar no nosso site*/
 /*Observações : Este documento contém o import do Usestate, Link  */
@@ -37,8 +36,18 @@ const Cadastro = () => {
 
     /*cria a mensagem de erro */
     const [mensagensErro, setMensagensErro] = useState([]);
+
+    const formatDate = (date) => {
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Formatando a data de nascimento para o formato dd/mm/yyyy
+        const formattedDate = formatDate(formValues.dataNascimento);
+        const formattedFormValues = { ...formValues, dataNascimento: formattedDate };
 
         try {
             const resposta = await fetch('http://10.135.60.23:8085/receber_dados', {
@@ -46,7 +55,7 @@ const Cadastro = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formValues),
+                body: JSON.stringify(formattedFormValues),
             });
 
             const resultado = await resposta.json();
@@ -89,15 +98,15 @@ const Cadastro = () => {
 
                         <form onSubmit={handleSubmit} id='form_cadastro'>
                             <div className="class_nome">
-                                <label htmlFor="">Nome</label><br />
+                                <label htmlFor="nome">Nome</label><br />
                                 <input type="text" name="nome" className="nome" id="nome" placeholder="Digite seu Nome" value={formValues.nome} onChange={handleChange} required />
                             </div>
                             <div className="class_date">
-                                <label htmlFor="">Data de nascimento</label>
+                                <label htmlFor="dataNascimento">Data de nascimento</label>
                                 <input type="date" name="dataNascimento" className="dataNascimento" id="dataNascimento" value={formValues.dataNascimento} onChange={handleChange} required />
                             </div>
                             <div className="class_cel">
-                                <label htmlFor="">Celular</label>
+                                <label htmlFor="celular">Celular</label>
                                 <InputMask
                                     mask="(99) 99999-9999"
                                     value={formValues.celular}
@@ -107,11 +116,11 @@ const Cadastro = () => {
                                 </InputMask>
                             </div>
                             <div className="class_email">
-                                <label htmlFor="">E-mail</label>
+                                <label htmlFor="email">E-mail</label>
                                 <input type="email" name="email" className="email" id="email" placeholder="Digite seu E-mail" value={formValues.email} onChange={handleChange} required />
                             </div>
                             <div className="class_senha">
-                                <label htmlFor="">Senha</label>
+                                <label htmlFor="senha">Senha</label>
                                 <div className="input-wrapper">
                                     <input
                                         type={showPassword ? "text" : "password"}
