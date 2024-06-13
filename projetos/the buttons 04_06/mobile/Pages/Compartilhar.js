@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Text, View, Pressable, TextInput } from 'react-native';
+import { Modal, Text, View, Pressable, TextInput, Alert } from 'react-native';
 
 export default function Compartilho({ modalVisible, setModalVisible }) {
     const [email, setEmail] = useState('');
@@ -7,6 +7,42 @@ export default function Compartilho({ modalVisible, setModalVisible }) {
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
+    };
+
+    const handleShare = () => {
+        if (!email || !selectedOption) {
+            Alert.alert('Erro', 'Por favor, insira um e-mail válido e selecione uma opção.');
+            return;
+        }
+
+        // Aqui você faria a chamada para o backend ou serviço de compartilhamento.
+        // Vou adicionar um exemplo de como você pode fazer isso com fetch.
+        const shareData = {
+            email: email,
+            permission: selectedOption
+        };
+
+        // Exemplo de chamada usando fetch
+        fetch('http://10.135.60.23:8085/receber_dados', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(shareData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Alert.alert('Sucesso', 'Calendário compartilhado com sucesso!');
+                setModalVisible(false);
+            } else {
+                Alert.alert('Erro', 'Ocorreu um erro ao compartilhar o calendário.');
+            }
+        })
+        .catch(error => {
+            Alert.alert('Erro', 'Ocorreu um erro ao compartilhar o calendário.');
+            console.error(error);
+        });
     };
 
     return (
@@ -66,7 +102,7 @@ export default function Compartilho({ modalVisible, setModalVisible }) {
                         <Text style={{ color: '#fff', fontSize: 18 }}>Pode visualizar</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-                        <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#C39910', borderRadius: 5 }} onPress={() => setModalVisible(false)}>
+                        <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#C39910', borderRadius: 5 }} onPress={handleShare}>
                             <Text style={{ fontSize: 17, color: 'white' }}>Compartilhar</Text>
                         </Pressable>
                         <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={() => setModalVisible(false)}>
@@ -76,6 +112,5 @@ export default function Compartilho({ modalVisible, setModalVisible }) {
                 </View>
             </View>
         </Modal>
-
     );
 }
