@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert, Linking} from 'react-native';
 import Loginstyles from '../Componentes/Loginstyles';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -58,6 +58,14 @@ function LoginForm({ navigation }) {
       console.error(error);
       Alert.alert('Erro', 'Erro ao tentar fazer login. Por favor, tente novamente mais tarde.');
     }
+
+  };
+  const handleFacebookPress = () => {
+    Linking.openURL('https://www.facebook.com/sua-pagina-do-facebook');
+  };
+
+  const handleGooglePress = () => {
+    Linking.openURL('https://www.google.com');
   };
 
   // Renderização do componente
@@ -123,8 +131,12 @@ function LoginForm({ navigation }) {
           <Text style={Loginstyles.textLogar}>Logar com:</Text>
           {/* Ícones para fazer login com redes sociais */}
           <View style={Loginstyles.logarInferior}>
-            <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
-            <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/@google.png')} />
+            <TouchableOpacity onPress={handleFacebookPress}>
+              <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleGooglePress}>
+              <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/@google.png')} />
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

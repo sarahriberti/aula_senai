@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Cadastrostyles from "../Componentes/Cadastrostyles";
-import { View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity, Text, ScrollView, Alert } from "react-native";
+import { View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity, Text, ScrollView, Alert,Linking } from "react-native";
 import { Ionicons } from '@expo/vector-icons'; // Certifique-se de ter instalado @expo/vector-icons
 import { TextInputMask } from 'react-native-masked-text'; // Adicione esta linha
 
@@ -53,6 +53,13 @@ const CadastroForm = ({ navigation }) => {
       console.error('Erro ao enviar dados:', error);
       Alert.alert('Erro ao enviar dados:', error.message);
     }
+  };
+  const handleFacebookPress = () => {
+    Linking.openURL('https://www.facebook.com/sua-pagina-do-facebook');
+  };
+
+  const handleGooglePress = () => {
+    Linking.openURL('https://www.google.com');
   };
 
   return (
@@ -143,8 +150,12 @@ const CadastroForm = ({ navigation }) => {
             <Text style={Cadastrostyles.submitTxt}>Cadastrar</Text>
           </TouchableOpacity>
           <View style={Cadastrostyles.footerlogos}>
-            <Image style={Cadastrostyles.facebook} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
-            <Image style={Cadastrostyles.google} resizeMode='contain' source={require('../assets/Images/@google.png')} />
+          <TouchableOpacity onPress={handleFacebookPress}>
+              <Image style={Cadastrostyles.facebook} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleGooglePress}>
+              <Image style={Cadastrostyles.google} resizeMode='contain' source={require('../assets/Images/@google.png')} />
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

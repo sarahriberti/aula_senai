@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text,Linking,TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Pictures from './Pages/Calendario';
 import CadastroForm from './Pages/Cadastro';
@@ -35,6 +35,17 @@ function CustomDrawerContent({ navigation }) {
     };
     getNomeAsync();
   }, []);
+  const handleFacebookPress = () => {
+    Linking.openURL('https://www.facebook.com');
+  };
+
+  const handleGooglePress = () => {
+    Linking.openURL('https://www.google.com');
+  };
+  const handleInstagramPress = () => {
+    Linking.openURL('https://www.instagram.com');
+  };
+
 
   return (
     <DrawerContentScrollView style={styles.container}>
@@ -74,18 +85,16 @@ function CustomDrawerContent({ navigation }) {
         style={styles.drawerItem}
       />
       <View style={styles.logos}>
-        <Image
-          source={require('./assets/Images/facebook.png')}
-          style={styles.logo}
-        />
-        <Image
-          source={require('./assets/Images/instagramm.png')}
-          style={styles.logo2}
-        />
-        <Image
-          source={require('./assets/Images/Whatsaapp.png')}
-          style={styles.logo3}
-        />
+      <TouchableOpacity onPress={handleFacebookPress}>
+        <Image style={styles.logo} resizeMode='contain' source={require('./assets/Images/facebook.png')} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleInstagramPress}>
+        <Image style={styles.logo2} resizeMode='contain' source={require('./assets/Images/instagramm.png')} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleGooglePress}>
+        <Image style={styles.logo3} resizeMode='contain' source={require('./assets/Images/@google.png')} />
+      </TouchableOpacity>
+     
         <Compartilho modalVisible={modalVisible} setModalVisible={setModalVisible} />
         <Saira modalVisible2={modalVisible2} setModalVisible2={setModalVisible2} navigation={navigation} />
       </View>
