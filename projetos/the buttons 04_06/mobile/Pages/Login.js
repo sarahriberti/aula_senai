@@ -58,6 +58,7 @@ function LoginForm({ navigation }) {
       console.error(error);
       Alert.alert('Erro', 'Erro ao tentar fazer login. Por favor, tente novamente mais tarde.');
     }
+    setFormValues (" ")
 
   };
   const handleFacebookPress = () => {

@@ -21,7 +21,7 @@ export default function Saira({ modalVisible2, setModalVisible2, navigation }) {
               <Pressable style={{ height: 40, width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#C39910', borderRadius: 5 }} onPress={() => setModalVisible2(false)}>
                 <Text style={{ fontSize: 18, color: 'white' }}>Não</Text>
               </Pressable>
-              <Pressable style={{ height: 40, width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={() => navigation.navigate('Login')}>
+              <Pressable style={{ height: 40, width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={() => navigation.navigate('BoasVindas')}>
                 <Text style={{ fontSize: 18, color: 'white' }} >Sim</Text>
               </Pressable>
             </View>

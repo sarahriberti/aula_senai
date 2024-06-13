@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Cadastrostyles from "../Componentes/Cadastrostyles";
-import { View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity, Text, ScrollView, Alert,Linking } from "react-native";
+import { View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity, Text, ScrollView, Alert, Linking } from "react-native";
 import { Ionicons } from '@expo/vector-icons'; // Certifique-se de ter instalado @expo/vector-icons
 import { TextInputMask } from 'react-native-masked-text'; // Adicione esta linha
 
@@ -33,17 +33,32 @@ const CadastroForm = ({ navigation }) => {
     setConfirmSenhaVisivel(!confirmSenhaVisivel);
   };
 
+  const formatDateToISO = (dateString) => {
+    const [day, month, year] = dateString.split('/');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleSubmit = async () => {
+    // Converta a data de nascimento para o formato YYYY-MM-DD
+    const dataNascimentoFormatada = formatDateToISO(formValues.dataNascimento);
+
+
+    // Crie um novo objeto de valores de formulário com a data de nascimento formatada
+    const valoresFormatados = {
+      ...formValues,
+      dataNascimento: dataNascimentoFormatada,
+    };
+
     try {
       const resposta = await fetch('http://10.135.60.23:8085/receber_dados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formValues),
+        body: JSON.stringify(valoresFormatados),
       });
       const resultado = await resposta.json();
-      console.log(resultado)
+      console.log(resultado);
       if (resultado.erro) {
         Alert.alert('Erro', 'Valores inválidos');
       } else {
@@ -53,7 +68,17 @@ const CadastroForm = ({ navigation }) => {
       console.error('Erro ao enviar dados:', error);
       Alert.alert('Erro ao enviar dados:', error.message);
     }
+    setFormValues({
+      nome: '',
+      email: '',
+      celular: '',
+      dataNascimento: '',
+      senha: '',
+      confirmsenha: '',
+    });
   };
+
+
   const handleFacebookPress = () => {
     Linking.openURL('https://www.facebook.com/sua-pagina-do-facebook');
   };
@@ -150,7 +175,7 @@ const CadastroForm = ({ navigation }) => {
             <Text style={Cadastrostyles.submitTxt}>Cadastrar</Text>
           </TouchableOpacity>
           <View style={Cadastrostyles.footerlogos}>
-          <TouchableOpacity onPress={handleFacebookPress}>
+            <TouchableOpacity onPress={handleFacebookPress}>
               <Image style={Cadastrostyles.facebook} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleGooglePress}>

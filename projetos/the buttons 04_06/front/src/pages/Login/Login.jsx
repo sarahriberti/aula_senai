@@ -6,6 +6,7 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importação dos ícones de olho
 /*Fim das importações*/
 
 // Componente para a página de login
@@ -68,6 +69,8 @@ const Login = () => {
             console.error('Erro ao enviar dados:', error);
         }
     };
+    const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
+   
 
     return (
         <>
@@ -91,10 +94,28 @@ const Login = () => {
                             <input type="email" name="email_log" className="email" id="email" placeholder="Digite seu E-mail" value={formValues.email_log} onChange={handleChange} required />
                         </div>
                         {/* Campo de senha do login */}
-                        <div className="senha_log">
-                            <label htmlFor="senha_log" className="nome_input">Senha</label>
-                            <input type="password" name="senha_log" className="senha" id="senha" placeholder="Digite sua senha" value={formValues.senha_log} onChange={handleChange} required />
-                        </div>
+                        <div className="class_senha">
+                                <label htmlFor="senha">Senha</label>
+                                <div className="input-wrapper">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="senha"
+                                        className="senha"
+                                        id="senha"
+                                        placeholder="Digite sua senha"
+                                        value={formValues.senha}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="toggle-password"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
+                            </div>
                         {/* Botões de entrar e cancelar na página do calendário */}
                         <div className="botoes_cad">
                             <input type="submit" value="Entrar" id="cancel_ent" />

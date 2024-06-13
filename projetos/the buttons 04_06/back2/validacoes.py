@@ -20,12 +20,11 @@ def validar_nome(nome):
     #Autor: Gian
     #Data de Criação 01/12/2023
 def validar_data_nascimento(data_nascimento):
-    
     try:
-        # referenciando a biblioteca e alinhando para uso com dia, mês e ano
-        data_nascimento = datetime.strptime(data_nascimento, '%d/%m/%Y')
-        #criando a variável para validar a idade minima e maxima baseada em uma subtração de anos
-        print(data_nascimento)
+        # referenciando a biblioteca e alinhando para uso com ano, mês e dia
+        data_nascimento = datetime.strptime(data_nascimento, '%Y-%m-%d')
+        # criando a variável para validar a idade minima e maxima baseada em uma subtração de anos
+        print('data na validacao ', data_nascimento)
         idade = datetime.now().year - data_nascimento.year
         if idade < 16:
             return {'erro': True, 'mensagem': 'Você deve ter pelo menos 16 anos.'}

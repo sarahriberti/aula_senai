@@ -9,6 +9,7 @@ const Gerenciarr = ({ navigation }) => {
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
+    const [novaSenha, setnovaSenha] = useState('');
 
     const handleGerenciar = () => {
         if (senha !== confirmarSenha) {
@@ -17,7 +18,7 @@ const Gerenciarr = ({ navigation }) => {
         }
         console.log("Nome: ", nome);
         console.log("Data de Nascimento: ", dataNascimento);
-        console.log("Senha: ", senha);
+        console.log("Senha: ", novaSenha);
         console.log("Confirmar Senha: ", confirmarSenha);
         console.log("E-mail: ", email);
         console.log("Telefone: ", telefone);
@@ -44,7 +45,7 @@ const Gerenciarr = ({ navigation }) => {
                         <Text onPress={() => navigation.navigate('EsqueciSenha', { originScreen: 'Gerenciar' })} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>
 
                         <Text style={Gerenciarstyles.textNewSenha}>Nova senha:</Text>
-                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
+                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={novaSenha} onChangeText={setnovaSenha} />
                         <Text style={Gerenciarstyles.textConfSenha}>Confirmar senha:</Text>
                         <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={confirmarSenha} onChangeText={setConfirmarSenha} />
                     </View>
@@ -53,8 +54,6 @@ const Gerenciarr = ({ navigation }) => {
                         <Text style={Gerenciarstyles.textExEmail}>example@gmail.com</Text>
                         <Text style={Gerenciarstyles.textNewEmail}>Novo e-mail:</Text>
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
-                        <Text style={Gerenciarstyles.textNewEmail}>Senha:</Text>
-                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
 
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
@@ -62,8 +61,7 @@ const Gerenciarr = ({ navigation }) => {
                         <Text style={Gerenciarstyles.textActualTelefone}>(19) 994132161</Text>
                         <Text style={Gerenciarstyles.textNewTelefone}>Novo telefone:</Text>
                         <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={setTelefone} />
-                        <Text style={Gerenciarstyles.textNewEmail}>Senha:</Text>
-                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
+
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.btnBox}>
