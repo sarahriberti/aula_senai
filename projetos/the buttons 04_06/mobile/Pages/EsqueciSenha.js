@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-export default function Esqueci({navigation}) {
+export default function Esqueci({ navigation, route }) {
   const [email, setEmail] = useState('');
 
   const handleChange = (text) => {
     setEmail(text);
   };
 
+  // Função para lidar com o clique em Cancelar
+  const handleCancel = () => {
+    // Verifica se há uma tela de origem
+    if (route.params && route.params.originScreen) {
+      navigation.navigate(route.params.originScreen); // Navega de volta para a tela de origem
+    } else {
+      // Se não houver tela de origem definida, volta para o Login
+      navigation.navigate('Login');
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.page2} >
-        <Text style={styles.sobre}>
-          Esqueceu sua senha?
-        </Text>
+      <View style={styles.page2}>
+        <Text style={styles.sobre}>Esqueceu sua senha?</Text>
         <Text style={styles.text}>E-mail:</Text>
         <TextInput
           style={styles.input}
@@ -26,15 +35,15 @@ export default function Esqueci({navigation}) {
         />
 
         <View style={styles.viewBotao}>
-          <TouchableOpacity style={styles.botao} >
-            <Text style={styles.botaoText} onPress={() => navigation.navigate('Gerenciar')}>Cancelar</Text>
+          <TouchableOpacity style={styles.botao} onPress={handleCancel}>
+            <Text style={styles.botaoText}>Cancelar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.botao} >
+          {/* Mantive onPress vazio para o botão Recuperar, você pode adicionar a lógica conforme necessário */}
+          <TouchableOpacity style={styles.botao}>
             <Text style={styles.botaoText}>Recuperar</Text>
           </TouchableOpacity>
         </View>
       </View>
-
     </View>
   );
 }
@@ -76,29 +85,29 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 10,
     color: 'white',
-    borderRadius:4,
+    borderRadius: 4,
   },
   text: {
     color: 'white',
     fontWeight: 'bold',
-    marginRight:260,
+    marginRight: 260,
   },
   botao: {
     backgroundColor: '#C39910',
-    borderWidth:10,
-    borderColor:'#C39910',
-    marginHorizontal:20,
-    marginVertical:10,
+    borderWidth: 10,
+    borderColor: '#C39910',
+    marginHorizontal: 20,
+    marginVertical: 10,
     fontWeight: 'bold',
     borderRadius: 4,
   },
   botaoText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize:15,
+    fontSize: 15,
   },
-  viewBotao:{
+  viewBotao: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
 });

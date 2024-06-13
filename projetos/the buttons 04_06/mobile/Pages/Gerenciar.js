@@ -2,7 +2,7 @@ import { Text, View, TextInput, KeyboardAvoidingView, ScrollView, Alert, Touchab
 import Gerenciarstyles from '../Componentes/Gerenciarstyles';
 import { useState } from 'react';
 
-const Gerenciarr = ({navigation}) => {
+const Gerenciarr = ({ navigation }) => {
     const [nome, setNome] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
     const [senha, setSenha] = useState('');
@@ -40,7 +40,9 @@ const Gerenciarr = ({navigation}) => {
                     <View style={Gerenciarstyles.password}>
                         <Text style={Gerenciarstyles.textActualSenha}>Senha atual:</Text>
                         <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
-                        <Text onPress={() => navigation.navigate('EsqueciSenha')} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>
+                        {/* <Text onPress={() => navigation.navigate('EsqueciSenha')} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>*/}
+                        <Text onPress={() => navigation.navigate('EsqueciSenha', { originScreen: 'Gerenciar' })} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>
+
                         <Text style={Gerenciarstyles.textNewSenha}>Nova senha:</Text>
                         <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
                         <Text style={Gerenciarstyles.textConfSenha}>Confirmar senha:</Text>
@@ -53,7 +55,7 @@ const Gerenciarr = ({navigation}) => {
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
                         <Text style={Gerenciarstyles.textNewEmail}>Senha:</Text>
                         <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
-                      
+
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.telefone}>
