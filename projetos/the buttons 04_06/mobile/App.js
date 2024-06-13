@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Image, StyleSheet, Text, Button } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Pictures from './Pages/Calendario';
 import CadastroForm from './Pages/Cadastro';
@@ -14,6 +14,7 @@ import ToDoList from './Componentes/FormularioTaf';
 import CadastroConcluido from './Pages/CadConcluido';
 import MyPager from './Pages/BoasVindas';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Esqueci from './Pages/EsqueciSenha';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -21,21 +22,27 @@ const Drawer = createDrawerNavigator();
 function CustomDrawerContent({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
-  const getnome = async () => {
-    let nome = '';
-    try {
-      nome = await AsyncStorage.getItem('nome') || 'erro';
-    } catch (error) {
-      console.log(error.message);
-    }  return nome;
-  }
+  const [nome, setNome] = useState('');
+
+  useEffect(() => {
+    const getNomeAsync = async () => {
+      try {
+        const nome = await AsyncStorage.getItem('nome') || 'erro';
+        setNome(nome);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getNomeAsync();
+  }, []);
+
   return (
     <DrawerContentScrollView style={styles.container}>
       <Image
         source={require('./assets/Images/user.png')}
         style={styles.logoUser}
       />
-      <Text style={styles.textName}>{getnome()}</Text>
+      <Text style={styles.textName}>{nome}</Text>
       <DrawerItem
         label="Calendário"
         labelStyle={styles.drawerItemText}
@@ -116,7 +123,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='BoasVindas'>
-      <Stack.Screen name="BoasVindas" component={MyPager} options={{ headerShown: false }} />
+        <Stack.Screen name="BoasVindas" component={MyPager} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginForm} options={{ headerShown: false }} />
         <Stack.Screen name="Cadastro" component={CadastroForm} options={{ headerShown: false }} />
         <Stack.Screen name="Calendario" component={Menu} options={{ headerShown: false }} />
@@ -127,6 +134,7 @@ export default function App() {
           }
          }} />
         <Stack.Screen name="Sair" component={Saira} />
+        <Stack.Screen name="EsqueciSenha" component={Esqueci}  options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

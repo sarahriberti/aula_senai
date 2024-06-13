@@ -94,7 +94,9 @@ function LoginForm({ navigation }) {
               accessibilityLabel="Senha"
               secureTextEntry={!senhaVisivel}
               maxLength={30}
+
             />
+              
             <TouchableOpacity onPress={toggleSenhaVisibilidade}>
               <Ionicons name={senhaVisivel ? 'eye-off' : 'eye'} size={24} color="gray" />
             </TouchableOpacity>
@@ -116,6 +118,7 @@ function LoginForm({ navigation }) {
           </View>
           {/* Link para a tela de cadastro */}
           <Text style={Loginstyles.textCad} onPress={() => navigation.navigate('Cadastro')}>Não possui uma conta? Cadastre-se</Text>
+          <Text onPress={() => navigation.navigate('EsqueciSenha')} style={Loginstyles.textCad}>Esqueceu sua senha ?</Text>
           <Text style={Loginstyles.textLogar}>Logar com:</Text>
           {/* Ícones para fazer login com redes sociais */}
           <View style={Loginstyles.logarInferior}>

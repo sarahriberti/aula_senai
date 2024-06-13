@@ -140,4 +140,8 @@ export default Gerenciarstyles = StyleSheet.create({
         color: '#fff',
         fontSize: 17,
     },
+    textEsqueciSenha:{
+        color: '#fff',
+        fontSize: 17,
+    },
 });
