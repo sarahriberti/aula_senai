@@ -1,27 +1,41 @@
+import React, { useState } from 'react';
 import { Text, View, TextInput, KeyboardAvoidingView, ScrollView, Alert, TouchableOpacity, Image } from 'react-native';
 import Gerenciarstyles from '../Componentes/Gerenciarstyles';
-import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 
 const Gerenciarr = ({ navigation }) => {
     const [nome, setNome] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
-    const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [senhaGer, setSenhaGer] = useState('');
+    const [confirmarSenhaGer, setConfirmarSenhaGer] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
-    const [novaSenha, setnovaSenha] = useState('');
+    const [novaSenhaGer, setnovaSenhaGer] = useState('');
 
     const handleGerenciar = () => {
-        if (senha !== confirmarSenha) {
+        if (novaSenhaGer !== confirmarSenhaGer) {
             Alert.alert("Erro: As senhas não coincidem!");
             return;
         }
         console.log("Nome: ", nome);
         console.log("Data de Nascimento: ", dataNascimento);
-        console.log("Senha: ", novaSenha);
-        console.log("Confirmar Senha: ", confirmarSenha);
+        console.log("Senha: ", novaSenhaGer);
+        console.log("Confirmar Senha: ", confirmarSenhaGer);
         console.log("E-mail: ", email);
         console.log("Telefone: ", telefone);
+    };
+
+    const [senhaVisivel, setSenhaVisivel] = useState({
+        senhaGer: false,
+        novaSenhaGer: false,
+        confirmarSenhaGer: false
+    });
+
+    const toggleSenhaVisibilidade = (campo) => {
+        setSenhaVisivel(prevState => ({
+            ...prevState,
+            [campo]: !prevState[campo]
+        }));
     };
 
     return (
@@ -40,28 +54,66 @@ const Gerenciarr = ({ navigation }) => {
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.password}>
                         <Text style={Gerenciarstyles.textActualSenha}>Senha atual:</Text>
-                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={senha} onChangeText={setSenha} />
-                        {/* <Text onPress={() => navigation.navigate('EsqueciSenha')} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>*/}
+                        <View style={Gerenciarstyles.inputContainer}>
+                            <TextInput
+                                style={Gerenciarstyles.inputField} 
+                                autoCorrect={false}
+                                value={senhaGer}
+                                onChangeText={setSenhaGer}
+                                accessibilityLabel="Senha Gerenciar"
+                                secureTextEntry={!senhaVisivel.senhaGer}
+                                maxLength={30}
+                            />
+                            <TouchableOpacity onPress={() => toggleSenhaVisibilidade('senhaGer')} style={Gerenciarstyles.iconWrapper}>
+                                <Ionicons name={senhaVisivel.senhaGer ? 'eye-off' : 'eye'} size={24} color="gray" />
+                            </TouchableOpacity>
+                        </View>
+
                         <Text onPress={() => navigation.navigate('EsqueciSenha', { originScreen: 'Gerenciar' })} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>
 
                         <Text style={Gerenciarstyles.textNewSenha}>Nova senha:</Text>
-                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={novaSenha} onChangeText={setnovaSenha} />
+                        <View style={Gerenciarstyles.inputContainer}>
+                            <TextInput
+                                style={Gerenciarstyles.inputField} 
+                                autoCorrect={false}
+                                value={novaSenhaGer}
+                                onChangeText={setnovaSenhaGer}
+                                accessibilityLabel="Nova Senha Gerenciar"
+                                secureTextEntry={!senhaVisivel.novaSenhaGer}
+                                maxLength={30}
+                            />
+                            <TouchableOpacity onPress={() => toggleSenhaVisibilidade('novaSenhaGer')} style={Gerenciarstyles.iconWrapper}>
+                                <Ionicons name={senhaVisivel.novaSenhaGer ? 'eye-off' : 'eye'} size={24} color="gray" />
+                            </TouchableOpacity>
+                        </View>
+
                         <Text style={Gerenciarstyles.textConfSenha}>Confirmar senha:</Text>
-                        <TextInput style={Gerenciarstyles.input} secureTextEntry={true} autoCorrect={false} value={confirmarSenha} onChangeText={setConfirmarSenha} />
+                        <View style={Gerenciarstyles.inputContainer}>
+                            <TextInput
+                                style={Gerenciarstyles.inputField} 
+                                autoCorrect={false}
+                                value={confirmarSenhaGer}
+                                onChangeText={setConfirmarSenhaGer}
+                                accessibilityLabel="Confirmar Senha Gerenciar"
+                                secureTextEntry={!senhaVisivel.confirmarSenhaGer}
+                                maxLength={30}
+                            />
+                            <TouchableOpacity onPress={() => toggleSenhaVisibilidade('confirmarSenhaGer')} style={Gerenciarstyles.iconWrapper}>
+                                <Ionicons name={senhaVisivel.confirmarSenhaGer ? 'eye-off' : 'eye'} size={24} color="gray" />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.email}>
                         <Text style={Gerenciarstyles.textExEmail}>example@gmail.com</Text>
                         <Text style={Gerenciarstyles.textNewEmail}>Novo e-mail:</Text>
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
-
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.telefone}>
                         <Text style={Gerenciarstyles.textActualTelefone}>(19) 994132161</Text>
                         <Text style={Gerenciarstyles.textNewTelefone}>Novo telefone:</Text>
                         <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={setTelefone} />
-
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.btnBox}>
@@ -77,4 +129,5 @@ const Gerenciarr = ({ navigation }) => {
         </KeyboardAvoidingView>
     );
 };
+
 export default Gerenciarr;

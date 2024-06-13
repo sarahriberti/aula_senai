@@ -111,6 +111,9 @@ export default Gerenciarstyles = StyleSheet.create({
         backgroundColor: '#252942',
         width: '90%',
         height: 50,
+        color: '#fff',
+        paddingHorizontal: 10,
+        borderRadius: 5,
     },
     btnBox: {
         width: '93%',
@@ -143,5 +146,23 @@ export default Gerenciarstyles = StyleSheet.create({
     textEsqueciSenha:{
         color: '#fff',
         fontSize: 17,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#252942',
+        width: '90%',
+        height: 50,
+        color: '#fff',
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    inputField: {
+        flex: 1,
+        color: '#fff',
+    },
+    iconWrapper: {
+        paddingHorizontal: 10,
     },
 });
