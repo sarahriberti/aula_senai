@@ -17,11 +17,11 @@ def gravar_dados_cad_bd(nome, data_nasc, celular, email, senha):
     conex.close()
 
 # >>> Função para gravar as tarefas <<<
-def gravar_tarefas(cor, titulo, data, hora_ini, hora_fin, notific, descr, repetir):
+def gravar_tarefas(cor, titulo, data, hora_ini, hora_fin, notific, descr, repetir, ID):
     conex = conexao.conectar()
     cursor = conex.cursor()
-    sql = "INSERT INTO tarefas (Cor, Título, Data, Hora_Ini, Hora_Fin, Notifc, Descr, Repetir) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (cor, titulo, data, hora_ini, hora_fin, notific, descr, repetir)
+    sql = "INSERT INTO tarefas (Cor, Título, Data, Hora_Ini, Hora_Fin, Notific, Descr, Repetir, ID_Usu) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (cor, titulo, data, hora_ini, hora_fin, notific, descr, repetir, ID)
     cursor.execute(sql, val)
     conex.commit()
     print("Tarefa gravada com sucesso!")

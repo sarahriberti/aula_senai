@@ -104,7 +104,8 @@ def processar_dados_tarefa(dados):
         dados_processados_to_do['hora_fin'],
         dados_processados_to_do['notific'],
         dados_processados_to_do['descr'],
-        dados_processados_to_do['repetir']
+        dados_processados_to_do['repetir'],
+        dados_processados_to_do['ID']
     )
     return {'erro': False, 'mensagem': 'Tarefa gravada com sucesso!'}
 
