@@ -1,0 +1,115 @@
+import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert } from 'react-native';
+import Loginstyles from '../Componentes/Loginstyles';
+
+// Definição do componente de formulário de login
+function LoginForm({ navigation }) {
+  // Estado local para armazenar os valores do formulário (email, senha, etc.)
+  const [formValues, setFormValues] = useState({
+    acao: 'login', // Ação padrão é 'login'
+    email_log: '', // Valor inicial do campo de e-mail
+    senha_log: '', // Valor inicial do campo de senha
+  });
+
+  // Função para atualizar os valores do formulário conforme o usuário digita
+  const handleChange = (name, value) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  // Função para lidar com o processo de login
+  const handleLogin = async () => {
+    const { email_log, senha_log } = formValues;
+
+    try {
+      // Faz uma solicitação para o servidor com os dados de login
+      const response = await fetch('http://10.135.60.23:8085/receber_dados', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ acao: 'login', email_log, senha_log }), // Envio dos dados em formato JSON
+      });
+
+      // Analisa a resposta do servidor
+      const resultado = await response.json();
+      console.log(resultado);
+      if (resultado.erro) {
+        // Se houver erro, exibe uma mensagem de alerta
+        Alert.alert('Erro', 'Credenciais inválidas. Verifique seu e-mail e senha.');
+      } else {
+        // Se o login for bem-sucedido, redireciona para a tela do calendário
+        navigation.navigate('Calendario');
+      }
+    } catch (error) {
+      // Em caso de erro na solicitação, exibe uma mensagem de alerta
+      console.error(error);
+      Alert.alert('Erro', 'Erro ao tentar fazer login. Por favor, tente novamente mais tarde.');
+    }
+  };
+
+  // Renderização do componente
+  return (
+    <KeyboardAvoidingView style={Loginstyles.background} behavior="padding">
+      <ScrollView contentContainerStyle={Loginstyles.scrollViewContent}>
+        <View style={Loginstyles.containerLogo}>
+          {/* Logo do aplicativo */}
+          <Image style={Loginstyles.logo} resizeMode='contain' source={require('../assets/Images/corujalogocima.png')} />
+        </View>
+        <View style={Loginstyles.container}>
+          <Text style={Loginstyles.label}>E-mail</Text>
+          {/* Campo de entrada para o e-mail */}
+          <TextInput
+            style={Loginstyles.inputs}
+            autoCorrect={false}
+            value={formValues.email_log}
+            onChangeText={(text) => handleChange('email_log', text)}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            accessibilityLabel="Email"
+          />
+          <Text style={Loginstyles.label}>Senha</Text>
+          {/* Campo de entrada para a senha */}
+          <TextInput
+            style={Loginstyles.inputs}
+            autoCorrect={false}
+            value={formValues.senha_log}
+            onChangeText={(text) => handleChange('senha_log', text)}
+            secureTextEntry
+            accessibilityLabel="Senha"
+          />
+          <View style={Loginstyles.botoes}>
+            {/* Botão de Entrar */}
+            <TouchableOpacity
+              style={Loginstyles.btnSubmit}
+              onPress={handleLogin}
+            >
+              <Text style={Loginstyles.submitTxt}>Entrar</Text>
+            </TouchableOpacity>
+
+            {/* Botão de Cancelar */}
+            <TouchableOpacity style={Loginstyles.btnSubmit} >
+              <Text style={Loginstyles.submitTxt}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Link para a tela de cadastro */}
+          <Text style={Loginstyles.textCad} onPress={() => navigation.navigate('Cadastro')}>Não possui uma conta? Cadastre-se</Text>
+          <Text style={Loginstyles.textLogar}>Logar com:</Text>
+          {/* Ícones para fazer login com redes sociais */}
+          <View style={Loginstyles.logarInferior}>
+            <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
+            <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/@google.png')} />
+          </View>
+        </View>
+      </ScrollView>
+      {/* Barra de status */}
+      <StatusBar style="auto" />
+    </KeyboardAvoidingView>
+  );
+}
+
+// Exporta o componente para ser usado em outras partes do aplicativo
+export default LoginForm;

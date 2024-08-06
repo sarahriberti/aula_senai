@@ -23,7 +23,7 @@ export default function Tarefas({ modalVisible3, setModalVisible3, navigation, o
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent' }}>
-   
+
 
       <Modal
         animationType="slide"
