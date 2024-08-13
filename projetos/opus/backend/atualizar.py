@@ -1,8 +1,9 @@
-import conexao
+from flask import Flask, request, jsonify
 import datetime
+import conexao  # Importe sua conexão com o banco de dados
 
 # >>> INÍCIO DAS ATUALIZAÇÕES DAS TAREFAS <<<
-
+app = Flask(__name__)
 # Função para atualizar a descrição de uma tarefa
 def atualizar_descr_tarefa():
     id = int(input("Digite o ID da tarefa que deseja atualizar: "))
@@ -145,135 +146,18 @@ def atualizar_repetir():
 
 # >>> INÍCIO DAS ATUALIZAÇÕES DE DADOS DO USUÁRIO <<<
 
-# Função para atualizar o nome de um usuario
-def atualizar_nome_usuario():
-    id_usuario = int(input("Digite o ID do usuário que deseja trocar: "))
-    novo_nome = str(input("Digite o novo nome que deseja colocar: "))
+def atualizar_cad(data):
+    id_usuario = data['id']
+    novo_nome = data['nome']
+    data_str = data['data_nascimento']
+    novo_celular = data['celular']
+    novo_email = data['email']
+    nova_senha = data['senha']
     conex = conexao.conectar()
     cursor = conex.cursor()
-    sql = "UPDATE usuario SET NOME = %s WHERE ID = %s"
-    val = ( novo_nome,id_usuario)
+    sql = "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s, Senha = %s WHERE ID = %s"
+    val = (novo_nome ,data_str ,novo_celular ,novo_email ,nova_senha,  id_usuario)
     cursor.execute(sql, val)
     conex.commit()
-    print("Nome do usuario atualizado com sucesso!")
     conex.close()
-
-
-# Função para atualizar a data de nascimento de um usuario
-def atualizar_data_nasc_tarefa():
-    id = int(input("Digite o ID do usuario que deseja atualizar: "))
-    data_str = input("Digite a data que deseja (formato YYYY-MM-DD): ")
-    try:
-        nova_data_nasc = datetime.datetime.strptime(data_str, "%Y-%m-%d").date()
-    except ValueError:
-        print("Formato de data inválido. Use o formato YYYY-MM-DD.")
-        return
-    conex = conexao.conectar()
-    cursor = conex.cursor()
-    sql = "UPDATE usuario SET Data_Nasc = %s WHERE ID = %s"
-    val = (nova_data_nasc, id)
-    cursor.execute(sql, val)
-    conex.commit()
-    print("Data de nascimento do usuario atualizada com sucesso!")
-    conex.close()
-
-# Função para atualizar o celular de um usuario
-
-def atualizar_celular_usuario():
-    id_usuario = int(input("Digite o ID do usuário que deseja trocar: "))
-    novo_celular = input("Digite o seu novo número de celular: ")
-    if not novo_celular.isdigit():
-        print("Número de celular inválido. Certifique-se de inserir apenas números.")
-        return
-    conex = conexao.conectar()
-    cursor = conex.cursor()
-    sql = "UPDATE usuario SET Celular = %s WHERE ID = %s"
-    val = (novo_celular, id_usuario)
-    cursor.execute(sql, val)
-    conex.commit()
-    print("Novo número de celular do usuário atualizado com sucesso!")
-    conex.close()
-
-
-# Função para atualizar o e-mail de um usuário
-    
-def atualizar_email_usuario():
-    id_usuario = int(input("Digite o ID do usuário que deseja trocar: "))
-    novo_email = str(input("Digite o seu novo email: "))
-    conex = conexao.conectar()
-    cursor = conex.cursor()
-    sql = "UPDATE usuario SET Email = %s WHERE ID =%s"
-    val = (novo_email, id_usuario)
-    cursor.execute(sql, val)
-    conex.commit()
-    print("E-mail do usuário atualizado com sucesso!")
-    conex.close()
-
-# Função para atualizar a senha de um usuário
-    
-def atualizar_senha_usuario():
-    id_usuario = int(input("Digite o ID do usuário que deseja trocar: "))
-    novo_senha = str(input("Digite o sua nova senha: "))
-    conex = conexao.conectar()
-    cursor = conex.cursor()
-    sql = "UPDATE usuario SET Senha = %s WHERE ID =%s"
-    val = (novo_senha, id_usuario)
-    cursor.execute(sql, val)
-    conex.commit()
-    print("Senha do usuário atualizado com sucesso!")
-    conex.close()
-
-# >>> FINAL DAS ATUALIZAÇÕES DE DADOS DO USUÁRIO <<<
-    
-
-# Função Principal para exibir o menu 
-    
-def menu():
-    print("Selecione uma opção:")
-    print("1. Trocar o nome da tarefa ")
-    print("2. Trocar a cor da tarefa")
-    print("3. Trocar o título da tarefa")
-    print("4. Trocar a data da tarefa")
-    print("5. Trocar a hora inicial da tarefa")
-    print("6. Trocar o hora final da tarefa")
-    print("7. Trocar a notificação da tarefa")
-    print("8. Trocar repetir dados")
-    print("9. Trocar o nome do usuário")
-    print("10. Trocar a data de nascimento do usuário")
-    print("11. Trocar o celular do usuário")
-    print("12. Trocar o email do usuário")
-    print("13. Trocar a senha do usuário")
-    opcao = input("Digite o número da opção desejada:")
-
-    if opcao == "1":
-        atualizar_descr_tarefa()
-    elif opcao == "2":
-        atualizar_cor_tarefa()
-    elif opcao == "3":
-        atualizar_titulo_tarefa()
-    elif opcao == "4":
-        atualizar_data_tarefa()
-    elif opcao == "5":
-        atualizar_hora_ini_tarefa()
-    elif opcao == "6":
-        atualizar_hora_fin_tarefa()
-    elif opcao == "7":
-        atualizar_notific()
-    elif opcao == "8":
-        atualizar_repetir()
-    elif opcao == "9":
-        atualizar_nome_usuario()
-    elif opcao == "10":
-        atualizar_data_nasc_tarefa()
-    elif opcao == "11":
-        atualizar_celular_usuario()
-    elif opcao == "12":
-        atualizar_email_usuario()
-    elif opcao == "13":
-        atualizar_senha_usuario()
-    else:
-        print("Opção inválida. Por favor, escolha uma opção válida.")
-
-# Exemplo de uso
-if __name__ == "__main__":
-    menu()
+    return jsonify({"message": "Nome do usuario atualizado com sucesso!"})

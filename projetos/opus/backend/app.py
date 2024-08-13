@@ -2,14 +2,22 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from processamento import processar_dados_cad, processar_dados_log, recuperar_cadastro
+from atualizar import atualizar_cad
 
 #Aplica o Flask
 app = Flask(__name__)
 # Permite apenas solicitações do domínio 'http://localhost:5173'
-CORS(app, resources={r"/receber_dados": {"origins": "http://10.135.60.16:8085"}})
+CORS(app, resources={r"/receber_dados": {"origins": "http://10.135.60.21:8085"}})
 #Configura o CORS para lidar com origens diferentes
 CORS(app)
 
+
+@app.route('/atualizar_cad', methods=['POST'])
+def atualizar_nome_usuario():
+    data = request.get_json()
+    if data.get('acao') == 'update_cad':
+        ret = atualizar_cad(data)
+    return jsonify(ret)
 #Define uma rota 
 @app.route('/receber_dados', methods=['POST'])
 #Função para receber dados e direcionar para o txt
@@ -46,4 +54,4 @@ def receber_dados():
 #Executa a aplicação
 if __name__ == '__main__':
     #Inicia o Flask
-    app.run(port=8085, host='10.135.60.16', debug=True, threaded=True)
+    app.run(port=8085, host='10.135.60.21', debug=True, threaded=True)

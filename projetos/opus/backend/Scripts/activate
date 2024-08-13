@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Aluno\Documents\GitHub\aulas_senai_eu\SEGUNDOSEMESTRE\opus\backend"
+VIRTUAL_ENV="C:\Users\Aluno\Documents\GitHub\aula_senai\projetos\opus\backend"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

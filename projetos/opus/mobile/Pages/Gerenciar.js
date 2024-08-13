@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, KeyboardAvoidingView, ScrollView, Alert, TouchableOpacity, Image } from 'react-native';
 import Gerenciarstyles from '../Componentes/Gerenciarstyles';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Gerenciarr = ({ navigation }) => {
     const [nome, setNome] = useState('');
@@ -10,19 +11,61 @@ const Gerenciarr = ({ navigation }) => {
     const [confirmarSenhaGer, setConfirmarSenhaGer] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
-    const [novaSenhaGer, setnovaSenhaGer] = useState('');
+    const [novaSenhaGer, setNovaSenhaGer] = useState('');
+    const [userId, setUserId] = useState(null); // Estado para armazenar o ID do usuário
 
-    const handleGerenciar = () => {
+    useEffect(() => {
+        // Recuperar o ID do usuário armazenado no AsyncStorage
+        const getUserId = async () => {
+            try {
+                const id = await AsyncStorage.getItem('ID');
+                if (id !== null) {
+                    setUserId(id);
+                }
+            } catch (error) {
+                console.error('Erro ao recuperar o ID do usuário:', error);
+            }
+        };
+
+        getUserId();
+    }, []);
+
+    const handleGerenciar = async () => {
         if (novaSenhaGer !== confirmarSenhaGer) {
             Alert.alert("Erro: As senhas não coincidem!");
             return;
         }
-        console.log("Nome: ", nome);
-        console.log("Data de Nascimento: ", dataNascimento);
-        console.log("Senha: ", novaSenhaGer);
-        console.log("Confirmar Senha: ", confirmarSenhaGer);
-        console.log("E-mail: ", email);
-        console.log("Telefone: ", telefone);
+
+        const data = {
+            id: userId, // Usar o ID do usuário recuperado
+            nome: nome,
+            data_nascimento: dataNascimento,
+            senha: novaSenhaGer, // Usando a nova senha inserida
+            email: email,
+            celular: telefone
+        };
+
+        try {
+            await fetch('http://10.135.60.21:8085/atualizar_cad', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({  acao: 'update_cad',
+                                        id: data.id, 
+                                        nome: data.nome, 
+                                        data_nascimento: data.data_nascimento,
+                                        celular: data.celular,
+                                        email: data.email,
+                                        senha: data.senha
+                                    }),
+            });
+
+            Alert.alert("Dados atualizados com sucesso!");
+        } catch (error) {
+            console.error(error);
+            Alert.alert("Erro ao atualizar dados!");
+        }
     };
 
     const [senhaVisivel, setSenhaVisivel] = useState({
@@ -56,7 +99,7 @@ const Gerenciarr = ({ navigation }) => {
                         <Text style={Gerenciarstyles.textActualSenha}>Senha atual:</Text>
                         <View style={Gerenciarstyles.inputContainer}>
                             <TextInput
-                                style={Gerenciarstyles.inputField} 
+                                style={Gerenciarstyles.inputField}
                                 autoCorrect={false}
                                 value={senhaGer}
                                 onChangeText={setSenhaGer}
@@ -74,10 +117,10 @@ const Gerenciarr = ({ navigation }) => {
                         <Text style={Gerenciarstyles.textNewSenha}>Nova senha:</Text>
                         <View style={Gerenciarstyles.inputContainer}>
                             <TextInput
-                                style={Gerenciarstyles.inputField} 
+                                style={Gerenciarstyles.inputField}
                                 autoCorrect={false}
                                 value={novaSenhaGer}
-                                onChangeText={setnovaSenhaGer}
+                                onChangeText={setNovaSenhaGer}
                                 accessibilityLabel="Nova Senha Gerenciar"
                                 secureTextEntry={!senhaVisivel.novaSenhaGer}
                                 maxLength={30}
@@ -90,7 +133,7 @@ const Gerenciarr = ({ navigation }) => {
                         <Text style={Gerenciarstyles.textConfSenha}>Confirmar senha:</Text>
                         <View style={Gerenciarstyles.inputContainer}>
                             <TextInput
-                                style={Gerenciarstyles.inputField} 
+                                style={Gerenciarstyles.inputField}
                                 autoCorrect={false}
                                 value={confirmarSenhaGer}
                                 onChangeText={setConfirmarSenhaGer}
@@ -105,15 +148,15 @@ const Gerenciarr = ({ navigation }) => {
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.email}>
-                        <Text style={Gerenciarstyles.textExEmail}>example@gmail.com</Text>
+                        <Text style={Gerenciarstyles.textExEmail}></Text>
                         <Text style={Gerenciarstyles.textNewEmail}>Novo e-mail:</Text>
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.telefone}>
-                        <Text style={Gerenciarstyles.textActualTelefone}>(19) 994132161</Text>
+                        <Text style={Gerenciarstyles.textActualTelefone}></Text>
                         <Text style={Gerenciarstyles.textNewTelefone}>Novo telefone:</Text>
-                        <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={setTelefone} />
+                        <TextInput style={Gerenciarstyles.input}  onChangeText={setTelefone} />
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.btnBox}>
