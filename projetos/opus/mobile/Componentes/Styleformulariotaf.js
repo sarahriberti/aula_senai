@@ -50,6 +50,8 @@ export default stylesTaf = StyleSheet.create({
         backgroundColor: '#252942',
         width: '100%',
         height: 40,
+        color:'white',
+        fontSize:17
     },
     dateTarefa: {
         marginTop: 20,
@@ -137,6 +139,7 @@ export default stylesTaf = StyleSheet.create({
         marginTop: 20,
         width: '90%',
         height: 40,
+        
     },
     picker: {
         height: 50,
@@ -145,6 +148,7 @@ export default stylesTaf = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         marginBottom: 20,
+        color:'white'
     },
     dropdown: {
         backgroundColor: '#252942', // Altere 'blue' para a cor desejada do dropdown
@@ -188,4 +192,8 @@ export default stylesTaf = StyleSheet.create({
         color: 'white',
         fontSize: 17,
     },
+    descrCampo:{
+        color:'white',
+        fontSize:17
+    }
 });

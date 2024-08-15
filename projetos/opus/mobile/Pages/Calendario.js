@@ -1,32 +1,50 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, Text, StyleSheet, Pressable } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
-import ToDoList from '../Componentes/FormularioTaf';
+import FormularioTaf from '../Componentes/FormularioTaf';
 
-// Configuração de localidade (opcional)
+// Configuração de localidade
 LocaleConfig.locales['pt'] = {
   monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
   monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+  dayNames: ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'],
   dayNamesShort: ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'],
   today: 'Hoje'
 };
 LocaleConfig.defaultLocale = 'pt';
 
 const TodoListScreen = ({ navigation }) => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [tasks, setTasks] = useState({});
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Definir a data atual como valor inicial
+  const [tasks, setTasks] = useState([]);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [isModalVisible4, setModalVisible4] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString);
   };
 
-  const openTodoListModal = () => {
-    setModalVisible3(false);
-    setModalVisible4(true);
+  const getFormattedDate = (dateString) => {
+    if (!dateString) return ''; // Retorna vazio se dateString for inválido
+
+    const date = new Date(dateString);
+    const daysOfWeek = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
+    const dayOfWeek = daysOfWeek[date.getDay()];
+    date.setHours(date.getHours() + date.getTimezoneOffset() / 60);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${dayOfWeek} - ${day}/${month}/${year}`;
+  };
+
+  const handleAddTask = (task) => {
+    setTasks((prevTasks) => [...prevTasks, task]); // Adiciona a nova tarefa à lista
+  };
+
+  const openTodoListModal = (task) => {
+    setSelectedTask(task);
+    setModalVisible3(true);
   };
 
   return (
@@ -35,8 +53,10 @@ const TodoListScreen = ({ navigation }) => {
         <Calendar
           onDayPress={handleDayPress}
           markedDates={{
-            ...Object.keys(tasks).reduce((acc, date) => {
-              acc[date] = { marked: true, dotColor: '#ffcc00' };
+            ...tasks.reduce((acc, task) => {
+              if (task.data) {
+                acc[task.data] = { marked: true, dotColor: '#546594' };
+              }
               return acc;
             }, {}),
             [selectedDate]: { selected: true, marked: true, selectedColor: '#ffcc00' }
@@ -45,12 +65,10 @@ const TodoListScreen = ({ navigation }) => {
             backgroundColor: '#34374f',
             calendarBackground: '#34374f',
             textSectionTitleColor: '#ffcc00',
-            textSectionTitleDisabledColor: '#d9e1e8',
             selectedDayBackgroundColor: '#ffcc00',
             selectedDayTextColor: '#34374f',
             todayTextColor: '#ffcc00',
             dayTextColor: '#ffffff',
-            textDisabledColor: 'gray',
             dotColor: '#ffcc00',
             selectedDotColor: '#ffffff',
             arrowColor: '#ffcc00',
@@ -101,8 +119,8 @@ const TodoListScreen = ({ navigation }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: '#34374f',
-                borderWidth: 1.5, // Adiciona a borda para as linhas de separação
-                borderColor: '#ffcc00', // Cor das linhas de separação
+                borderWidth: 1.5,
+                borderColor: '#ffcc00',
                 marginBottom: -15,
               },
               text: {
@@ -120,76 +138,55 @@ const TodoListScreen = ({ navigation }) => {
           }}
         />
         <View style={styles.caixa_tarefas}>
-          <Text style={styles.TextHeader}>QUINTA - 07/05/2024</Text>
-          <Pressable style={styles.Tarefa} onPress={() => setModalVisible3(true)}>
-            <Text style={styles.Text}>Dentista</Text>
-          </Pressable>
-          <Pressable style={styles.Tarefa} onPress={() => setModalVisible3(true)}>
-            <Text style={styles.Text}>Aniversario</Text>
-          </Pressable>
-          <Pressable style={styles.Tarefa} onPress={() => setModalVisible3(true)}>
-            <Text style={styles.Text}>Espanhol</Text>
-          </Pressable>
+          <Text style={styles.TextHeader}>
+            {getFormattedDate(selectedDate)}
+          </Text>
+          {tasks
+            .filter(task => task.data === selectedDate)
+            .map((task, index) => (
+              <Pressable
+                key={index}
+                style={[styles.Tarefa, { backgroundColor: task.cor || '#252942' }]}
+                onPress={() => openTodoListModal(task)}
+              >
+                <Text style={styles.Text}>{task.titulo}</Text>
+              </Pressable>
+            ))}
         </View>
         <Tarefas
           modalVisible3={modalVisible3}
           setModalVisible3={setModalVisible3}
-          navigation={navigation}
-          openTodoListModal={openTodoListModal}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+          openTodoListModal={() => setModalVisible4(true)}
         />
-        <ToDoList isModalVisible4={isModalVisible4} setModalVisible4={setModalVisible4} />
+        <FormularioTaf
+          isModalVisible4={isModalVisible4}
+          setModalVisible4={setModalVisible4}
+          onAddTask={handleAddTask}
+        />
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  teste: {
-    height: 200,
-    backgroundColor: 'red',
-  },
   container: {
     flex: 1,
     backgroundColor: '#34374f',
     padding: 20,
     marginTop: 0,
   },
-  taskInputContainer: {
-    paddingHorizontal: 20,
-    marginVertical: 25,
+  caixa_tarefas: {
+    marginTop: 10,
+    backgroundColor: '#546594',
+    borderRadius: 10,
+    padding: 5,
   },
-  input: {
-    borderColor: '#ffcc00',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    height: 40,
-    color: '#ffffff',
-  },
-  timePickerText: {
-    paddingVertical: 10,
-    color: '#ffcc00',
-  },
-  taskContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ffcc00',
-  },
-  taskTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  taskDescription: {
-    fontSize: 14,
-    color: '#d9e1e8',
-  },
-  taskCategory: {
-    fontSize: 14,
-    color: '#7fffd4',
-  },
-  taskTime: {
-    fontSize: 14,
-    color: '#ff6347',
+  TextHeader: {
+    color: 'gold',
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   Tarefa: {
     backgroundColor: '#252942',
@@ -203,21 +200,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold'
   },
-  caixa_tarefas: {
-    marginTop: 10,
-    backgroundColor: '#546594',
-    borderRadius: 10,
-    padding: 5,
-  },
-  TextHeader: {
-    color: 'gold',
-    textAlign: 'center',
-    fontWeight: 'bold'
-  },
-  button: {
-    marginTop: 10,
-    borderRadius: 20,
-    borderWidth: 20,
-  }
 });
+
 export default TodoListScreen;

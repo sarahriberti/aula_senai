@@ -6,9 +6,8 @@ import { Picker } from '@react-native-picker/picker';
 import stylesTaf from './Styleformulariotaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
+export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAddTask }) {
     const [selectedDate, setSelectedDate] = useState(null);
-
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [startHour, setStartHour] = useState(null);
     const [endHour, setEndHour] = useState(null);
@@ -16,40 +15,44 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
     const [showEndTimePicker, setShowEndTimePicker] = useState(false);
     const [notificationEnabled, setNotificationEnabled] = useState(false);
     const [selectedRepeatOption, setSelectedRepeatOption] = useState('none');
-
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [color, setColor] = useState('#252942'); // Adicionado para cor
 
     const toggleModal = () => {
-        if (isModalVisible4) {
-            clearForm();
+        if (!isModalVisible4) {
+            clearForm(); // Limpa o formulário ao abrir o modal
         }
         setModalVisible4(!isModalVisible4);
     };
 
-    const handleDateChange = (event, selectedDate) => {
+    const handleDateChange = (event, date) => {
         setShowDatePicker(false);
-        if (selectedDate) {
-            setSelectedDate(new Date(selectedDate));
+        if (date) {
+            setSelectedDate(date); // Atualiza o estado da data selecionada
         }
     };
 
-    const handleStartTimeChange = (event, selectedTime) => {
+    const setDate = (date) => {
+        setSelectedDate(date); // Função para setar a data externamente ou limpar se for null
+    };
+
+    const handleStartTimeChange = (event, time) => {
         setShowStartTimePicker(false);
-        if (selectedTime) {
-            setStartHour(new Date(selectedTime));
+        if (time) {
+            setStartHour(time); // Atualiza o estado da hora de início
         }
     };
 
-    const handleEndTimeChange = (event, selectedTime) => {
+    const handleEndTimeChange = (event, time) => {
         setShowEndTimePicker(false);
-        if (selectedTime) {
-            setEndHour(new Date(selectedTime));
+        if (time) {
+            setEndHour(time); // Atualiza o estado da hora de término
         }
     };
 
     const handleRepeatChange = (itemValue) => {
-        setSelectedRepeatOption(itemValue);
+        setSelectedRepeatOption(itemValue); // Atualiza o estado da repetição
     };
 
     const clearForm = () => {
@@ -60,12 +63,13 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
         setDescription('');
         setNotificationEnabled(false);
         setSelectedRepeatOption('none');
+        setColor('#252942'); // Resetando cor
     };
 
     const saveTask = async () => {
         const task = {
             acao: 'salvar_tarefa',
-            cor: null,
+            cor: color,
             titulo: title,
             data: selectedDate ? selectedDate.toISOString().split('T')[0] : null,
             hora_ini: startHour instanceof Date ? startHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
@@ -77,14 +81,14 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
         };
 
         try {
-            const response = await fetch('http://10.135.60.16:8085/receber_dados', {
+            const response = await fetch('http://10.135.60.25:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(task),
             });
-            // Verifica o tipo de conteúdo da resposta
+
             const contentType = response.headers.get('Content-Type');
             if (contentType && contentType.includes('application/json')) {
                 const result = await response.json();
@@ -92,16 +96,16 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                     console.error(result.mensagens);
                 } else {
                     console.log(result.mensagem);
-                    clearForm(); // Limpar o formulário após salvar a tarefa
+                    clearForm();
                     toggleModal(); // Fechar o modal após salvar a tarefa
+                    onAddTask(task); // Notifica o pai que uma nova tarefa foi adicionada
                 }
             } else {
-                // Se o tipo de conteúdo não for JSON, exibe o texto da resposta
                 console.error('Resposta do servidor não é JSON:', await response.text());
             }
         } catch (error) {
             console.error('Erro ao salvar a tarefa:', error);
-        }          
+        }
     };
 
     return (
@@ -116,13 +120,6 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                             <View style={stylesTaf.nameBox}>
                                 <Text style={stylesTaf.titleModal}>TAREFA</Text>
                             </View>
-                            <View style={stylesTaf.color}>
-                                {/*</View><ColorPicker
-                                    onColorSelected={handleColorChange} // Atualiza o estado com a cor selecionada
-                                    style={{ flex: 1 }} // Ajuste conforme necessário
-                                />*/}
-                            </View>
-                            {/*<View style={[{ backgroundColor: selectedColor }]}></View>*/}
                             <View style={stylesTaf.titleTarefa}>
                                 <Text style={stylesTaf.txtTitle}>Título</Text>
                                 <TextInput
@@ -140,10 +137,10 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                                 </TouchableOpacity>
                                 {showDatePicker && (
                                     <DateTimePicker
-                                        value={selectedDate || new Date()} // Passe a data atual se a data ainda não foi selecionada
+                                        value={selectedDate || new Date()}
                                         mode="date"
                                         display="default"
-                                        onChange={handleDateChange}
+                                        onChange={handleDateChange} // Chamado ao selecionar a data
                                     />
                                 )}
                             </View>
@@ -160,7 +157,7 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                                             value={startHour || new Date()}
                                             mode="time"
                                             display="default"
-                                            onChange={handleStartTimeChange}
+                                            onChange={handleStartTimeChange} // Chamado ao selecionar a hora de início
                                         />
                                     )}
                                 </View>
@@ -176,7 +173,7 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                                             value={endHour || new Date()}
                                             mode="time"
                                             display="default"
-                                            onChange={handleEndTimeChange}
+                                            onChange={handleEndTimeChange} // Chamado ao selecionar a hora de término
                                         />
                                     )}
                                 </View>
@@ -204,34 +201,28 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                                     selectedValue={selectedRepeatOption}
                                     onValueChange={handleRepeatChange}
                                     style={stylesTaf.picker}
-                                    mode="dropdown" // Define o modo como dropdown
-                                    dropdownIconColor={'white'} // Define a cor do ícone de dropdown
-                                    dropdownStyle={stylesTaf.dropdown} // Estiliza o dropdown
+                                    mode="dropdown"
+                                    dropdownIconColor={'white'}
                                 >
                                     <Picker.Item
                                         label="Não Repetir"
                                         value="none"
-                                        style={stylesTaf.pickerItemNone}
                                     />
                                     <Picker.Item
                                         label="Diariamente"
                                         value="daily"
-                                        style={stylesTaf.pickerItemDaily}
                                     />
                                     <Picker.Item
                                         label="Semanalmente"
                                         value="weekly"
-                                        style={stylesTaf.pickerItemWeekly}
                                     />
                                     <Picker.Item
                                         label="Mensalmente"
                                         value="monthly"
-                                        style={stylesTaf.pickerItemMonthly}
                                     />
                                     <Picker.Item
                                         label="Anualmente"
                                         value="yearly"
-                                        style={stylesTaf.pickerItemYearly}
                                     />
                                 </Picker>
                             </View>
@@ -246,7 +237,7 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                         </View>
                     </View>
                 </View>
-            </Modal >
-        </View >
-    )
+            </Modal>
+        </View>
+    );
 }
