@@ -18,6 +18,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('#252942'); // Adicionado para cor
+    const [errorMessage, setErrorMessage] = useState(''); // Adicionado para mensagem de erro
 
     const toggleModal = () => {
         if (!isModalVisible4) {
@@ -64,9 +65,17 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         setNotificationEnabled(false);
         setSelectedRepeatOption('none');
         setColor('#252942'); // Resetando cor
+        setErrorMessage(''); // Limpa a mensagem de erro ao limpar o formulário
     };
 
     const saveTask = async () => {
+        if (!title || !selectedDate || !startHour || !endHour) {
+            setErrorMessage('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+
+        setErrorMessage(''); // Limpa a mensagem de erro se tudo estiver preenchido
+
         const task = {
             acao: 'salvar_tarefa',
             cor: color,
@@ -200,33 +209,55 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                 <Picker
                                     selectedValue={selectedRepeatOption}
                                     onValueChange={handleRepeatChange}
-                                    style={stylesTaf.picker}
-                                    mode="dropdown"
+                                    style={stylesTaf.pickerRepeat}
+                                    mode='dropdown'
                                     dropdownIconColor={'white'}
+                                    dropdownStyle={stylesTaf.dropdown}
                                 >
                                     <Picker.Item
                                         label="Não Repetir"
                                         value="none"
+                                        style={stylesTaf.pickerItemNone}
                                     />
                                     <Picker.Item
                                         label="Diariamente"
                                         value="daily"
+                                        style={stylesTaf.pickerItemDaily}
                                     />
                                     <Picker.Item
                                         label="Semanalmente"
                                         value="weekly"
+                                        style={stylesTaf.pickerItemWeekly}
                                     />
                                     <Picker.Item
                                         label="Mensalmente"
                                         value="monthly"
+                                        style={stylesTaf.pickerItemMonthly}
                                     />
-                                    <Picker.Item
+                                     <Picker.Item
                                         label="Anualmente"
                                         value="yearly"
+                                        style={stylesTaf.pickerItemYearly}
                                     />
                                 </Picker>
                             </View>
                         </View>
+                        
+                        {errorMessage ? (
+                            <View style={{
+                                backgroundColor: '#ffcccc',
+                                borderColor: '#ff4d4d',
+                                borderWidth: 1,
+                                borderRadius: 5,
+                                padding: 10,
+                                marginBottom: 10,
+                            }}>
+                                <Text style={{ color: '#b30000', textAlign: 'center' }}>
+                                    {errorMessage}
+                                </Text>
+                            </View>
+                        ) : null}
+
                         <View style={stylesTaf.btnBox}>
                             <TouchableOpacity onPress={toggleModal}>
                                 <Text style={stylesTaf.btnCancelar}>Cancelar</Text>

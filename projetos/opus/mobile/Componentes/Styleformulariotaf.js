@@ -138,20 +138,20 @@ export default stylesTaf = StyleSheet.create({
     repeatTarefa: {
         marginTop: 20,
         width: '90%',
-        height: 40,
-        
+        height: 50,
+        backgroundColor: '#252942',
     },
-    picker: {
+    pickerRepeat: {
         height: 50,
         width: '100%',
         backgroundColor: '#252942',
         borderRadius: 10,
         paddingHorizontal: 10,
         marginBottom: 20,
-        color:'white'
+
     },
     dropdown: {
-        backgroundColor: '#252942', // Altere 'blue' para a cor desejada do dropdown
+        
         borderRadius: 10,
         marginTop: 2, // Ajuste conforme necessário
     },
