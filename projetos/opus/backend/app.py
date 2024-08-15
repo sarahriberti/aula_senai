@@ -1,13 +1,13 @@
 #Importa o Flask para criar a aplicação
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from processamento import processar_dados_cad, processar_dados_log, recuperar_cadastro
+from processamento import processar_dados_cad, processar_dados_log, recuperar_cadastro, processar_dados_tarefa
 from atualizar import atualizar_cad
 
 #Aplica o Flask
 app = Flask(__name__)
 # Permite apenas solicitações do domínio 'http://localhost:5173'
-CORS(app, resources={r"/receber_dados": {"origins": "http://10.135.60.21:8085"}})
+#CORS(app, resources={r"/receber_dados": {"origins": "http://10.135.60.21:8085"}})
 #Configura o CORS para lidar com origens diferentes
 CORS(app)
 
@@ -29,9 +29,11 @@ def receber_dados():
 
     #Inicializa uma variável de retorno
     ret = ''
-    print(dados)
+
+    if dados.get('acao') == 'salvar_tarefa': 
+        ret = processar_dados_tarefa (dados)
     #Verifica se a chave 'email_log' está presente nos dados
-    if dados.get('email_log') is None and dados.get('id_usuario') is None and dados.get('cardNumber') is None:
+    elif dados.get('email_log') is None and dados.get('id_usuario') is None and dados.get('cardNumber') is None:
         #Se 'email_log' não estiver presente, chama a função para processar dados de cadastro
         ret = processar_dados_cad(dados)
     elif dados.get('email_log') is not None and dados.get('id_usuario') is None:

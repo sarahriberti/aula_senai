@@ -1,4 +1,3 @@
-from gravar_arquivo import gravar_em_arquivo, gravar_em_arquivo_log
 from validacoes import (
     validar_nome,
     validar_data_nascimento,
@@ -102,7 +101,6 @@ def processar_dados_tarefa(dados):
     # Função para processar os dados recebidos do Flask
     # Retorna os dados processados
     dados_processados_to_do = dados
-    ID_Usu = dados.get('ID_Usu') # Obtem o ID do usuário dos dados
 
     # Chama a função para gravar os dados no banco de dados
     Gravar_BD.gravar_tarefas(
@@ -114,7 +112,7 @@ def processar_dados_tarefa(dados):
         dados_processados_to_do['notific'],
         dados_processados_to_do['descr'],
         dados_processados_to_do['repetir'],
-        ID_Usu
+        dados_processados_to_do['ID']
     )
     return {'erro': False, 'mensagem': 'Tarefa gravada com sucesso!'}
 
@@ -138,7 +136,3 @@ def recuperar_cadastro(dados):
             # Dados de login incorretos
         print(geren)
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'ID não encontrado ou inexistente'}]}
-
-#Função para processar os dados das doações
-#Autor: Emily
-#Data de criação: 16/05/2024

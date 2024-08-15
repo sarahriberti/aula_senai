@@ -3,7 +3,7 @@ import { View, Pressable, Text, Image, TouchableOpacity, TextInput } from 'react
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import stylesTaf from '../Componentes/Styleformulariotaf'
+import stylesTaf from './Styleformulariotaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
@@ -84,19 +84,24 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                 },
                 body: JSON.stringify(task),
             });
-
-            const result = await response.json();
-
-            if (result.erro) {
-                console.error(result.mensagens);
+            // Verifica o tipo de conteúdo da resposta
+            const contentType = response.headers.get('Content-Type');
+            if (contentType && contentType.includes('application/json')) {
+                const result = await response.json();
+                if (result.erro) {
+                    console.error(result.mensagens);
+                } else {
+                    console.log(result.mensagem);
+                    clearForm(); // Limpar o formulário após salvar a tarefa
+                    toggleModal(); // Fechar o modal após salvar a tarefa
+                }
             } else {
-                console.log(result.mensagem);
-                clearForm(); // Limpar o formulário após salvar a tarefa
-                toggleModal(); // Fechar o modal após salvar a tarefa
+                // Se o tipo de conteúdo não for JSON, exibe o texto da resposta
+                console.error('Resposta do servidor não é JSON:', await response.text());
             }
         } catch (error) {
             console.error('Erro ao salvar a tarefa:', error);
-        }
+        }          
     };
 
     return (
@@ -112,7 +117,12 @@ export default function ToDoList({ isModalVisible4, setModalVisible4 }) {
                                 <Text style={stylesTaf.titleModal}>TAREFA</Text>
                             </View>
                             <View style={stylesTaf.color}>
+                                {/*</View><ColorPicker
+                                    onColorSelected={handleColorChange} // Atualiza o estado com a cor selecionada
+                                    style={{ flex: 1 }} // Ajuste conforme necessário
+                                />*/}
                             </View>
+                            {/*<View style={[{ backgroundColor: selectedColor }]}></View>*/}
                             <View style={stylesTaf.titleTarefa}>
                                 <Text style={stylesTaf.txtTitle}>Título</Text>
                                 <TextInput
