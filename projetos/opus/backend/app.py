@@ -11,7 +11,6 @@ app = Flask(__name__)
 #Configura o CORS para lidar com origens diferentes
 CORS(app)
 
-
 @app.route('/atualizar_cad', methods=['POST'])
 def atualizar_nome_usuario():
     data = request.get_json()
@@ -56,4 +55,4 @@ def receber_dados():
 #Executa a aplicação
 if __name__ == '__main__':
     #Inicia o Flask
-    app.run(port=8085, host='10.135.60.21', debug=True, threaded=True)
+    app.run(port='8085', host='10.135.60.21', debug=True, threaded=True)
