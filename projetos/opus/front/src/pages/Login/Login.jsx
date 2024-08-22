@@ -5,12 +5,13 @@
 import './Login.css';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 /*Fim das importações*/
 
 // Componente para a página de login
-const Login = () => {
-    const navigate = useNavigate(); // >>> Instancia o hook useNavigate para navegar entre as páginas <<<
+const Login = ({navigate}) => {
+    const internalNavigate = useNavigate(); // >>> Instancia o hook useNavigate para navegar entre as páginas <<<
 
     const [formValues, setFormValues] = useState({
         email_log: '',
@@ -30,7 +31,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const resposta = await fetch('http://10.135.60.16:8085/receber_dados', {
+            const resposta = await fetch('http://10.135.60.23:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +96,10 @@ const Login = () => {
                         {/* Link para a página do cadastro */}
                         <li className="text_return">
                             <Link to="/Cadastro">Não possui conta? Cadastre-se</Link>
+                            <Link to="/EsqueciSenha">Esqueceu a senha ?</Link>
                         </li>
+                        
+
                         <h3>Login com</h3>
                         {/* Botões de login com Google e Facebook */}
                         <div className="logininferior">
