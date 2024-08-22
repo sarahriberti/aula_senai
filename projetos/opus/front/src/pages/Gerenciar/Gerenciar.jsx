@@ -1,28 +1,21 @@
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import './Gerenciar.css';
 import MenuLateral from '../../components/Menu_Lateral';
-import Avatar from './pages/Avatar';
-import './Gerenciar.css'
-import Confirmacao from '../../components/confirmacao';
-
 
 function Gerenciar() {
   const [dadosUsuario, setDadosUsuario] = useState({
+    acao: 'update_cad',
     nome: '',
-    dataNascimento: '',
+    data_nascimento: '',
     email: '',
-    telefone: '',
+    celular: '',
+    senhaveia: '',
+    senha: '',
+    confirmarNovaSenha: '',
     id: localStorage.getItem('id')
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,47 +24,69 @@ function Gerenciar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Dados do usuário atualizados', dadosUsuario)
+    console.log('Dados do usuário atualizados', dadosUsuario);
     try {
-      const response = await fetch('http://10.135.16:8085/atualizar_dados', {
+      const response = await fetch('http://10.135.60.21:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(dadosUsuario)
       });
-      const resultado= await response.json();
-      console.log('Resultado da atualização', resultado)
 
-      // Lógica para atualizar os dados na página após o salvamento
-      // Pode incluir uma mensagem de sucesso, etc.
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: ${response.statusText}`);
+      }
+
+      const resultado = await response.json();
+      console.log('Resultado da atualização', resultado.sucesso);
+
+      if (resultado.sucesso) {
+        alert('Dados atualizados com sucesso!');
+      } else {
+        alert('Falha ao atualizar os dados.');
+      }
     } catch (error) {
       console.error('Erro ao atualizar dados:', error);
+      alert('Erro ao atualizar os dados.');
     }
   };
 
   useEffect(() => {
     const buscarDadosUsuario = async () => {
-      console.log(localStorage.getItem('id'))
+      console.log("Iniciando busca dos dados do usuário...");
+      const userId = localStorage.getItem('id');
+      console.log("ID do usuário:", userId);
+
       try {
         const response = await fetch('http://10.135.60.16:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            id_usuario: localStorage.getItem('id')
-          })
+          body: JSON.stringify({ id_usuario: userId })
         });
+
+        if (!response.ok) {
+          console.error('Erro na resposta da API:', response.status);
+          return;
+        }
+
         const data = await response.json();
-        console.log(data);
-        setDadosUsuario({
-          nome: data.mensagem[1],
-          dataNascimento: data.mensagem ? data.mensagem[2] : '',
-          email: data.mensagem ? data.mensagem[4] : '',
-          telefone: data.mensagem ? data.mensagem[3] : ''
-        });
-        
+        console.log("Dados recebidos:", data);
+
+        if (data && data.mensagem) {
+          setDadosUsuario((prevState) => ({
+            ...prevState,
+            nome: data.mensagem[1] || '',
+            data_nascimento: data.mensagem[2] ? formatarData(data.mensagem[2]) : '',
+            email: data.mensagem[4] || '',
+            celular: data.mensagem[3] || ''
+          }));
+        } else {
+          console.error('Estrutura de dados inesperada:', data);
+        }
+
       } catch (error) {
         console.error('Erro ao buscar dados do usuário:', error);
       }
@@ -81,179 +96,106 @@ function Gerenciar() {
   }, []);
 
   const formatarData = (data) => {
-    if (!data) return ''; // Retorna vazio se a data não estiver definida
-  
     const partes = data.split(' ');
-    const dia = partes[1]; // Pegando o dia
-    const mesAbreviado = partes[2]; // Pegando o mês
+    const dia = partes[1];
+    const mesAbreviado = partes[2];
     const ano = partes[3];
-  
-    // Mapeia os meses abreviados para seus números correspondentes
+
     const mesesAbreviados = {
       'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
       'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
     };
-  
-    // Verifica se o ano já está digitado (quando tem 4 dígitos consideramos que o ano foi digitado)
-    const anoCompleto = ano.length === 4 ? ano : '';
-  
-    const mesNumero = mesesAbreviados[mesAbreviado]; // Obtém o número do mês a partir do objeto de meses
-  
-    // Retorna a data formatada apenas se o ano já estiver completo
-    return anoCompleto ? `${anoCompleto}-${mesNumero}-${dia}` : data;
-  };
-  
 
+    const mesNumero = mesesAbreviados[mesAbreviado];
+    return `${ano}-${mesNumero}-${dia}`;
+  };
 
   return (
-    <Tabs defaultActiveKey="profile" id="gerenciarconta" className="mb-3">
-      <Tab eventKey="menu-lat-geren" title={<MenuLateral />}>
-      </Tab>
-      <Tab className='dados-basic' eventKey="DadosBasicos" title="Dados Basicos">
-        <div className="dados-main">
-          <Form onSubmit={handleSubmit}>
-            <div className='alt-name'> {/* >>> ALTERAR NOME <<< */}
-              <Form.Label>Nome:</Form.Label>
-              <div>
-                <Form.Control className='space-name' type="text" autoFocus onChange={handleChange} value={dadosUsuario.nome} />
-              </div>
-            </div>
-            <div className='alt-date-born'> {/* >>> ALTERAR DATA DE NASCIMENTO <<< */}
-              <Form.Label>Data de nascimento:</Form.Label>
-              <div className='alt-date-box'>
-                <Form.Control className='space-date' type="date" autoFocus onChange={handleChange} value={formatarData(dadosUsuario.dataNascimento)} />
-              </div>
-            </div>
-            <div className='bbb'>
-              <Confirmacao />
-              <Button as="input" type="reset" value="Cancelar" className='cancelarr' />
-            </div>
-          </Form>
-
-        </div>
-      </Tab>
-
-      <Tab eventKey="Avatar" title="Avatar">
-        <div className="avatar-main">
-
-          <div className='avatar-actual'>
-            <div className='image-avatar'>
-              <h3>Novo avatar</h3>
-
-              <p>Avatar Atual</p>
-              <Container>
-                <Row>
-                  <Col xs={6} md={4}>
-                    <Image src="https://i.pinimg.com/236x/6e/0b/d3/6e0bd3a9e257f0525799347432abcd0d.jpg" rounded />
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-
-
-          </div>
-          <div className='avatar-new'>
-            <div className='avatar-text'>
-              <h6>Somente nos formatos JPG de preferência com 120x120 pixels</h6>
-              <Avatar />
-            </div>
-          </div>
-          <div className='bbb'>
-            <Confirmacao />
-            <Button as="input" type="reset" value="Cancelar" className='cancelar-avatar' />
-          </div>
-        </div>
-      </Tab>
-
-      <Tab eventKey="Senha" title="Senha">
-        <Form.Group controlId="formBasicPasswordNow">
-          <Form.Label>Senha atual:</Form.Label>
-          <Form.Control type="password" autoFocus />
-          <li>
-            <Link to="/EsqueciSenha">Esqueceu sua senha?</Link>
-          </li>
+    <div className="gerenciar-container">
+      <MenuLateral />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formNome">
+          <Form.Label className='nome-title'>Nome:</Form.Label>
+          <Form.Control
+            className='camp-name'
+            type="text"
+            name="nome"
+            value={dadosUsuario.nome}
+            onChange={handleChange}
+          />
         </Form.Group>
-        <Form.Group controlId="formBasicPasswordNew">
-          <Form.Label>Nova senha:</Form.Label>
-          <Form.Control type="password" />
+
+        <Form.Group controlId="formDataNascimento">
+          <Form.Label className='data-title'>Data de Nascimento:</Form.Label>
+          <input
+            className='camp-date'
+            type="text"
+            name="data_nascimento"
+            value={dadosUsuario.data_nascimento}
+            onChange={handleChange}
+          />
         </Form.Group>
-        <Form.Group controlId="formBasicPasswordConf">
-          <Form.Label>Confirmar senha:</Form.Label>
-          <Form.Control type="password" />
-          <div className='bbb'>
-            <Confirmacao />
-            <Button as="input" type="reset" value="Cancelar" className='cancelarr' />
-          </div>
+
+        <Form.Group controlId="formEmail">
+          <Form.Label className='email-title'>Email:</Form.Label>
+          <Form.Control
+            className='camp-email'
+            type="email"
+            name="email"
+            value={dadosUsuario.email}
+            onChange={handleChange}
+          />
         </Form.Group>
-      </Tab>
-      <Tab eventKey="Email" title="Email">
-        <div className="email-main">
-          <Form>
-            <div className='actual-email'>
-              <p>E-mail Atual</p>
-              <h6>{dadosUsuario.email}</h6>
-            </div>
-            <div className='new-password'>
-              <Form.Label>Novo e-mail:</Form.Label>
-              <div>
-                <Form.Control className='space-new-email'
-                  type="email"
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className='confirm'>
-              <Form.Label>Senha:</Form.Label>
-              <div>
-                <Form.Control className='space-password-opus'
-                  type="password"
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className='bbb2'>
-              <Confirmacao />
-              <Button as="input" type="reset" value="Cancelar" className='cancelarr' />
-            </div>
 
-          </Form>
-        </div>
-      </Tab>
-      <Tab eventKey="Telefone" title="Telefone">
-        <div className="telefone-main">
-          <Form>
-            <div className='actual-tel'>
-              <p>Telefone Atual</p>
-              <h6>{dadosUsuario.telefone}</h6>
-            </div>
-            <div className='new-password'>
-              <Form.Label>Novo telefone:</Form.Label>
-              <div>
-                <Form.Control className='space-user'
-                  type="text"
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className='confirm'>
-              <Form.Label >Senha:</Form.Label>
-              <div>
-                <Form.Control className='space-password-opustel'
-                  type="password"
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className='bbb'>
-              <Confirmacao />
-              <Button as="input" type="reset" value="Cancelar" className='cancelarr' />
-            </div>
+        <Form.Group controlId="formTelefone">
+          <Form.Label className='telefone-title'>Telefone:</Form.Label>
+          <Form.Control
+            className='camp-phone'
+            type="text"
+            name="celular"
+            value={dadosUsuario.celular}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-          </Form>
-        </div>
-      </Tab>
+        <Form.Group controlId="formSenhaAtual">
+          <Form.Label className='senhaatual-title'>Senha Atual:</Form.Label>
+          <Form.Control
+            className='camp-actualpass'
+            type="password"
+            name="senhaveia"
+            value={dadosUsuario.senhaveia}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-    </Tabs>
+        <Form.Group controlId="formNovaSenha">
+          <Form.Label className='novasenha-title'>Nova Senha:</Form.Label>
+          <Form.Control
+            className='camp-newpass'
+            type="password"
+            name="senha"
+            value={dadosUsuario.senha}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formConfirmarNovaSenha">
+          <Form.Label className='confirmsenha-title'>Confirmar Nova Senha:</Form.Label>
+          <Form.Control
+            className='camp-confirmnewpass'
+            type="password"
+            name="confirmarNovaSenha"
+            value={dadosUsuario.confirmarNovaSenha}
+            onChange={handleChange}
+          />
+        </Form.Group>
+
+        <Button className='btn-update' variant="primary" type="submit">
+          Atualizar Dados
+        </Button>
+      </Form>
+    </div>
   );
 }
 

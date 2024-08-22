@@ -10,167 +10,45 @@ body {
 
 }
 
-/* >>> FINAL MENU <<< */
-/* >>> INÍCIO DADOS BÁSICOS <<< */
-li {
-  list-style: none;
-}
-
-.alt-date-box {
-  display: flex;
-  justify-content: space-between;
-  
-}
-
-.alt-day {
-  width: 200px;
-}
-
-.alt-month {
-  width: 200px;
-}
-
-.alt-year {
-  width: 200px;
-}
-
-.bbb {
-  display: flex;
-  width: 100%;
-}
-
-input.saver.btn.btn-primary {
-  width: 48%;
-}
-
-input.salvar-avatar.btn.btn-primary {
-  width: 15%;
-}
-
-input.cancelar-avatar.btn.btn-primary {
-  width: 100%;
-  border: none;
-  margin-top: 7px;
-  background-color: rgb(107, 120, 163);
-}
-
-button.linke.btn.btn-primary{
-  width: 50%;
-  border: none;
-  margin-left: 1px;
-  background-color:  rgb(107, 120, 163);
-  margin-bottom: 7px;
-  margin-top: 7px;
-}
-
-input.cancelarr.btn.btn-primary {
-  width: 50%;
-  border: none;
-  margin-left: 10px;
-  background-color: rgb(107, 120, 163);
-  margin-bottom: 7px;
-  margin-top: 7px;
-}
-
-.tab-content {
-  margin: auto;
-  width: 40%;
-  height: 400px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-}
-
-font {
-  color: rgb(255, 255, 255);
-}
-
-button#gerenciarconta-tab-Email {
-  background-color: #191D2A;
+/* >>> INÍCIO FORMS <<< */
+.nome-title{
   color: white;
-  border: 1px solid #fff;
 }
 
-button#gerenciarconta-tab-Email:hover {
-  background-color: rgb(107, 120, 163);
-
+.camp-name{
+  width: 10px;
+  background-color: aqua;
 }
 
-button#gerenciarconta-tab-Telefone {
-  background-color: #191D2A;
+.data-title{
   color: white;
-  border: 1px solid #fff;
 }
 
-button#gerenciarconta-tab-Telefone:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-Avatar {
-  background-color: #191D2A;
+.email-title{
   color: white;
-  border: 1px solid #fff;
-  cursor: pointer;
 }
 
-button#gerenciarconta-tab-Avatar:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-Senha {
-  background-color: #191D2A;
+.email-atual{
   color: white;
-  border: 1px solid #fff;
 }
 
-button#gerenciarconta-tab-Senha:hover {
-  background-color: rgb(107, 120, 163);
-
-}
-
-button#gerenciarconta-tab-DadosBasicos {
-  background-color: #191D2A;
+.telefone-title{
   color: white;
-  border: 1px solid #fff;
-}
-button#gerenciarconta-tab-DadosBasicos:hover {
-  background-color: rgb(107, 120, 163);
-
 }
 
-button#gerenciarconta-tab-menu-lat-geren:hover{
-  background-color:  rgb(107, 120, 163);
-}
-ul.mb-3.nav.nav-tabs {
-  margin-top: 20px;
-}
-img.rounded {
-  width: 900px;
-}
-input.cancelar-avatar.btn.btn-primary {
-  width: 15%;
-  padding: 0px;
-  margin-left: 20px;
-  margin:  8px ;
-}
-button.chamar_menu.btn.btn-primary {
-  margin-top: -10px;
-}
-button#gerenciarconta-tab-menu-lat-geren {
-  width: 90px;
-  height: 41.5px;
-  background-color: #191D2A;
+.telefone-atual{
   color: white;
-  border: 1px solid #fff;
 }
 
-button#gerenciar-tab-menu-lat-geren:hover{
-  background-color: rgb(107, 120, 163);
- 
+.senhaatual-title{
+  color: white;
 }
 
-.bbb2 {
-  display: flex;
+.novasenha-title{
+  color: white;
 }
+
+.confirmsenha-title{
+  color: white;
+}
+/* >>> FINAL FORMS <<< */
