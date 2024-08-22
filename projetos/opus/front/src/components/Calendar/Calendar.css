@@ -1,104 +1,116 @@
-/* >>> INÍCIO RESET CSS <<< */
-
-/* >>> RESET BASICO DAS MÍDIAS <<< */
-
-object,
-embed,
-video,
-iframe,
-img {
-  max-width: 100%;
-  vertical-align: middle;
-}
-
-ul {
-  list-style: none;
-}
-
-.calendar {
-  /* >>> ALINHAMENTO DO CALENDÁRIO <<< */
-  text-align: center;
-  margin-top: 20px;
-}
-
-.calendar-header {
-  /* >>> ALINHAMENTO DO HEADER DO CALENDÁRIO <<< */
+.calendar-container {
+  margin-top: 30px;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  color: #D6B00F;
+  justify-content: flex-start; /* Alinha os itens no início da linha */
+  align-items: flex-start; /* Alinha os itens no topo */
 }
 
-.calendar-header button {
-  /* >>> ESTILIZAÇÃO DO BOTÃO PARA MUDAR O MÊS <<< */
-  background: none;
-  color: #D6B00F;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
+.calendar-wrapper {
+  width: 95%; /* Define o tamanho da div do calendário */
+  margin-right: 20px; /* Espaço entre o calendário e a lista de tarefas */
 }
 
-.calendar-grid {
-  /* >>> CONFIGURAÇÃO DE GRID DO CALENDÁRIO <<< */
+.react-calendar {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+  border:none;
+}
+
+.react-calendar__month-view__days {
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.react-calendar__tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  font-size: 1.5em;
+}
+
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  outline: none;
+  width: 400px;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+.Modal h2 {
+  margin-bottom: 20px;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
+.tasks-list {
+  margin-top: 0; /* Remove a margem superior */
+  border: solid 1px #ddd;
+  width: 50%;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+}
+
+.tasks-list ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.tasks-list li {
+  display: flex;
+  justify-content: space-between; /* Espaça o título e o botão */
+  align-items: center; /* Alinha verticalmente o título e o botão */
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f9f9f9; /* Cor de fundo sutil */
+  border-radius: 4px; /* Cantos levemente arredondados */
   width: 100%;
-
 }
 
-.day-of-week {
-  /* >>> CONFIGURAÇÃO DIA DA SEMANA <<< */
-  background-color: #C39910;
-  color: white;
-  border: 1px solid #A28408;
-  font-weight: bold;
-  padding: 8px;
+.tasks-list li:not(:last-child) {
+  margin-bottom: 15px; /* Espaçamento extra entre as tarefas */
 }
 
-
-.empty-day {
-  /* >>> CONFIGURAÇÃO DE DIA VAZIO <<< */
-  background-color: transparent;
+.tasks-list li::after {
+  content: '';
+  display: block;
+  margin-top: 10px;
+  /*border-bottom: 1px solid #ccc; /* Linha separadora */
 }
 
-.day {
-  /* >>> CONFIGURAÇÃO DO DIA <<< */
-  background-color: black;
-  text-align: left;
-  position: relative;
-
-  border: 1px solid #A28408;
-  cursor: pointer;
-  padding: 2px 0 0 3px;
+.tasks-list li:last-child::after {
+  border-bottom: none; /* Remove a linha após a última tarefa */
 }
 
-.day-number {
-  /* >>> CONFIGURAÇÃO DO NÚMERO DO DIA <<< */
-  font-weight: bold;
-  font-size: 100%;
-  color: white;
+.tasks-list li span {
+  font-size: 16px; /* Tamanho de fonte das tarefas */
+  font-weight: 500; /* Peso da fonte */
+  flex: 1;
 }
 
-.event {
-  /* >>> CONFIGURAÇÃO DO EVENT <<< */
-  background-color: #3498db;
-  color: white;
-  padding: 4px;
-  margin: 2px;
+.tasks-list li button {
+  font-size: 14px; /* Tamanho de fonte dos botões */
+  white-space: nowrap; /* Impede que o botão quebre para a linha seguinte */
 }
-
-h1 {
-  /* >>> CONFIGURAÇÃO DO H1 <<< */
-  margin: 0;
-}
-
-button.btn.btn-primary {
-  /* >>> CONFIGURAÇÃO DO BOTÃO TO-DO <<< */
-  background-color: transparent;
-  border: none;
-
-}
-
-.comp_menu {
-  margin-left: -12px;
+.addtask{
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

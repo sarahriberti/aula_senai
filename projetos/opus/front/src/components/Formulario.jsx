@@ -66,7 +66,7 @@ function Formulario() {
   return (
     <>
       <Button id='adicionar-click' variant="primary" onClick={handleShow} className='butao3'> {/* >>> BOTÃO PARA ADICIONAR COMPROMISSO <<< */}
-
+      <img src="/src/image/mais.png" alt="menu icon" width={50} />
       </Button>
 
       <div className='main'> {/* >>> DIV MAIN <<< */}

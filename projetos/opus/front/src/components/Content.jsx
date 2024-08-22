@@ -4,7 +4,7 @@ import NotFound from "../pages/NotFound";
 import { Route, Routes } from "react-router-dom";
 import { Login } from "../pages/Login/Login";
 import { Cadastro } from "../pages/Cadastrar/Cadastro";
-import Calendario from "./Calendario";
+import Calendario from "./CalendarioOFC";
 import CadConcluido from "../pages/Cadastrar/CadConcluido";
 import Confirmacao from "./confirmacao";
 import Gerenciar from "../pages/Gerenciar/Gerenciar";
