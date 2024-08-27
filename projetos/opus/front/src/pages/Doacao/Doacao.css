@@ -4,17 +4,19 @@
     font-family: Arial, sans-serif;
 }
 
-.form-pag {
-    width: 400px;
+.form-pagss {
+    width: 600px;
     margin: 0 auto;
+    margin-left: 480px;
+    color:#C39910 ;
 }
 
-.form-pag label {
+.form-pagss label {
     display: block;
     margin-bottom: 10px;
 }
 
-.form-pag input {
+.form-pagss input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -23,7 +25,7 @@
     border-radius: 5px;
 }
 
-.form-pag button {
+.form-pagss button {
     background-color: #A28408;
     color: white;
     padding: 10px 20px;
@@ -32,7 +34,7 @@
     cursor: pointer;
 }
 
-.form-pag button:hover {
+.form-pagss button:hover {
     background-color: #C39910;
 }
 .menu_doacao {

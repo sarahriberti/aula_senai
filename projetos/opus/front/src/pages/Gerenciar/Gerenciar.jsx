@@ -113,9 +113,10 @@ function Gerenciar() {
   return (
     <div className="gerenciar-container">
       <MenuLateral />
-      <Form onSubmit={handleSubmit}>
+      <Form className='form-geren' onSubmit={handleSubmit}>
+        <h2 className='text-geren' >Gerenciar Conta</h2>
         <Form.Group controlId="formNome">
-          <Form.Label className='nome-title'>Nome:</Form.Label>
+          <Form.Label className='input-name'>Nome:</Form.Label>
           <Form.Control
             className='camp-name'
             type="text"
@@ -195,7 +196,7 @@ function Gerenciar() {
           Atualizar Dados
         </Button>
       </Form>
-    </div>
+      </div>
   );
 }
 

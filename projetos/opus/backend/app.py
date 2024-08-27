@@ -15,7 +15,6 @@ CORS(app)#, resources={r"/receber_dados": {"origins": "http://10.135.60.16:8085"
 def get_tasks():
     return jsonify(select_task.listar_tarefas())
 
-
 @app.route('/atualizar_cad', methods=['POST'])
 def atualizar_nome_usuario():
     data = request.get_json()
@@ -23,7 +22,6 @@ def atualizar_nome_usuario():
         ret = atualizar_cad(data)
     return jsonify(ret)
 #Define uma rota 
-
 
 @app.route('/receber_dados', methods=['POST'])
 #Função para receber dados e direcionar para o txt
@@ -38,7 +36,7 @@ def receber_dados():
     ret = ''
 
     if dados.get('acao') == 'salvar_tarefa': 
-        ret = processar_dados_tarefa (dados)
+        ret = processar_dados_tarefa(dados)
     #Verifica se a chave 'email_log' está presente nos dados
     elif dados.get('email_log') is None and dados.get('id_usuario') is None and dados.get('cardNumber') is None:
         #Se 'email_log' não estiver presente, chama a função para processar dados de cadastro

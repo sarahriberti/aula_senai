@@ -1,31 +1,62 @@
 import React, { useState } from 'react';
 import MenuLateral from '../../components/Menu_Lateral';
-import '../Doacao/Doacao.css'
+import '../Doacao/Doacao.css';
 
 function formatarValor(valor) {
-    // >>> Remove todos os caracteres não numéricos <<<
+    // Remove qualquer caractere não numérico
     const valorNumerico = valor.replace(/\D/g, '');
-
-    // >>> Formata o valor como um montante em reais (R$) <<<
-    const valorFormatado = Number(valorNumerico / 100).toLocaleString('pt-BR', {
+    // Adiciona a formatação com o símbolo R$
+    return (Number(valorNumerico) / 100).toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL',
     });
+}
 
-    return valorFormatado;
+function formatarNumeroCartao(numero) {
+    return numero.replace(/\s+/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+}
+
+function validarNumeroCartao(numero) {
+    const numeroLimpo = numero.replace(/\s+/g, '').replace(/\D/g, '');
+
+    if (numeroLimpo.length < 13 || numeroLimpo.length > 19) return false;
+
+    let soma = 0;
+    let alternar = false;
+
+    for (let i = numeroLimpo.length - 1; i >= 0; i--) {
+        let digito = parseInt(numeroLimpo.charAt(i), 10);
+
+        if (alternar) {
+            digito *= 2;
+            if (digito > 9) digito -= 9;
+        }
+
+        soma += digito;
+        alternar = !alternar;
+    }
+
+    return (soma % 10 === 0);
+}
+
+function validarDataExpiracao(data) {
+    const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!regex.test(data)) return false;
+
+    const [month, year] = data.split('/').map(num => parseInt(num, 10));
+    const currentYear = new Date().getFullYear() % 100;
+    const currentMonth = new Date().getMonth() + 1;
+
+    return (year > currentYear) || (year === currentYear && month >= currentMonth);
+}
+
+function validarNomeTitular(nome) {
+    const regex = /^[A-Za-zÀ-ÿ\s]{1,30}$/;
+    return regex.test(nome.trim());
 }
 
 function PagDoacao() {
-    // Estado para armazenar o valor da doação
-    const [donationAmount, setDonationAmount] = useState(0);
-
     const [valorDoacao, setValorDoacao] = useState('');
-
-    const handleValorChange = (event) => {
-        const novoValor = event.target.value;
-        setValorDoacao(formatarValor(novoValor));
-    };
-
     const [formData, setFormData] = useState({
         cardNumber: '',
         expirationDate: '',
@@ -34,49 +65,121 @@ function PagDoacao() {
         donationValue: '',
         id_usu: '',
     });
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleValorChange = (event) => {
+        let valor = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (valor.length === 0) {
+            setValorDoacao('');
+            return;
+        }
+
+        // Adiciona a formatação "R$ 00,00"
+        valor = formatarValor(valor);
+
+        setValorDoacao(valor);
+    };
+
+    const handleBlur = () => {
+        if (valorDoacao.length > 0) {
+            setValorDoacao(formatarValor(valorDoacao.replace(/[^\d]/g, '')));
+        }
+    };
+
+    const handleFocus = () => {
+        const valorNumerico = valorDoacao.replace(/[^\d]/g, '');
+        setValorDoacao(valorNumerico);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        if (name === 'cardNumber') {
+            const formattedNumber = formatarNumeroCartao(value);
+            setFormData({ ...formData, [name]: formattedNumber });
+        } else if (name === 'expirationDate') {
+            let formattedDate = value.replace(/\D/g, ''); // Remove qualquer caractere não numérico
+
+            if (formattedDate.length >= 3) {
+                formattedDate = `${formattedDate.slice(0, 2)}/${formattedDate.slice(2)}`;
+            }
+
+            setFormData({ ...formData, [name]: formattedDate });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+    };
+
+    const validarCVV = (cvv) => {
+        const regex = /^\d{3}$/;
+        return regex.test(cvv);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const { cardNumber, expirationDate, cvv, cardholderName } = formData;
+
+        if (!validarNumeroCartao(cardNumber)) {
+            setErrorMessage('Número do cartão inválido. Insira um número válido sem espaços.');
+            return;
+        }
+        if (!validarDataExpiracao(expirationDate)) {
+            setErrorMessage('Data de expiração inválida. Use o formato MM/YY e certifique-se de que a data não está expirada.');
+            return;
+        }
+        if (!validarCVV(cvv)) {
+            setErrorMessage('CVV inválido. Insira um código de 3 dígitos.');
+            return;
+        }
+        if (!validarNomeTitular(cardholderName)) {
+            setErrorMessage('Nome do titular do cartão inválido. O nome deve conter apenas letras e ter no máximo 30 caracteres.');
+            return;
+        }
+
+        const userId = localStorage.getItem('id');
+
+        if (!userId) {
+            setErrorMessage('Usuário não está autenticado. Faça login novamente.');
+            return;
+        }
+
+        const formDataWithId = { ...formData, id_usu: userId, donationValue: valorDoacao };
+
         try {
-            const response = await fetch('http://10.135.60.16:8085/receber_dados', {
+            const response = await fetch('http://10.135.60.23:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formDataWithId),
             });
 
             const data = await response.json();
 
-            if (data.valid) {
-                // Aqui você pode enviar os dados do formulário para o servidor para processar o pagamento
-                console.log('Dados do formulário:', formData);
-                // Limpar o formulário após o envio
+            if (data.valid === 'true') {
+                console.log('Dados do formulário:', formDataWithId);
                 setFormData({
                     cardNumber: '',
                     expirationDate: '',
                     cvv: '',
                     cardholderName: '',
+                    donationValue: '',
+                    id_usu: userId,
                 });
+                setValorDoacao('');
+                setErrorMessage(''); // Clear error message on successful submission
             } else {
-                alert('Número do cartão inválido. Insira um número válido.');
+                setErrorMessage('Número do cartão inválido. Insira um número válido.');
             }
         } catch (error) {
             console.error('Erro ao validar número do cartão:', error);
-            alert('Ocorreu um erro ao validar o número do cartão. Tente novamente mais tarde.');
+            setErrorMessage('Ocorreu um erro ao validar o número do cartão. Tente novamente mais tarde.');
         }
     };
 
     return (
-
-        <form onSubmit={handleSubmit} className='form-pag'>
-
+        <form onSubmit={handleSubmit} className='form-pagss'>
             <h1>Página de Doações</h1>
             <div className='menu_doacao'>
                 <MenuLateral />
@@ -84,12 +187,13 @@ function PagDoacao() {
             <br />
             <h2>Por que sua doação é importante?</h2>
             <p>Sua generosidade nos ajuda a continuar nosso trabalho e aprimorar a cada dia nosso sistema para melhor funcionamento. Cada doação, por menor que seja, contribui para alcançarmos nosso objetivo de ajudar o maior número possível de pessoas com o nosso site.</p>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <label>
                 <input
-                type='hidden'
-                name='id_usu'
-                value={formData.id_usu}
-                className='id_usu'
+                    type='hidden'
+                    name='id_usu'
+                    value={formData.id_usu}
+                    className='id_usu'
                 />
             </label>
             <label>
@@ -101,6 +205,9 @@ function PagDoacao() {
                     onChange={handleChange}
                     required
                     className='cardNumber'
+                    maxLength="19"
+                    pattern="\d{4}\s?\d{4}\s?\d{4}\s?\d{1,4}"
+                    placeholder="Número do cartão (com espaços automáticos)"
                 />
             </label>
             <label>
@@ -110,12 +217,11 @@ function PagDoacao() {
                     name="expirationDate"
                     value={formData.expirationDate}
                     onChange={handleChange}
-                    pattern="0[1-9]|1[0-2])\d{2}"
-                    maxLength="4"
                     required
                     className='expirationDate'
-                    onFocus={(e) => e.target.value = e.target.value.replace('/', '')} // Remove a barra ao focar
-                    onBlur={(e) => e.target.value = e.target.value.replace(/^(\d{2})(\d{2})$/, '$1/$2')} // Adiciona a barra ao perder o foco
+                    pattern="\d{2}/\d{2}"
+                    maxLength="5"
+                    placeholder="MM/YY"
                 />
             </label>
             <label>
@@ -127,6 +233,8 @@ function PagDoacao() {
                     onChange={handleChange}
                     required
                     className='cvv'
+                    maxLength="3"
+                    pattern="\d*"
                 />
             </label>
             <label>
@@ -138,6 +246,9 @@ function PagDoacao() {
                     onChange={handleChange}
                     required
                     className='cardholderName'
+                    maxLength="30"
+                    pattern="[A-Za-zÀ-ÿ\s]+"
+                    placeholder="Nome do titular do cartão"
                 />
             </label>
             <label>
@@ -147,30 +258,22 @@ function PagDoacao() {
                     name='donationValue'
                     value={valorDoacao}
                     onChange={handleValorChange}
+                    required
+                    maxLength="10"
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
                     className='donationValue'
+                    placeholder="R$ 0,00"
                 />
             </label>
-
             <button type="submit">Pagar</button>
-
-
             <div className="container_doc">
                 <footer className="donation-footer">
                     <p>Agradecemos sua contribuição!</p>
                 </footer>
             </div>
-
         </form>
-
-
-
-
     );
-
-
-
-
-
 }
 
 export default PagDoacao;

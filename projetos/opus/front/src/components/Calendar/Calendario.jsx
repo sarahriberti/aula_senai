@@ -6,18 +6,16 @@
 
 /* >>> INÍCIO DAS IMPORTAÇÕES <<< */
 import React, { useState, useEffect } from 'react';
-import Formulario from '../Formulario';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import Formulario from '../Formulario';
 import './Calendar.css';
 /* >>> FIM DAS IMPORTAÇÕES <<< */
 
 const CalendarioOFC = () => {
   const [date, setDate] = useState(new Date());
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [tasksForDate, setTasksForDate] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
 
   // Função para buscar as tarefas da API
   const fetchTasks = async () => {
@@ -79,25 +77,27 @@ const CalendarioOFC = () => {
         <Calendar onClickDay={handleDateClick} />
       </div>
       <div className="tasks-list">
-        <h3>Tarefas para {date.toDateString()}</h3>
-        <Formulario
-          isOpen={isModalOpen}
-          onRequestClose={handleCloseModal}
-          taskData={selectedTask}
-          refreshTasks={fetchTasks}
-        />
-        <ul>
-          {tasksForDate.map((task) => (
-            <li key={task.id}>
-              <span>{task.Cor} - {task.Titulo}</span>
-              <button className="btn btn-secondary ml-2" onClick={() => handleEditTask(task)}>
-                Editar
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+        <h3 className='task-superior'>Tarefas para {date.toDateString()}</h3>
 
+        <ul className='scroll'>
+          {tasksForDate.length > 0 ? (
+            tasksForDate.map((task) => (
+              <li key={task.id}>
+                <span>{task.Cor} - {task.Titulo}</span>
+                <button className="btn btn-secondary ml-2" onClick={() => handleEditTask(task)}>
+                  Editar
+                </button>
+              </li>
+            ))
+          ) : (
+            <li className='sem-task'>Você não tem nenhuma tarefa, adicione uma agora!</li>
+          )}
+        </ul>
+        <div className='btn-add'>
+        <Formulario/>
+        </div>
+          
+      </div>
     </div>
   );
 };
