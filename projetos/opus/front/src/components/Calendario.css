@@ -21,10 +21,11 @@
 
 /* >>> INÍCIO MODAL <<< */
 #adicionar-click { /* >>> BOTÃO DO FORMULÁRIO <<< */
-  text-align: left;
-  position: relative;
-  width: 165px;
+  text-align: center;
+  width: 70px;
   height: 70px;
+  background-color:#D6B00F;
+  border-radius: 50px;
 }
 .logo{
   position: absolute;
