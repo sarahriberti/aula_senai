@@ -145,19 +145,38 @@ def atualizar_repetir():
 # >>> FINAL DAS ATUALIZAÇÕES DAS TAREFAS <<<
 
 # >>> INÍCIO DAS ATUALIZAÇÕES DE DADOS DO USUÁRIO <<<
-
 def atualizar_cad(data):
     id_usuario = data['id']
     novo_nome = data['nome']
     data_str = data['data_nascimento']
     novo_celular = data['celular']
     novo_email = data['email']
-    nova_senha = data['senha']
+    nova_senha = data.get('senha', None)  # Pode ser None se não houver nova senha
+    senha_atual = data['senhaveia']
+
+    # Conectar ao banco de dados
     conex = conexao.conectar()
     cursor = conex.cursor()
-    sql = "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s, Senha = %s WHERE ID = %s"
-    val = (novo_nome ,data_str ,novo_celular ,novo_email ,nova_senha,  id_usuario)
+
+    # Verificar se a senha atual está correta
+    cursor.execute("SELECT Senha FROM usuario WHERE ID = %s", (id_usuario,))
+    senha_armazenada = cursor.fetchone()
+
+    if not senha_armazenada or senha_armazenada[0] != senha_atual:
+        conex.close()
+        return {"sucesso": False, "mensagem": "Senha atual incorreta."}
+
+    # Atualizar dados do usuário, mas manter a senha atual se nenhuma nova senha for fornecida
+    if nova_senha:
+        sql = "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s, Senha = %s WHERE ID = %s"
+        val = (novo_nome, data_str, novo_celular, novo_email, nova_senha, id_usuario)
+    else:
+        sql = "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s WHERE ID = %s"
+        val = (novo_nome, data_str, novo_celular, novo_email, id_usuario)
+
     cursor.execute(sql, val)
     conex.commit()
     conex.close()
-    return jsonify({"message": "Nome do usuario atualizado com sucesso!"})
+
+    print('Teste update:', sql, val)
+    return {"sucesso": True, "mensagem": "Dados atualizados com sucesso!"}
