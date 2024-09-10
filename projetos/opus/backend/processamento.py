@@ -93,26 +93,33 @@ def processar_dados_log(dados):
         else:
             # Dados de login incorretos
             return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Dados de login incorretos.'}]}
-        
 #Função para processar os dados do formulário To Do
 #Autor: Emily
 #Data: 12/03/2024
 def processar_dados_tarefa(dados):
     # Função para processar os dados recebidos do Flask
     # Retorna os dados processados
+    
+    # Verificar se todas as chaves necessárias estão presentes
+    required_keys = ['Cor', 'Titulo', 'Data', 'Hora_Ini', 'Hora_Fin', 'Notific', 'Descr', 'Repetir', 'ID_Usu']
+    missing_keys = [key for key in required_keys if key not in dados]
+    
+    if missing_keys:
+        return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': f'Campos ausentes: {", ".join(missing_keys)}'}]}
+    
     dados_processados_to_do = dados
 
     # Chama a função para gravar os dados no banco de dados
     Gravar_BD.gravar_tarefas(
-        dados_processados_to_do['cor'],
-        dados_processados_to_do['titulo'],
-        dados_processados_to_do['data'],
-        dados_processados_to_do['hora_ini'],
-        dados_processados_to_do['hora_fin'],
-        dados_processados_to_do['notific'],
-        dados_processados_to_do['descr'],
-        dados_processados_to_do['repetir'],
-        dados_processados_to_do['ID']
+        dados_processados_to_do['Cor'],
+        dados_processados_to_do['Titulo'],
+        dados_processados_to_do['Data'],
+        dados_processados_to_do['Hora_Ini'],
+        dados_processados_to_do['Hora_Fin'],
+        dados_processados_to_do['Notific'],
+        dados_processados_to_do['Descr'],
+        dados_processados_to_do['Repetir'],
+        dados_processados_to_do['ID_Usu']
     )
     return {'erro': False, 'mensagem': 'Tarefa gravada com sucesso!'}
 

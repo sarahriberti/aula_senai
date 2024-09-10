@@ -8,7 +8,7 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
 
   useEffect(() => {
     if (selectedTask) {
-      setEmail(selectedTask.descr || '');
+      setEmail(selectedTask.Descr || ''); // Atualizando a descrição da tarefa
       setIsTaskCompleted(selectedTask.isCompleted || false);
     }
   }, [selectedTask]);
@@ -19,10 +19,9 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
     return `${day}/${month}/${year}`;
   };
 
-  const handleEditar = () => {
-    // Lógica para editar a tarefa
+  const handleEdit = () => {
     setModalVisible3(false);
-    openTodoListModal();
+    openTodoListModal(selectedTask);
   };
 
   const toggleTaskCompleted = () => {
@@ -49,29 +48,30 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
             </TouchableOpacity>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
               <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', flex: 1, marginRight: 10 }}>
-                {selectedTask ? selectedTask.titulo : 'Tarefa'}
+                {selectedTask ? selectedTask.Titulo : 'Tarefa'}
               </Text>
               <TouchableOpacity onPress={toggleTaskCompleted} style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Icon name={isTaskCompleted ? 'check-box' : 'check-box-outline-blank'} size={24} color={isTaskCompleted ? '#54a847' : '#ccc'} />
                 <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Tarefa Concluída</Text>
               </TouchableOpacity>
             </View>
-            <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold', marginTop: 10 ,marginRight:200}}>
-              {selectedTask ? formatDate(selectedTask.data) : 'dd/mm/yyyy'}
+            <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold', marginTop: 10 }}>
+              {selectedTask ? formatDate(selectedTask.Data) : 'dd/mm/yyyy'}
             </Text>
             <View style={{ borderBottomWidth: 3, width: 350, borderColor: '#C39910', marginVertical: 10 }} />
-            <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', padding: 2,marginRight:200}}>Início: {selectedTask ? selectedTask.hora_ini : 'hh:mm'}</Text>
-            <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', padding: 2,marginRight:190 }}>Término: {selectedTask ? selectedTask.hora_fin : 'hh:mm'}</Text>
+            <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Início: {selectedTask ? selectedTask.Hora_Ini : 'hh:mm'}</Text>
+            <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Término: {selectedTask ? selectedTask.Hora_Fin : 'hh:mm'}</Text>
             <TextInput
               style={{ height: 80, width: 330, backgroundColor: '#f4efdf', borderRadius: 25, padding: 10 }}
               placeholder='Descrição'
-              value={email}
+              value={email} // Exibe a descrição da tarefa
               onChangeText={setEmail}
               multiline={true}
+              editable={false} // Desabilita a edição se necessário
             />
             <View style={{ borderBottomWidth: 3, width: 350, borderColor: '#C39910', marginVertical: 10, padding: 5 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
-              <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={handleEditar}>
+              <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={handleEdit}>
                 <Text style={{ fontSize: 17, color: 'white' }}>Editar</Text>
               </Pressable>
               <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5, marginLeft: 30 }} onPress={handleCloseModal}>

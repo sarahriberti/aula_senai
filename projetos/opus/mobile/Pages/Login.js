@@ -43,12 +43,12 @@ function LoginForm({ navigation }) {
 
       // Analisa a resposta do servidor
       const resultado = await response.json();
-      console.log(resultado);
+      console.log('resultado========',resultado);
       if (resultado.erro) {
         // Se houver erro, exibe uma mensagem de alerta
         Alert.alert('Erro', 'Credenciais inválidas. Verifique seu e-mail e senha.');
       } else {
-        await AsyncStorage.setItem('ID', resultado.mensagem[0].toString());
+        await AsyncStorage.setItem('ID_Usu', resultado.mensagem[0].toString());
         await AsyncStorage.setItem('nome', resultado.mensagem[1]);
         // Se o login for bem-sucedido, redireciona para a tela do calendário
         navigation.navigate('Calendario');
@@ -149,4 +149,3 @@ function LoginForm({ navigation }) {
 
 // Exporta o componente para ser usado em outras partes do aplicativo
 export default LoginForm;
-

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Pressable, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -6,7 +6,9 @@ import { Picker } from '@react-native-picker/picker';
 import stylesTaf from './Styleformulariotaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAddTask }) {
+export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAddTask, selectedTask }) {
+    const [taskID, setTaskID] = useState(null);
+    const [taskID_Usu, setTaskID_Usu] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [startHour, setStartHour] = useState(null);
@@ -17,12 +19,29 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
     const [selectedRepeatOption, setSelectedRepeatOption] = useState('none');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [color, setColor] = useState('#252942'); // Adicionado para cor
-    const [errorMessage, setErrorMessage] = useState(''); // Adicionado para mensagem de erro
+    const [color, setColor] = useState('#252942');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        if (selectedTask) {
+            setTaskID_Usu(selectedTask.ID_Usu);
+            setTaskID(selectedTask.ID);
+            setSelectedDate(new Date(selectedTask.Data));
+            setStartHour(selectedTask.Hora_Ini ? new Date(`1970-01-01T${selectedTask.Hora_Ini}:00`) : null);
+            setEndHour(selectedTask.Hora_Fin ? new Date(`1970-01-01T${selectedTask.Hora_Fin}:00`) : null);           
+            setTitle(selectedTask.Titulo);
+            setDescription(selectedTask.Descr);
+            setNotificationEnabled(selectedTask.Notific);
+            setSelectedRepeatOption(selectedTask.Repetir);
+            setColor(selectedTask.Cor);
+        } else {
+            clearForm();
+        }
+    }, [selectedTask]);
 
     const toggleModal = () => {
         if (!isModalVisible4) {
-            clearForm(); // Limpa o formulário ao abrir o modal
+            clearForm();
         }
         setModalVisible4(!isModalVisible4);
     };
@@ -30,33 +49,31 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
     const handleDateChange = (event, date) => {
         setShowDatePicker(false);
         if (date) {
-            setSelectedDate(date); // Atualiza o estado da data selecionada
+            setSelectedDate(date);
         }
-    };
-
-    const setDate = (date) => {
-        setSelectedDate(date); // Função para setar a data externamente ou limpar se for null
     };
 
     const handleStartTimeChange = (event, time) => {
         setShowStartTimePicker(false);
         if (time) {
-            setStartHour(time); // Atualiza o estado da hora de início
+            setStartHour(time);
         }
     };
 
     const handleEndTimeChange = (event, time) => {
         setShowEndTimePicker(false);
         if (time) {
-            setEndHour(time); // Atualiza o estado da hora de término
+            setEndHour(time);
         }
     };
 
     const handleRepeatChange = (itemValue) => {
-        setSelectedRepeatOption(itemValue); // Atualiza o estado da repetição
+        setSelectedRepeatOption(itemValue);
     };
 
     const clearForm = () => {
+        setTaskID_Usu(null);
+        setTaskID(null);
         setSelectedDate(null);
         setStartHour(null);
         setEndHour(null);
@@ -64,8 +81,8 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         setDescription('');
         setNotificationEnabled(false);
         setSelectedRepeatOption('none');
-        setColor('#252942'); // Resetando cor
-        setErrorMessage(''); // Limpa a mensagem de erro ao limpar o formulário
+        setColor('#252942');
+        setErrorMessage('');
     };
 
     const saveTask = async () => {
@@ -74,48 +91,63 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
             return;
         }
 
-        setErrorMessage(''); // Limpa a mensagem de erro se tudo estiver preenchido
+        setErrorMessage('');
+
+        const userId = await AsyncStorage.getItem('ID_Usu'); 
+        console.log('User ID:', userId); // Verifica se o valor do ID está correto
+        
 
         const task = {
-            acao: 'salvar_tarefa',
-            cor: color,
-            titulo: title,
-            data: selectedDate ? selectedDate.toISOString().split('T')[0] : null,
-            hora_ini: startHour instanceof Date ? startHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
-            hora_fin: endHour instanceof Date ? endHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
-            notific: notificationEnabled,
-            descr: description,
-            repetir: selectedRepeatOption,
-            ID: await AsyncStorage.getItem('ID'),
+            acao: selectedTask ? 'atualizar_tarefa' : 'salvar_tarefa',
+            Cor: color, // Corrigido de 'cor' para 'Cor'
+            Titulo: title, // Corrigido de 'titulo' para 'Titulo'
+            Data: selectedDate ? selectedDate.toISOString().split('T')[0] : null,
+            Hora_Ini: startHour instanceof Date ? startHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
+            Hora_Fin: endHour instanceof Date ? endHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
+            Notific: notificationEnabled, // Corrigido de 'notific' para 'Notific'
+            Descr: description, // Corrigido de 'descr' para 'Descr'
+            Repetir: selectedRepeatOption, // Corrigido de 'repetir' para 'Repetir'
+            ID_Usu: userId, // Certifique-se de que o ID do usuário esteja correto
+            taskID: selectedTask ? selectedTask.ID : null, // Inclui o ID da tarefa para atualização
         };
+        
+
+        console.log('Task data:', task); // Adicione este log
 
         try {
-            const response = await fetch('http://10.135.60.25:8085/receber_dados', {
-                method: 'POST',
+            const response = await fetch(selectedTask ? 'http://10.135.60.16:8085/atualizar_tarefa' : 'http://10.135.60.16:8085/receber_dados', {
+                method: selectedTask ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(task),
             });
 
-            const contentType = response.headers.get('Content-Type');
-            if (contentType && contentType.includes('application/json')) {
-                const result = await response.json();
-                if (result.erro) {
-                    console.error(result.mensagens);
-                } else {
-                    console.log(result.mensagem);
-                    clearForm();
-                    toggleModal(); // Fechar o modal após salvar a tarefa
-                    onAddTask(task); // Notifica o pai que uma nova tarefa foi adicionada
-                }
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+
+            }
+
+            const result = await response.json();
+            console.log('Response result:', result);
+
+            if (result.erro) {
+                setErrorMessage(result.mensagens);
             } else {
-                console.error('Resposta do servidor não é JSON:', await response.text());
+                // Adicionar ao calendário (verifique a API específica se for necessário)
+                console.log('Tarefa salva e adicionada ao calendário.');
+
+                clearForm();
+                toggleModal();
+                onAddTask({ ...task, taskID: result.taskID || task.taskID });
             }
         } catch (error) {
             console.error('Erro ao salvar a tarefa:', error);
+            setErrorMessage('Erro ao salvar a tarefa. Por favor, tente novamente.');
         }
     };
+
+
 
     return (
         <View style={stylesTaf.main}>
@@ -149,7 +181,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                         value={selectedDate || new Date()}
                                         mode="date"
                                         display="default"
-                                        onChange={handleDateChange} // Chamado ao selecionar a data
+                                        onChange={handleDateChange}
                                     />
                                 )}
                             </View>
@@ -166,7 +198,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                             value={startHour || new Date()}
                                             mode="time"
                                             display="default"
-                                            onChange={handleStartTimeChange} // Chamado ao selecionar a hora de início
+                                            onChange={handleStartTimeChange}
                                         />
                                     )}
                                 </View>
@@ -182,7 +214,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                             value={endHour || new Date()}
                                             mode="time"
                                             display="default"
-                                            onChange={handleEndTimeChange} // Chamado ao selecionar a hora de término
+                                            onChange={handleEndTimeChange}
                                         />
                                     )}
                                 </View>
@@ -234,37 +266,39 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                         value="monthly"
                                         style={stylesTaf.pickerItemMonthly}
                                     />
-                                     <Picker.Item
+                                    <Picker.Item
                                         label="Anualmente"
                                         value="yearly"
                                         style={stylesTaf.pickerItemYearly}
                                     />
                                 </Picker>
                             </View>
-                        </View>
-                        
-                        {errorMessage ? (
-                            <View style={{
-                                backgroundColor: '#ffcccc',
-                                borderColor: '#ff4d4d',
-                                borderWidth: 1,
-                                borderRadius: 5,
-                                padding: 10,
-                                marginBottom: 10,
-                            }}>
-                                <Text style={{ color: '#b30000', textAlign: 'center' }}>
-                                    {errorMessage}
-                                </Text>
-                            </View>
-                        ) : null}
+                            {errorMessage && (
+                                <View style={{
+                                    backgroundColor: '#ffcccc',
+                                    borderColor: '#ff4d4d',
+                                    borderWidth: 1,
+                                    borderRadius: 5,
+                                    padding: 10,
+                                    marginTop: 10,
+                                }}>
+                                    <Text style={{ color: '#b30000', textAlign: 'center' }}>
+                                        {Array.isArray(errorMessage) ? errorMessage.map((msg, index) => (
+                                            <Text key={index}>{msg.mensagem}</Text>
+                                        )) : errorMessage}
+                                    </Text>
+                                </View>
+                            )}
 
-                        <View style={stylesTaf.btnBox}>
-                            <TouchableOpacity onPress={toggleModal}>
-                                <Text style={stylesTaf.btnCancelar}>Cancelar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={saveTask}>
-                                <Text style={stylesTaf.btnSave}>Salvar</Text>
-                            </TouchableOpacity>
+
+                            <View style={stylesTaf.btnBox}>
+                                <TouchableOpacity onPress={toggleModal}>
+                                    <Text style={stylesTaf.btnCancelar}>Cancelar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={saveTask}>
+                                    <Text style={stylesTaf.btnSave}>Salvar</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
