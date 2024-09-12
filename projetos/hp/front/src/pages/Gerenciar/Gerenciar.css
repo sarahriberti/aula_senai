@@ -1,0 +1,52 @@
+* {
+  /* >>> CONFIGURAÇÃO GERAL <<< */
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  /* >>> COR DO BODY <<< */
+  background-color: #191D2A !important;
+
+}
+
+/* >>> INÍCIO FORMS <<< */
+.nome-title{
+  color: white;
+}
+.erro-mensagem, .info-mensagem {
+  color: #C39910;
+  margin-bottom: 10px;
+}
+.data-title{
+  color: white;
+}
+
+.email-title{
+  color: white;
+}
+
+.email-atual{
+  color: white;
+}
+
+.telefone-title{
+  color: white;
+}
+
+.telefone-atual{
+  color: white;
+}
+
+.senhaatual-title{
+  color: white;
+}
+
+.novasenha-title{
+  color: white;
+}
+
+.confirmsenha-title{
+  color: white;
+}
+/* >>> FINAL FORMS <<< */
