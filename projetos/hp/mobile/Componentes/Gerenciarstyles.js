@@ -50,7 +50,7 @@ export default Gerenciarstyles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 30,
     },
-    contato:{
+    contato: {
         width: '93%',
         marginTop: 10,
         marginLeft: 30,
@@ -70,11 +70,11 @@ export default Gerenciarstyles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 30,
     },
-    textNome:{
+    textNome: {
         color: '#fff',
         fontSize: 20,
     },
-    textData:{
+    textData: {
         marginTop: 10,
         color: '#fff',
         fontSize: 20,
@@ -102,11 +102,11 @@ export default Gerenciarstyles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
     },
-    textActualTelefone:{
+    textActualTelefone: {
         color: '#fff',
         fontSize: 20,
     },
-    textNewTelefone:{
+    textNewTelefone: {
         marginTop: 10,
         color: '#fff',
         fontSize: 20,
@@ -119,7 +119,7 @@ export default Gerenciarstyles = StyleSheet.create({
         color: '#fff',
         paddingHorizontal: 10,
         borderRadius: 5,
-        fontSize:20,
+        fontSize: 20,
     },
     btnBox: {
         width: '93%',
@@ -135,19 +135,19 @@ export default Gerenciarstyles = StyleSheet.create({
         alignItems: 'center',
         width: 100,
         height: 35,
-        borderRadius:90,
+        borderRadius: 90,
         fontSize: 20,
-        color:'#fff',
-        marginLeft:150,
-        textAlign:'center',
-        marginTop:20,
-        marginBottom:20
+        color: '#fff',
+        marginLeft: 117,
+        textAlign: 'center',
+        marginTop: 20,
+        marginBottom: 20
     },
     submitTxt: {
         color: '#fff',
         fontSize: 17,
     },
-    textEsqueciSenha:{
+    textEsqueciSenha: {
         color: '#fff',
         fontSize: 17,
     },

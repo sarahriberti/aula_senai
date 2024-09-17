@@ -89,7 +89,7 @@ function Gerenciar() {
     }
 
     try {
-      const response = await fetch('http://10.135.60.16:8085/atualizar_cad', {
+      const response = await fetch('http://192.168.137.1:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ function Gerenciar() {
       const userId = localStorage.getItem('id');
 
       try {
-        const response = await fetch('http://10.135.60.16:8085/receber_dados', {
+        const response = await fetch('http://192.168.137.1:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -176,84 +176,92 @@ function Gerenciar() {
       <Form onSubmit={handleSubmit}>
         {erro && <div className="erro-mensagem">{erro}</div>} {/* Exibe a mensagem de erro, se houver */}
         {info && <div className="info-mensagem">{info}</div>} {/* Exibe a mensagem informativa, se houver */}
+        <div className='gerenciar_inputs'>
+          <h2 className='txt_geren'>Gerenciar Conta</h2>
+          <Form.Group controlId="formNome">
+            <Form.Label className='nome-title'>Nome:</Form.Label>
+            <Form.Control
+              id='nome_gerenciar_id'
+              type="text"
+              name="nome_gerenciar"
+              value={dadosUsuario.nome}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formNome">
-          <Form.Label className='nome-title'>Nome:</Form.Label>
-          <Form.Control
-            type="text"
-            name="nome"
-            value={dadosUsuario.nome}
-            onChange={handleChange}
-          />
-        </Form.Group>
+          <Form.Group controlId="formDataNascimento">
+            <Form.Label className='data-title'>Data de Nascimento:</Form.Label>
+            <Form.Control
+              id='data_gerenciar_id'
+              type="date"
+              name="data_nas_gerenciar"
+              value={dadosUsuario.data_nascimento}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formDataNascimento">
-          <Form.Label className='data-title'>Data de Nascimento:</Form.Label>
-          <Form.Control
-            type="date"
-            name="data_nascimento"
-            value={dadosUsuario.data_nascimento}
-            onChange={handleChange}
-          />
-        </Form.Group>
+          <Form.Group controlId="formEmail">
+            <Form.Label className='email-title'>Email:</Form.Label>
+            <Form.Control
+              id='email_gerenciar_id'
+              type="email"
+              name="email_gerenciar"
+              value={dadosUsuario.email}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formEmail">
-          <Form.Label className='email-title'>Email:</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={dadosUsuario.email}
-            onChange={handleChange}
-          />
-        </Form.Group>
+          <Form.Group controlId="formTelefone">
+            <Form.Label className='telefone-title'>Telefone:</Form.Label>
+            <InputMask
+              id='telefone_gerenciar_id'
+              mask="(99) 99999-9999"
+              name="celular_gerenciar"
+              value={dadosUsuario.celular}
+              onChange={handleChange}
+            >
+              {(inputProps) => <Form.Control {...inputProps} />}
+            </InputMask>
+          </Form.Group>
 
-        <Form.Group controlId="formTelefone">
-          <Form.Label className='telefone-title'>Telefone:</Form.Label>
-          <InputMask
-            mask="(99) 99999-9999"
-            name="celular"
-            value={dadosUsuario.celular}
-            onChange={handleChange}
-          >
-            {(inputProps) => <Form.Control {...inputProps} />}
-          </InputMask>
-        </Form.Group>
+          <Form.Group controlId="formSenhaAtual">
+            <Form.Label className='senhaatual-title'>Senha Atual:</Form.Label>
+            <Form.Control
+              id='senhaatual_gerenciar_id'
+              type="password"
+              name="senha_atual_gerenciar"
+              value={dadosUsuario.senhaveia}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formSenhaAtual">
-          <Form.Label className='senhaatual-title'>Senha Atual:</Form.Label>
-          <Form.Control
-            type="password"
-            name="senhaveia"
-            value={dadosUsuario.senhaveia}
-            onChange={handleChange}
-          />
-        </Form.Group>
+          <Form.Group controlId="formNovaSenha">
+            <Form.Label className='novasenha-title'>Nova Senha:</Form.Label>
+            <Form.Control
+              id='novasenha_gerenciar_id'
+              type="password"
+              name="senha_nova_gerenciar"
+              value={dadosUsuario.senha}
+              onChange={handleChange}
+              placeholder="Deixe em branco para manter a senha atual"
+            />
+          </Form.Group>
 
-        <Form.Group controlId="formNovaSenha">
-          <Form.Label className='novasenha-title'>Nova Senha:</Form.Label>
-          <Form.Control
-            type="password"
-            name="senha"
-            value={dadosUsuario.senha}
-            onChange={handleChange}
-            placeholder="Deixe em branco para manter a senha atual"
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formConfirmarNovaSenha">
-          <Form.Label className='confirmsenha-title'>Confirmar Nova Senha:</Form.Label>
-          <Form.Control
-            type="password"
-            name="confirmarNovaSenha"
-            value={dadosUsuario.confirmarNovaSenha}
-            onChange={handleChange}
-            placeholder="Deixe em branco para manter a senha atual"
-          />
-        </Form.Group>
-
-        <Button className='btn-update' variant="primary" type="submit">
+          <Form.Group controlId="formConfirmarNovaSenha">
+            <Form.Label className='confirmsenha-title'>Confirmar Nova Senha:</Form.Label>
+            <Form.Control
+              id='confimsenha_gerenciar_id'
+              type="password"
+              name="confirmarNovaSenha_gerenciar"
+              value={dadosUsuario.confirmarNovaSenha}
+              onChange={handleChange}
+              placeholder="Deixe em branco para manter a senha atual"
+            />
+          </Form.Group>
+          <Button className='btn-update' variant="primary" type="submit">
           Atualizar Dados
         </Button>
+        </div>
       </Form>
     </div>
   );

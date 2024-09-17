@@ -58,7 +58,7 @@ export default Doacaostyles = StyleSheet.create({
         marginTop: 30,
         width: '40%',
         alignItems: 'center',
-        marginLeft: 120,
+        marginLeft: 100,
 
     },
     informacoesTextfooter: {

@@ -11,7 +11,7 @@ export default function MyPager({navigation}) {
         <ImageBackground source={image} style={styles.image}>
           <Image style={styles.frase}  resizeMode='contain' source={require('../assets/Images/frase.png')}/>
           <View style={styles.viwBot} key="3">
-          <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity style={styles.botao1} onPress={() => navigation.navigate('Login')}>
             <Text style={styles.textoBotao}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.botao} onPress={() => navigation.navigate('Cadastro')}>
@@ -56,13 +56,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 405,
   },
-  botao: {
+  botao1: {
     backgroundColor: '#546594',
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 5,
     marginTop: 20,
     width:130,
+    marginRight:20,
+  },
+  botao: {
+    backgroundColor: '#546594',
+    paddingVertical: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    width:130,
+    marginRight:20,
   },
   textoBotao: {
     color: '#fff',
@@ -73,7 +81,7 @@ const styles = StyleSheet.create({
   viwBot: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 80,
+    marginLeft: 60,
     marginRight:80,
   }
 });

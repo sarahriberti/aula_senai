@@ -130,7 +130,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         console.log('Task data:', task);
 
         try {
-            const response = await fetch(selectedTask ? 'http://10.135.60.16:8085/atualizar_tarefa' : 'http://10.135.60.16:8085/receber_dados', {
+            const response = await fetch(selectedTask ? 'http://192.168.137.1:8085/atualizar_tarefa' : 'http://192.168.137.1:8085/receber_dados', {
                 method: selectedTask ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',

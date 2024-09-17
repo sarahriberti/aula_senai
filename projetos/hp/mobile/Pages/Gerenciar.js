@@ -45,7 +45,7 @@ const Gerenciarr = ({ navigation }) => {
 
         const fetchUserData = async (id) => {
             try {
-                const response = await fetch('http://10.135.60.8:8085/receber_dados', {
+                const response = await fetch('http://192.168.137.1:8085/receber_dados', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ const Gerenciarr = ({ navigation }) => {
         console.log("Dados enviados para o backend:", data);
 
         try {
-            const response = await fetch('http://10.135.60.16:8085/atualizar_cad', {
+            const response = await fetch('http://192.168.137.1:8085/atualizar_cad', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ const Gerenciarr = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
 
-                        <Text style={Gerenciarstyles.textConfirmarNovaSenha}>Confirmar nova senha:</Text>
+                        <Text style={Gerenciarstyles.textNewSenha}>Confirmar nova senha:</Text>
                         <View style={Gerenciarstyles.inputContainer}>
                             <TextInput
                                 style={Gerenciarstyles.inputField}
@@ -268,13 +268,13 @@ const Gerenciarr = ({ navigation }) => {
                     <View style={Gerenciarstyles.contato}>
                         <Text style={Gerenciarstyles.textEmail}>E-mail:</Text>
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
-                        <Text style={Gerenciarstyles.textTelefone}>Telefone:</Text>
+                        <Text style={Gerenciarstyles.textNewTelefone}>Telefone:</Text>
                         <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={handlePhoneChange}/>
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.bottomButtons}>
                         <TouchableOpacity style={Gerenciarstyles.botaoSalvar} onPress={handleGerenciar}>
-                            <Text style={Gerenciarstyles.textoBotao}>Salvar</Text>
+                            <Text style={Gerenciarstyles.btnSave}>Salvar</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

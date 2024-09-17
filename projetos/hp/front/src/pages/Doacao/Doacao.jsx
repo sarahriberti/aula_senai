@@ -138,7 +138,7 @@ function PagDoacao() {
         const formDataWithId = { ...formData, id_usu: userId, donationValue: valorNumerico };
 
         try {
-            const response = await fetch('http://10.135.60.16:8085/receber_dados', {
+            const response = await fetch('http://192.168.137.1:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

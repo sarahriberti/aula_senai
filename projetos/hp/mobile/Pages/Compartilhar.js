@@ -23,7 +23,7 @@ export default function Compartilho({ modalVisible, setModalVisible }) {
         };
 
         // Exemplo de chamada usando fetch
-        fetch('http://10.135.60.23:8085/receber_dados', {
+        fetch('http://192.168.137.1:8085/receber_dados', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -37,7 +37,7 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
   const handleDelete = async () => {
     if (selectedTask && selectedTask.ID) {
       try {
-        const response = await fetch(`http://10.135.60.16:8085/delete_task?taskId=${selectedTask.ID}`, {
+        const response = await fetch(`http://192.168.137.1:8085/delete_task?taskId=${selectedTask.ID}`, {
           method: 'DELETE',
         });
         const result = await response.json();

@@ -30,7 +30,7 @@ const TodoListScreen = ({ navigation }) => {
       if (userId) {
         const localDate = moment(date).tz('America/Sao_Paulo').format('YYYY-MM-DD');
         console.log(`Fetching tasks for userId: ${userId} on date: ${localDate}`);
-        const response = await fetch(`http://10.135.60.16:8085/tasks?userId=${userId}&date=${localDate}`);
+        const response = await fetch(`http://192.168.137.1:8085/tasks?userId=${userId}&date=${localDate}`);
         const data = await response.json();
         setTasks(data);
       }
@@ -152,7 +152,7 @@ const TodoListScreen = ({ navigation }) => {
                 borderWidth: 1,
                 borderColor: '#efcd5e',
                 height: 35,
-                width: 400,
+                width: 300,
               },
               dayHeader: {
                 paddingTop: 5,
@@ -169,12 +169,12 @@ const TodoListScreen = ({ navigation }) => {
                 fontWeight: 'bold',
               },
               arrow: {
-                padding: 10,
+                padding: 1,
               },
             },
             'stylesheet.day.basic': {
               base: {
-                width: 60,
+                width: 50,
                 height: 60,
                 alignItems: 'center',
                 justifyContent: 'center',

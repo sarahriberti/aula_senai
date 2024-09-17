@@ -7,46 +7,129 @@
 body {
   /* >>> COR DO BODY <<< */
   background-color: #191D2A !important;
-
 }
 
 /* >>> INÍCIO FORMS <<< */
-.nome-title{
-  color: white;
+.text-geren {
+  font-weight: bold;
 }
-.erro-mensagem, .info-mensagem {
-  color: #C39910;
-  margin-bottom: 10px;
+
+.txt_geren {
+  font-weight: bold;
+  margin-left: 200px;
+  margin-top: 40px;
 }
-.data-title{
+
+.gerenciar_inputs {
+  width: 700px;
+  margin-left: 450px;
+  height: 850px;
+  background-color: rgb(60, 69, 97);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 100px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+#nome_gerenciar_id {
+  background-color: #fdf3c5;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input.camp-date {
+  background-color: #fdf3c5;
+  width: 500px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formEmail {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formTelefone {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formSenhaAtual {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formNovaSenha {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formConfirmarNovaSenha {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* deixando os campos no meio, empilhados, e com o nome do campo em cima */
+form.form-geren {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  margin-left: 400px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+}
+
+/* botao alterar dados cor e hover */
+
+button.btn-update.btn.btn-primary {
+  background-color: #A28408;
+  padding: 10px;
+  margin-left: 250px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+button.btn-update.btn.btn-primary:hover {
+  background-color: #C39910;
+}
+
+.form-geren {
+  background-color: rgb(60, 69, 97);
+  border: 50px solid rgb(60, 69, 97);
+}
+
+.data-title {
   color: white;
 }
 
-.email-title{
+.email-title {
   color: white;
 }
 
-.email-atual{
+.email-atual {
   color: white;
 }
 
-.telefone-title{
+.telefone-title {
   color: white;
 }
 
-.telefone-atual{
+.telefone-atual {
   color: white;
 }
 
-.senhaatual-title{
+.senhaatual-title {
   color: white;
 }
 
-.novasenha-title{
+.novasenha-title {
   color: white;
 }
 
-.confirmsenha-title{
+.confirmsenha-title {
   color: white;
 }
 /* >>> FINAL FORMS <<< */

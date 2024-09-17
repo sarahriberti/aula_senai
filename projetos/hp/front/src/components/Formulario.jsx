@@ -73,8 +73,8 @@ function Formulario({ taskToEdit, isEditing, onClose }) {
     console.log('Dados da tarefa antes de salvar:', tarefa)
 
     const apiUrl = isEditing
-      ? 'http://10.135.60.16:8085/atualizar_tarefa'
-      : 'http://10.135.60.16:8085/receber_dados';
+      ? 'http://192.168.137.1:8085/atualizar_tarefa'
+      : 'http://192.168.137.1:8085/receber_dados';
 
     try {
       const response = await fetch(apiUrl, {
