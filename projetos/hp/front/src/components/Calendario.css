@@ -43,7 +43,10 @@
 }
 .modal-header {
   background-color: #191D2A;
-  color: white;
+  color: #D6B00F;
+  flex-direction: column-reverse;
+  font-weight: bold;
+ 
 }
 .adicionar-compromisso { /* >>> COR DE ONDE ESTÁ ESCRITO "COMPROMISSO" <<< */
   background-color: #191D2A;
@@ -204,12 +207,14 @@ div.modal-content {
 }
 
 div.modal-footer{
-  background-color: #191D2A;
+  background-color: rgb(60, 69, 97);
 }
 
-h4 {
-  text-align: center;
-}
+.Titulo_ModalTask.modal-title.h4{
+  font-size: 30px;
+    font-weight: bold;
+  color:#D6B00F;;
+  }
 
 button.linke.btn.btn-primary {
   text-align: center;
@@ -231,4 +236,84 @@ li {
 }
 .exit{
   margin-right: 15px;
+}
+.Body_TaskModal.modal-body {
+  background:rgb(60, 69, 97);
+}
+.Header_Titulo_TaskModal.modal-header {
+  background-color: rgb(60, 69, 97);
+}
+
+.Nome_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Data_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.HrInicial_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.HrFinal_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Descr_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Notf_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Rept_TaskModal {
+  background-color: #fdf3c5;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+button.btn.btn-secondary {
+  background-color: #A28408;
+  border: none;
+}
+
+button.btn.btn-secondary:hover {
+  background-color: #cea70e;
+}
+
+button.btn.btn-primary {
+  background-color: #A28408;
+}
+
+button.btn.btn-primary:hover {
+  background-color: #cea70e;
+}
+
+button.btn.btn-danger {
+  background-color: #A28408;
+  border: none;
+}
+
+button.btn.btn-danger:hover {
+  background-color: #cea70e;
+
+}
+
+.Footer_Del.modal-footer {
+  background-color: #191D2A;
 }

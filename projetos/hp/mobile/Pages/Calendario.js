@@ -42,7 +42,8 @@ const TodoListScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchUserDataAndTasks = async () => {
       try {
-        const id = await AsyncStorage.getItem('ID');
+        const id = await AsyncStorage.getItem('ID_Usu');
+        console.log('busca async id', id)
         if (id !== null) {
           setUserId(id);
           await fetchTasks(selectedDate);

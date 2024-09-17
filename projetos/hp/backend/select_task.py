@@ -3,6 +3,7 @@ from conexao import conectar
 
 def listar_tarefas(user_id, date):
     connection = conectar()
+    print('chagada bancoo', user_id)
     if connection is None:
         return {'error': 'Erro ao conectar ao banco de dados.'}
 
@@ -14,6 +15,7 @@ def listar_tarefas(user_id, date):
                     Notific, Descr, Repetir, ID_Usu FROM tarefas WHERE ID_Usu = %s AND Data = %s'''
         cursor.execute(sql, (user_id, date))
         tarefas = cursor.fetchall()
+        print('BANCOOOO', tarefas)
         return tarefas
     except Exception as e:
         return {'error': str(e)}

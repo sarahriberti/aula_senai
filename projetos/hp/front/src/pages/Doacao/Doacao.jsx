@@ -138,7 +138,7 @@ function PagDoacao() {
         const formDataWithId = { ...formData, id_usu: userId, donationValue: valorNumerico };
 
         try {
-            const response = await fetch('http://192.168.137.1:8085/receber_dados', {
+            const response = await fetch('http://10.135.60.16:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -170,100 +170,101 @@ function PagDoacao() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className='form-pagss'>
-            <h1>Página de Contribuições</h1>
+        <div>
             <div className='menu_doacao'>
                 <MenuLateral />
             </div>
-            <br />
-            <h2>Por que sua doação é importante?</h2>
-            <p>Sua generosidade nos ajuda a continuar nosso trabalho e aprimorar a cada dia nosso sistema para melhor funcionamento. Cada doação, por menor que seja, contribui para alcançarmos nosso objetivo de ajudar o maior número possível de pessoas com o nosso site.</p>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
-            <label>
-                <input
-                    type='hidden'
-                    name='id_usu'
-                    value={formData.id_usu}
-                    className='id_usu'
-                />
-            </label>
-            <label>
-                Número do Cartão:
-                <input
-                    type="text"
-                    name="cardNumber"
-                    value={formData.cardNumber}
-                    onChange={handleChange}
-                    required
-                    className='cardNumber'
-                    maxLength="19"
-                    pattern="\d{4}\s?\d{4}\s?\d{4}\s?\d{1,4}"
-                    placeholder="Número do cartão (com espaços automáticos)"
-                />
-            </label>
-            <label>
-                Data de Expiração:
-                <input
-                    type="text"
-                    name="expirationDate"
-                    value={formData.expirationDate}
-                    onChange={handleChange}
-                    required
-                    className='expirationDate'
-                    pattern="\d{2}/\d{2}"
-                    maxLength="5"
-                    placeholder="MM/YY"
-                />
-            </label>
-            <label>
-                CVV:
-                <input
-                    type="text"
-                    name="cvv"
-                    value={formData.cvv}
-                    onChange={handleChange}
-                    required
-                    className='cvv'
-                    maxLength="3"
-                    pattern="\d*"
-                />
-            </label>
-            <label>
-                Nome do Titular do Cartão:
-                <input
-                    type="text"
-                    name="cardholderName"
-                    value={formData.cardholderName}
-                    onChange={handleChange}
-                    required
-                    className='cardholderName'
-                    maxLength="30"
-                    pattern="[A-Za-zÀ-ÿ\s]+"
-                    placeholder="Nome do titular do cartão"
-                />
-            </label>
-            <label>
-                Valor da Doação:
-                <input
-                    type="text"
-                    name='donationValue'
-                    value={valorDoacao}
-                    onChange={handleValorChange}
-                    required
-                    maxLength="10"
-                    onBlur={handleBlur}
-                    onFocus={handleFocus}
-                    className='donationValue'
-                    placeholder="R$ 0,00"
-                />
-            </label>
-            <button type="submit">Pagar</button>
-            <div className="container_doc">
-                <footer className='footer-doacao'>
-                    <p>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
-                </footer>
-            </div>
-        </form>
+            <form onSubmit={handleSubmit} className='form-pagss'>
+                <br />
+                <h2 className='titulocont'>Por que sua doação é importante?</h2>
+                <p className='textapoio'>Sua generosidade nos ajuda a continuar nosso trabalho e aprimorar a cada dia nosso sistema para melhor funcionamento. Cada doação, por menor que seja, contribui para alcançarmos nosso objetivo de ajudar o maior número possível de pessoas com o nosso site.</p>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                <label>
+                    <input
+                        type='hidden'
+                        name='id_usu'
+                        value={formData.id_usu}
+                        className='id_usu'
+                    />
+                </label>
+                <label>
+                    Número do Cartão:
+                    <input
+                        type="text"
+                        name="cardNumber"
+                        value={formData.cardNumber}
+                        onChange={handleChange}
+                        required
+                        className='cardNumber'
+                        maxLength="19"
+                        pattern="\d{4}\s?\d{4}\s?\d{4}\s?\d{1,4}"
+                        placeholder="Número do cartão (com espaços automáticos)"
+                    />
+                </label>
+                <label>
+                    Data de Expiração:
+                    <input
+                        type="text"
+                        name="expirationDate"
+                        value={formData.expirationDate}
+                        onChange={handleChange}
+                        required
+                        className='expirationDate'
+                        pattern="\d{2}/\d{2}"
+                        maxLength="5"
+                        placeholder="MM/YY"
+                    />
+                </label>
+                <label>
+                    CVV:
+                    <input
+                        type="text"
+                        name="cvv"
+                        value={formData.cvv}
+                        onChange={handleChange}
+                        required
+                        className='cvv'
+                        maxLength="3"
+                        pattern="\d*"
+                    />
+                </label>
+                <label>
+                    Nome do Titular do Cartão:
+                    <input
+                        type="text"
+                        name="cardholderName"
+                        value={formData.cardholderName}
+                        onChange={handleChange}
+                        required
+                        className='cardholderName'
+                        maxLength="30"
+                        pattern="[A-Za-zÀ-ÿ\s]+"
+                        placeholder="Nome do titular do cartão"
+                    />
+                </label>
+                <label>
+                    Valor da Doação:
+                    <input
+                        type="text"
+                        name='donationValue'
+                        value={valorDoacao}
+                        onChange={handleValorChange}
+                        required
+                        maxLength="10"
+                        onBlur={handleBlur}
+                        onFocus={handleFocus}
+                        className='donationValue'
+                        placeholder="R$ 0,00"
+                    />
+                </label>
+                <button className='botaocont' type="submit">Pagar</button>
+                <div className="container_doc">
+                    <footer className='footer-doacao'>
+                        <p className='confirm-emp'>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
+                    </footer>
+                </div>
+            </form>
+        </div>
     );
 }
 

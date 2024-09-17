@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert, Linking} from 'react-native';
+import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert, Linking } from 'react-native';
 import Loginstyles from '../Componentes/Loginstyles';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,35 +32,30 @@ function LoginForm({ navigation }) {
     const { email_log, senha_log } = formValues;
 
     try {
-      // Faz uma solicitação para o servidor com os dados de login
       const response = await fetch('http://192.168.137.1:8085/receber_dados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ acao: 'login', email_log, senha_log }), // Envio dos dados em formato JSON
+        body: JSON.stringify({ acao: 'login', email_log, senha_log }),
       });
 
-      // Analisa a resposta do servidor
       const resultado = await response.json();
-      console.log('resultado========',resultado);
       if (resultado.erro) {
-        // Se houver erro, exibe uma mensagem de alerta
         Alert.alert('Erro', 'Credenciais inválidas. Verifique seu e-mail e senha.');
       } else {
+
         await AsyncStorage.setItem('ID_Usu', resultado.mensagem[0].toString());
         await AsyncStorage.setItem('nome', resultado.mensagem[1]);
-        // Se o login for bem-sucedido, redireciona para a tela do calendário
+        console.log('idddasync', resultado.mensagem[0])
         navigation.navigate('Calendario');
       }
     } catch (error) {
-      // Em caso de erro na solicitação, exibe uma mensagem de alerta
       console.error(error);
       Alert.alert('Erro', 'Erro ao tentar fazer login. Por favor, tente novamente mais tarde.');
     }
-    setFormValues (" ")
-
   };
+
   const handleFacebookPress = () => {
     Linking.openURL('https://www.facebook.com/sua-pagina-do-facebook');
   };

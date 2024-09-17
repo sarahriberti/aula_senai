@@ -5,7 +5,7 @@ import conexao  # Importe sua conexão com o banco de dados
 # >>> INÍCIO DAS ATUALIZAÇÕES DE DADOS DO USUÁRIO <<<
 def atualizar_cad(data):
     try:
-        id_usuario = data['id']
+        id_usuario = data['ID_Usu']
         senha_atual = data['senhaveia']
         nova_senha = data.get('senha')
         nome = data['nome']

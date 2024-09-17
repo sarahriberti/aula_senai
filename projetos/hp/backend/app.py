@@ -42,6 +42,7 @@ def delete_user():
 def get_tasks():
     user_id = request.args.get('userId')
     date = request.args.get('date')
+    print('id back--',user_id)
     
     if not user_id or not date:
         return jsonify({'error': 'Parâmetros userId e date são obrigatórios'}), 400
@@ -78,6 +79,7 @@ def atualizar_tarefa_route():
 @app.route('/receber_dados', methods=['POST'])
 def receber_dados():
     dados = request.json
+    print('Dados ---', dados)
     if not dados:
         return jsonify({'error': 'Dados não fornecidos'}), 400
 

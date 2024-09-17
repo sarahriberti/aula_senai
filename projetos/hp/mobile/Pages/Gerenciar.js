@@ -20,7 +20,7 @@ const Gerenciarr = ({ navigation }) => {
     useEffect(() => {
         const getUserData = async () => {
             try {
-                const id = await AsyncStorage.getItem('ID');
+                const id = await AsyncStorage.getItem('ID_Usu');
                 if (id !== null) {
                     setUserId(id);
                 }
@@ -43,33 +43,42 @@ const Gerenciarr = ({ navigation }) => {
             }
         };
 
-        const fetchUserData = async (id) => {
+        const fetchUserData = async () => {
             try {
-                const response = await fetch('http://192.168.137.1:8085/receber_dados', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id_usuario: id,
-                    }),
-                });
+                // Recupera o ID do usuário do AsyncStorage
+                const id = await AsyncStorage.getItem('ID_Usu');
+                console.log('Gerenciar ID', id)
 
-                const data = await response.json();
-                console.log("Dados recebidos do backend:", data);
+                if (id) {
+                    // Faz a solicitação para o servidor com o ID do usuário
+                    const response = await fetch('http://192.168.137.1:8085/receber_dados', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id_usuario: id,
+                        }),
+                    });
 
-                if (!data.erro) {
-                    setNome(data.mensagem[1]);
+                    const data = await response.json();
+                    console.log("Dados recebidos do backend:", data);
 
-                    const dataNasc = new Date(data.mensagem[2]);
-                    setDataNascimento(
-                        `${dataNasc.getDate().toString().padStart(2, '0')}/${(dataNasc.getMonth() + 1).toString().padStart(2, '0')}/${dataNasc.getFullYear()}`
-                    );
+                    if (!data.erro) {
+                        setNome(data.mensagem[1]);
 
-                    setTelefone(data.mensagem[3]);
-                    setEmail(data.mensagem[4]);
+                        const dataNasc = new Date(data.mensagem[2]);
+                        setDataNascimento(
+                            `${dataNasc.getDate().toString().padStart(2, '0')}/${(dataNasc.getMonth() + 1).toString().padStart(2, '0')}/${dataNasc.getFullYear()}`
+                        );
+
+                        setTelefone(data.mensagem[3]);
+                        setEmail(data.mensagem[4]);
+                    } else {
+                        Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
+                    }
                 } else {
-                    Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
+                    Alert.alert("Erro", "ID do usuário não encontrado.");
                 }
             } catch (error) {
                 console.error('Erro ao buscar dados do usuário:', error);
@@ -269,7 +278,7 @@ const Gerenciarr = ({ navigation }) => {
                         <Text style={Gerenciarstyles.textEmail}>E-mail:</Text>
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
                         <Text style={Gerenciarstyles.textNewTelefone}>Telefone:</Text>
-                        <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={handlePhoneChange}/>
+                        <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={handlePhoneChange} />
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.bottomButtons}>
