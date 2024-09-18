@@ -31,7 +31,7 @@ const CalendarioOFC = () => {
     }
     try {
       const formattedDate = new Date(date).toISOString().split('T')[0];
-      const response = await fetch(`http://192.168.137.1:8085/tasks?userId=${userId}&date=${formattedDate}`);
+      const response = await fetch(`http://172.20.10.4:8085/tasks?userId=${userId}&date=${formattedDate}`);
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: ${response.statusText}`);
       }

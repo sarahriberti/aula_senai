@@ -125,7 +125,7 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
             <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Início: {selectedTask ? selectedTask.Hora_Ini : 'hh:mm'}</Text>
             <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Término: {selectedTask ? selectedTask.Hora_Fin : 'hh:mm'}</Text>
             <TextInput
-              style={{ height: 80, width: 330, backgroundColor: '#f4efdf', borderRadius: 25, padding: 10 }}
+              style={{ height: 80, width: 300, backgroundColor: '#f4efdf', borderRadius: 25, padding: 10 }}
               placeholder='Descrição'
               value={email} // Exibe a descrição da tarefa
               onChangeText={setEmail}

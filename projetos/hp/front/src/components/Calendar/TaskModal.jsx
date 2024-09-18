@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Delete from './Delete';
-
 // Função para formatar a data
 const formatDate = (date) => {
     const [year, month, day] = date.split('-');
@@ -15,7 +14,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
     const handleDelete = async (task) => {
         if (task && task.ID) {
             try {
-                const response = await fetch(`http://10.135.60.16:8085/delete_task?taskId=${task.ID}`, {
+                const response = await fetch(`http://172.20.10.4:8085/delete_task?taskId=${task.ID}`, {
                     method: 'DELETE',
                 });
                 const result = await response.json();
@@ -34,17 +33,17 @@ const TaskModal = ({ task, onClose, onEdit }) => {
     return (
         <>
             <Modal show={true} onHide={onClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Tarefa</Modal.Title>
+                <Modal.Header closeButton className='Header_Titulo_TaskModal'>
+                    <Modal.Title className='Titulo_ModalTask'>Tarefa</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <p><strong>Título:</strong> {task.Titulo}</p>
-                    <p><strong>Data:</strong> {formatDate(task.Data)}</p>
-                    <p><strong>Hora Inicial:</strong> {task.Hora_Ini}</p>
-                    <p><strong>Hora Final:</strong> {task.Hora_Fin}</p>
-                    <p><strong>Descrição:</strong> {task.Descr}</p>
-                    <p><strong>Notificação:</strong> {task.Notific ? 'Sim' : 'Não'}</p>
-                    <p><strong>Repetir:</strong> {task.Repetir}</p>
+                <Modal.Body className='Body_TaskModal'>
+                    <p className='Nome_TaskModal'><strong>Título:</strong> {task.Titulo}</p>
+                    <p className='Data_TaskModal'><strong>Data:</strong> {formatDate(task.Data)}</p>
+                    <p className='HrInicial_TaskModal'><strong>Hora Inicial:</strong> {task.Hora_Ini}</p>
+                    <p className='HrFinal_TaskModal'><strong>Hora Final:</strong> {task.Hora_Fin}</p>
+                    <p className='Descr_TaskModal'><strong>Descrição:</strong> {task.Descr}</p>
+                    <p className='Notf_TaskModal'><strong>Notificação:</strong> {task.Notific ? 'Sim' : 'Não'}</p>
+                    <p className='Rept_TaskModal'><strong>Repetir:</strong> {task.Repetir}</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowDeleteModal(true)}>

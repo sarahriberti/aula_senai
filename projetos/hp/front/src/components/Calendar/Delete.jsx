@@ -5,13 +5,13 @@ import Button from 'react-bootstrap/Button';
 const Delete = ({ show, onClose, onDelete, task }) => {
     return (
         <Modal show={show} onHide={onClose}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className='Header_delete'>
                 <Modal.Title>Confirmar Exclusão</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className='body_delete'>
                 <p>Deseja realmente excluir esta tarefa?</p>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className='Footer_Del'>
                 <Button variant="secondary" onClick={onClose}>
                     Não
                 </Button>

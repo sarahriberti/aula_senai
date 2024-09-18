@@ -4,6 +4,7 @@
   padding: 0 !important;
   display: flex;
   background-color:#191D2A;
+
 }
 .menu-box{
   max-width: 10%;
@@ -38,7 +39,7 @@
   width: 18px;
 }
 .modal-body { /* >>> COR DO MODAL <<< */
-  background-color: #191D2A;
+  background-color: rgb(60, 69, 97);
   color: aliceblue;
 }
 .modal-header {
@@ -62,7 +63,16 @@
   color: black;
   border: none;
   border-radius: 10px;
+  text-align: left;
+  padding: 2px;
 }
+
+input.form-control {
+  background-color: #F4EFDF;
+  border: none;
+}
+
+
 button.btn.btn-primary {
   border: none;
 } 
@@ -110,6 +120,11 @@ button.btn.btn-primary:hover{
 }
 /*cor do botão que chama o menu*/
 button.chamar_menu.btn.btn-primary {
+  background-color:transparent;
+  border: none;
+}
+
+button.chamar_menu.btn.btn-primary:hover {
   background-color:transparent;
   border: none;
 }
@@ -245,43 +260,43 @@ li {
 }
 
 .Nome_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
 }
 .Data_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
 }
 .HrInicial_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
 }
 .HrFinal_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
 }
 .Descr_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
 }
 .Notf_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
 }
 .Rept_TaskModal {
-  background-color: #fdf3c5;
+  background-color: #F4EFDF;
   color: black;
   padding: 5px;
   border-radius: 20px;
@@ -303,17 +318,45 @@ button.btn.btn-primary {
 button.btn.btn-primary:hover {
   background-color: #cea70e;
 }
-
 button.btn.btn-danger {
   background-color: #A28408;
   border: none;
 }
-
 button.btn.btn-danger:hover {
   background-color: #cea70e;
-
 }
-
+input#telefone_gerenciar_id {
+  padding: 12px;
+}
 .Footer_Del.modal-footer {
+  background-color: #191D2A;
+}
+.modal-header {
+  background-color:rgb(60, 69, 97);
+}
+.color-selector {
+  text-align: left;
+}
+.titulo-compromisso {
+  text-align: left;
+}
+.data-compromisso {
+  text-align: left;
+}
+.notification {
+  text-align: left;
+}
+textarea.form-control {
+  background-color: #F4EFDF;
+  border: none;
+}
+select.form-select {
+  background-color: #F4EFDF ;
+  border: none;
+}
+.Header_delete.modal-header {
+  background-color: #191D2A;
+}
+.body_delete.modal-body{
   background-color: #191D2A;
 }

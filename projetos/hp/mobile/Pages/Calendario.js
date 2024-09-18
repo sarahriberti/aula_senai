@@ -153,7 +153,7 @@ const TodoListScreen = ({ navigation }) => {
                 borderWidth: 1,
                 borderColor: '#efcd5e',
                 height: 35,
-                width: 300,
+                width: 400,
               },
               dayHeader: {
                 paddingTop: 5,
@@ -162,7 +162,7 @@ const TodoListScreen = ({ navigation }) => {
                 fontSize: 16,
                 borderWidth: 1,
                 borderColor: '#efcd5e',
-                width: 57,
+                width: 100,
               },
               monthText: {
                 color: '#ffcc00',
@@ -246,6 +246,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 10,
+    width: '100%',
   },
   Tarefa: {
     backgroundColor: '#252942',

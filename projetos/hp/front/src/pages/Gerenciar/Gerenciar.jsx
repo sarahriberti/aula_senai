@@ -89,7 +89,7 @@ function Gerenciar() {
     }
 
     try {
-      const response = await fetch('http://192.168.137.1:8085/atualizar_cad', {
+      const response = await fetch('http://172.20.10.4:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ function Gerenciar() {
       const userId = localStorage.getItem('id');
 
       try {
-        const response = await fetch('http://192.168.137.1:8085/receber_dados', {
+        const response = await fetch('http://172.20.10.4:8085:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -73,8 +73,8 @@ function Formulario({ taskToEdit, isEditing, onClose }) {
     console.log('Dados da tarefa antes de salvar:', tarefa)
 
     const apiUrl = isEditing
-      ? 'http://192.168.137.1:8085/atualizar_tarefa'
-      : 'http://192.168.137.1:8085/receber_dados';
+      ? 'http://172.20.10.4:8085/atualizar_tarefa'
+      : 'http://172.20.10.4:8085/receber_dados';
 
     try {
       const response = await fetch(apiUrl, {
@@ -178,7 +178,7 @@ function Formulario({ taskToEdit, isEditing, onClose }) {
               </div>
               <div className='description'>
                 <Form.Group className="mb-3">
-                  <Form.Label>Descrição</Form.Label>
+                  <Form.Label></Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
