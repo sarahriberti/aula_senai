@@ -4,7 +4,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
 import FormularioTaf from '../Componentes/FormularioTaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment-timezone';
+import moment, { max } from 'moment-timezone';
 
 // Configuração de localidade
 LocaleConfig.locales['pt'] = {
@@ -153,16 +153,16 @@ const TodoListScreen = ({ navigation }) => {
                 borderWidth: 1,
                 borderColor: '#efcd5e',
                 height: 35,
-                width: 400,
+                width: '100%',
               },
               dayHeader: {
                 paddingTop: 5,
                 color: 'black',
                 textAlign: 'center',
-                fontSize: 16,
+                fontSize: 14,  // Diminua o tamanho da fonte
                 borderWidth: 1,
                 borderColor: '#efcd5e',
-                width: 100,
+                width: 48.5,  // Reduza a largura das colunas dos dias
               },
               monthText: {
                 color: '#ffcc00',

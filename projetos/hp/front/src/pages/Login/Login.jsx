@@ -99,8 +99,8 @@ const Login = () => {
                         <h3>Login com</h3>
                         {/* Botões de login com Google e Facebook */}
                         <div className="logininferior">
-                            <input type="button" value="Google" />
-                            <a href="https://www.instagram.com/"><input type="button" value="Facebook" /></a>
+                            <input className='vamosss' type="button" value="Google" />
+                            <input type="button" value="Facebook" />
                         </div>
                     </form>
                 </div>
