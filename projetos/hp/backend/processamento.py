@@ -66,6 +66,7 @@ def processar_dados_log(dados):
     #Função para processar os dados de login recebidos do Flask
     #Retorna os dados processados
     dados_processados_log = dados
+    
 
     #Exibe os dados recebidos do login
     print(f"E-mail-login: {dados_processados_log.get('email_log')}")
@@ -101,23 +102,25 @@ def processar_dados_tarefa(dados):
     # Retorna os dados processados
     print('Processamento:', dados)
     # Verificar se todas as chaves necessárias estão presentes
-    required_keys = ['Cor', 'Titulo', 'Data', 'Hora_Ini', 'Hora_Fin', 'Notific', 'Descr', 'Repetir', 'ID_Usu']
+    required_keys = ['Cor', 'Titulo', 'Inicio', 'Termino', 'Notific', 'Descr', 'Categoria', 'Repetir', 'ID_Usu']
+    print("Chaves requeridas:", required_keys)
     missing_keys = [key for key in required_keys if key not in dados]
     
     if missing_keys:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': f'Campos ausentes: {", ".join(missing_keys)}'}]}
     
     dados_processados_to_do = dados
+    print('Dados processados para gravação:', dados_processados_to_do) 
 
     # Chama a função para gravar os dados no banco de dados
     Gravar_BD.gravar_tarefas(
         dados_processados_to_do['Cor'],
         dados_processados_to_do['Titulo'],
-        dados_processados_to_do['Data'],
-        dados_processados_to_do['Hora_Ini'],
-        dados_processados_to_do['Hora_Fin'],
+        dados_processados_to_do['Inicio'],
+        dados_processados_to_do['Termino'],
         dados_processados_to_do['Notific'],
         dados_processados_to_do['Descr'],
+        dados_processados_to_do['Categoria'],
         dados_processados_to_do['Repetir'],
         dados_processados_to_do['ID_Usu']
     )
@@ -127,19 +130,21 @@ def processar_dados_tarefa(dados):
 #Autor: Emily
 #Data: 04/04/2024
 def recuperar_cadastro(dados):
-    # Função para processar o id recebido do Flask
-    # Retorna os dados processados
     dados_processados_gerenciar = dados
-    
-    # Exibe os dados recebidos
     print(f"ID usuario: {dados_processados_gerenciar.get('id_usuario')}")
-
-
-        # Chama a função para verificar o ID no banco de dados
+    
     geren = consultar_usuario_por_id(dados_processados_gerenciar['id_usuario'])
-    if geren:              
-        return {'erro': False, 'mensagem': geren}
+    print('retorno bancoo', geren)
+    
+    if geren:
+        resposta = {
+            'id': geren[0],
+            'nome': geren[1],
+            'data_nascimento': str(geren[2]),  # Convertendo a data para string
+            'telefone': geren[3],
+            'email': geren[4],
+            'senha': geren[5]
+        }
+        return {'erro': False, 'mensagem': resposta}
     else:
-            # Dados de login incorretos
-        print(geren)
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'ID não encontrado ou inexistente'}]}

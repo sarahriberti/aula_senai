@@ -47,7 +47,6 @@
   color: #D6B00F;
   flex-direction: column-reverse;
   font-weight: bold;
- 
 }
 .adicionar-compromisso { /* >>> COR DE ONDE ESTÁ ESCRITO "COMPROMISSO" <<< */
   background-color: #191D2A;
@@ -68,10 +67,9 @@
 }
 
 input.form-control {
-  background-color: #F4EFDF;
   border: none;
+  background-color: #fdf3c5;
 }
-
 
 button.btn.btn-primary {
   border: none;
@@ -98,11 +96,41 @@ button.btn.btn-primary:hover{
 .ate-color{
   background-color: #F4EFDF !important;
 }
-.date-color{
-  background-color: #F4EFDF !important;
-}
 .til-color{
   background-color: #F4EFDF !important;
+}
+.mb-3{
+  text-align: left;
+}
+.color-selector {
+  display: flex;
+  text-align: left;
+}
+.color-choose{
+  margin-left: 10px;
+}
+#input-date-ini{
+  width: 50%;
+}
+#input-date-fin{
+  width: 50%;
+}
+#input-hora-ini{
+  width: 45%;
+  height: 49px;
+  margin-top: 8px;
+}
+#input-hora-fin{
+  width: 45%;
+  height: 49px;
+  margin-top: 8px;
+}
+.d-flex{
+  display: flex ;
+  justify-content: space-between;
+}
+.repeat{
+  margin-top: 15px;
 }
 /* >>> FINAL MODAL <<<*/
 
@@ -164,9 +192,7 @@ button.comp_menu.btn.btn-primary {
 button.linke2.btn.btn-primary {
   background-color: transparent;
 }
-a{
-  margin-left: 13px;
-}
+
 /*tamanho logo do instagram e margin para posicionar*/
 .insta{
   width: 50px;
@@ -202,6 +228,15 @@ button.text.btn.btn-primary {
   border: none;
   margin: 0;
   padding: 0;
+}
+.itens{
+  margin-right: 160px;
+}
+.itens1{
+  margin-right: 188px;
+}
+.itens2{
+  margin-right: 195px;
 }
 
 /*Fim das atividades*/
@@ -315,9 +350,6 @@ button.btn.btn-primary {
   background-color: #A28408;
 }
 
-button.btn.btn-primary:hover {
-  background-color: #cea70e;
-}
 button.btn.btn-danger {
   background-color: #A28408;
   border: none;
@@ -334,9 +366,6 @@ input#telefone_gerenciar_id {
 .modal-header {
   background-color:rgb(60, 69, 97);
 }
-.color-selector {
-  text-align: left;
-}
 .titulo-compromisso {
   text-align: left;
 }
@@ -347,11 +376,11 @@ input#telefone_gerenciar_id {
   text-align: left;
 }
 textarea.form-control {
-  background-color: #F4EFDF;
+  background-color: #fdf3c5;
   border: none;
 }
 select.form-select {
-  background-color: #F4EFDF ;
+  background-color: #fdf3c5;
   border: none;
 }
 .Header_delete.modal-header {
@@ -359,4 +388,13 @@ select.form-select {
 }
 .body_delete.modal-body{
   background-color: #191D2A;
+}
+
+/* >>> ESTILIZAÇÃO DA DIV QUE APARECE 
+A COR DA TAREFA NO TASKMODAL  */
+
+.Color_TaskModal{
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
 }

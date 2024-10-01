@@ -70,7 +70,7 @@ export default Doacaostyles = StyleSheet.create({
     buttonText: {
         color: '#fff', // Cor do texto dentro do botão
         fontSize: 20,
-        
+
     },
     modalContainer: {
         flex: 1,

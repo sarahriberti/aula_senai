@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Cadastrostyles from "../Componentes/Cadastrostyles";
 import { View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity, Text, ScrollView, Alert, Linking } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; // Certifique-se de ter instalado @expo/vector-icons
-import { TextInputMask } from 'react-native-masked-text'; // Adicione esta linha
+import { Ionicons } from '@expo/vector-icons';
+import { TextInputMask } from 'react-native-masked-text';
 
 const CadastroForm = ({ navigation }) => {
-
   const [formValues, setFormValues] = useState({
     nome: '',
     email: '',
@@ -38,19 +37,43 @@ const CadastroForm = ({ navigation }) => {
     return `${year}-${month}-${day}`;
   };
 
+  const validarNome = (nome) => {
+    const nomeLimpo = nome.trim(); // Remove espaços do início e fim
+
+    // Verifica se o nome está vazio após a remoção de espaços
+    if (nomeLimpo.length === 0) {
+      return 'O nome não pode ser vazio ou conter apenas espaços.';
+    }
+
+    // Verifica o comprimento mínimo e máximo sem contar espaços
+    if (nomeLimpo.replace(/ /g, '').length < 3) {
+      return 'O nome deve ter no mínimo 3 caracteres sem contar espaços.';
+    }
+
+    // Verifica se o nome contém apenas letras e espaços, sem números ou caracteres especiais
+    if (!/^[A-Za-zÀ-ÖØ-öø-ÿ ]+$/.test(nomeLimpo)) {
+      return 'O nome deve conter apenas letras, sem números ou caracteres especiais.';
+    }
+
+    return ''; // Retorna string vazia se não houver erro
+  };
+
   const handleSubmit = async () => {
-    // Converta a data de nascimento para o formato YYYY-MM-DD
+    const erroNome = validarNome(formValues.nome);
+    if (erroNome) {
+      Alert.alert('Erro', erroNome);
+      return; // Não prossegue se o nome for inválido
+    }
+
     const dataNascimentoFormatada = formatDateToISO(formValues.dataNascimento);
 
-
-    // Crie um novo objeto de valores de formulário com a data de nascimento formatada
     const valoresFormatados = {
       ...formValues,
       dataNascimento: dataNascimentoFormatada,
     };
 
     try {
-      const resposta = await fetch('http://192.168.137.1:8085/receber_dados', {
+      const resposta = await fetch('http://10.135.60.38:8085/receber_dados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,6 +91,7 @@ const CadastroForm = ({ navigation }) => {
       console.error('Erro ao enviar dados:', error);
       Alert.alert('Erro ao enviar dados:', error.message);
     }
+
     setFormValues({
       nome: '',
       email: '',
@@ -77,7 +101,6 @@ const CadastroForm = ({ navigation }) => {
       confirmsenha: '',
     });
   };
-
 
   const handleFacebookPress = () => {
     Linking.openURL('https://www.facebook.com/sua-pagina-do-facebook');

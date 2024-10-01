@@ -345,10 +345,35 @@ button.react-calendar__tile.react-calendar__century-view__decades__decade {
   width: 20px;
   height: 20px;
   border-radius: 50px;
-
 }
 
 /* >>> TÍTULO DA TAREFA <<< */
 .titles-tasks {
   margin-left: 5px;
+}
+
+.react-calendar__month-view__days__day abbr {
+  display: block;
+  text-align: left; /* Alinha os números dos dias à esquerda */
+  position: relative;
+  bottom: 20px; /* Ajuste a posição vertical, se necessário */
+  right: 40%; /* Ajuste a posição horizontal, se necessário */
+  font-size: 20px; /* Tamanho da fonte para o número */
+}
+
+/* Mantém os dias da semana centralizados */
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-align: center; /* Centraliza os dias da semana */
+  display: block;
+  font-size: 14px; /* Tamanho da fonte para os dias da semana */
+}
+
+.react-calendar__year-view__months__month abbr {
+  font-size: 20px; /* Define o tamanho da letra dos meses */
+  font-weight: bold; /* Opcional: Deixa o texto em negrito */
+  text-transform: capitalize; /* Deixa a primeira letra maiúscula, opcional */
+}
+
+.react-calendar__navigation__label__labelText {
+  text-transform: capitalize; /* Transforma a primeira letra em maiúscula */
 }

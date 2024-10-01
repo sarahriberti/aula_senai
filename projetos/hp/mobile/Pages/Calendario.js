@@ -30,7 +30,7 @@ const TodoListScreen = ({ navigation }) => {
       if (userId) {
         const localDate = moment(date).tz('America/Sao_Paulo').format('YYYY-MM-DD');
         console.log(`Fetching tasks for userId: ${userId} on date: ${localDate}`);
-        const response = await fetch(`http://192.168.137.1:8085/tasks?userId=${userId}&date=${localDate}`);
+        const response = await fetch(`http://10.135.60.38:8085/tasks?userId=${userId}&date=${localDate}`);
         const data = await response.json();
         setTasks(data);
       }

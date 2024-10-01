@@ -10,75 +10,50 @@ const Gerenciarr = ({ navigation }) => {
     const [dataNascimento, setDataNascimento] = useState('');
     const [senhaGer, setSenhaGer] = useState('');
     const [confirmarSenhaGer, setConfirmarSenhaGer] = useState('');
+    const [novaSenhaGer, setNovaSenhaGer] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
-    const [novaSenhaGer, setNovaSenhaGer] = useState('');
-    const [emailUsuario, setEmailUsuario] = useState('');
-    const [telUsuario, setTelUsuario] = useState('');
+    const [senhaveia, setSenhaveia] = useState('');
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const getUserData = async () => {
             try {
-                const id = await AsyncStorage.getItem('ID_Usu');
-                if (id !== null) {
+                const id = await AsyncStorage.getItem('id');
+                if (id) {
                     setUserId(id);
-                }
-
-                const storedEmail = await AsyncStorage.getItem('Email');
-                if (storedEmail) {
-                    setEmailUsuario(storedEmail);
-                }
-
-                const storedTel = await AsyncStorage.getItem('Celular');
-                if (storedTel) {
-                    setTelUsuario(storedTel);
-                }
-
-                if (id !== null) {
                     await fetchUserData(id);
+                } else {
+                    Alert.alert("Erro", "ID do usuário não encontrado.");
                 }
             } catch (error) {
                 console.error('Erro ao recuperar dados do usuário:', error);
             }
         };
 
-        const fetchUserData = async () => {
+        const fetchUserData = async (id) => {
             try {
-                // Recupera o ID do usuário do AsyncStorage
-                const id = await AsyncStorage.getItem('ID_Usu');
-                console.log('Gerenciar ID', id)
+                const response = await fetch('http://10.135.60.38:8085/receber_dados', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id_usuario: id }),
+                });
 
-                if (id) {
-                    // Faz a solicitação para o servidor com o ID do usuário
-                    const response = await fetch('http://192.168.137.1:8085/receber_dados', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            id_usuario: id,
-                        }),
-                    });
+                const data = await response.json();
+                console.log("Dados recebidos do backend:", data);
 
-                    const data = await response.json();
-                    console.log("Dados recebidos do backend:", data);
-
-                    if (!data.erro) {
-                        setNome(data.mensagem[1]);
-
-                        const dataNasc = new Date(data.mensagem[2]);
-                        setDataNascimento(
-                            `${dataNasc.getDate().toString().padStart(2, '0')}/${(dataNasc.getMonth() + 1).toString().padStart(2, '0')}/${dataNasc.getFullYear()}`
-                        );
-
-                        setTelefone(data.mensagem[3]);
-                        setEmail(data.mensagem[4]);
-                    } else {
-                        Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
-                    }
+                if (!data.erro) {
+                    setNome(data.mensagem.nome);
+                    const dataNasc = new Date(data.mensagem.data_nascimento);
+                    setDataNascimento(
+                        `${dataNasc.getDate().toString().padStart(2, '0')}/${(dataNasc.getMonth() + 1).toString().padStart(2, '0')}/${dataNasc.getFullYear()}`
+                    );
+                    setTelefone(data.mensagem.telefone);
+                    setEmail(data.mensagem.email);
                 } else {
-                    Alert.alert("Erro", "ID do usuário não encontrado.");
+                    Alert.alert("Erro", "Não foi possível carregar os dados do usuário.");
                 }
             } catch (error) {
                 console.error('Erro ao buscar dados do usuário:', error);
@@ -91,10 +66,7 @@ const Gerenciarr = ({ navigation }) => {
 
     const isValidDate = (date) => {
         const [day, month, year] = date.split('/').map(Number);
-        const isMonthValid = month >= 1 && month <= 12;
-        const isDateValid = day >= 1 && day <= 31; // Basic validation; you might want to refine this
-
-        return isMonthValid && isDateValid;
+        return month >= 1 && month <= 12 && day >= 1 && day <= 31;
     };
 
     const isAdult = (date) => {
@@ -103,16 +75,11 @@ const Gerenciarr = ({ navigation }) => {
         const birthDate = new Date(year, month - 1, day);
         const age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
-
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            return age - 1;
-        }
-
-        return age;
+        return monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
     };
 
     const handleGerenciar = async () => {
-        if (novaSenhaGer !== confirmarSenhaGer) {
+        if (novaSenhaGer !== confirmarSenhaGer && (novaSenhaGer || confirmarSenhaGer)) {
             Alert.alert("Erro", "As senhas não coincidem!");
             return;
         }
@@ -130,33 +97,28 @@ const Gerenciarr = ({ navigation }) => {
 
         const formattedDate = dataNascimento.split('/').reverse().join('-');
 
+        // Prepare os dados a serem enviados
         const data = {
             id: userId,
-            nome: nome,
+            nome,
             data_nascimento: formattedDate,
-            senhaveia: senhaGer,
-            senha: novaSenhaGer,
-            email: email,
+            email,
             celular: telefone,
+            senhaveia,
+            senha: novaSenhaGer || undefined,
         };
 
         console.log("Dados enviados para o backend:", data);
 
         try {
-            const response = await fetch('http://192.168.137.1:8085/atualizar_cad', {
+            const response = await fetch('http://10.135.60.38:8085/atualizar_cad', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     acao: 'update_cad',
-                    id: data.id,
-                    nome: data.nome,
-                    data_nascimento: data.data_nascimento,
-                    celular: data.celular,
-                    email: data.email,
-                    senha: data.senha,
-                    senhaveia: data.senhaveia
+                    ...data,
                 }),
             });
 
@@ -164,26 +126,35 @@ const Gerenciarr = ({ navigation }) => {
             console.log("Resultado da atualização:", result);
 
             if (result.sucesso) {
+                // Atualiza o nome no AsyncStorage
+                await updateNomeAsync(nome);
                 Alert.alert("Dados atualizados com sucesso!");
             } else {
                 Alert.alert("Erro", result.mensagem || "Erro ao atualizar dados!");
             }
         } catch (error) {
             console.error("Erro ao atualizar dados:", error);
-            Alert.alert("Erro ao atualizar dados!");
+            Alert.alert("Erro ao atualizar dados:", error.message || "Erro desconhecido!");
         }
     };
+
+    const updateNomeAsync = async (novoNome) => {
+        try {
+            await AsyncStorage.setItem('nome', novoNome);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
     const handlePhoneChange = (text) => {
         setTelefone(formatPhoneNumber(text));
     };
 
     const formatPhoneNumber = (number) => {
         const cleaned = ('' + number).replace(/\D/g, '');
-        if (cleaned.length <= 10) {
-            return cleaned.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
-        } else {
-            return cleaned.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-        }
+        return cleaned.length <= 10
+            ? cleaned.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3')
+            : cleaned.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
     };
 
     const [senhaVisivel, setSenhaVisivel] = useState({
@@ -220,6 +191,19 @@ const Gerenciarr = ({ navigation }) => {
                             onChangeText={setDataNascimento}
                             placeholder="DD/MM/YYYY"
                         />
+                        <Text style={Gerenciarstyles.textEmail}>Email:</Text>
+                        <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} keyboardType="email-address" />
+                        <Text style={Gerenciarstyles.textTelefone}>Telefone:</Text>
+                        <TextInputMask
+                            type={'custom'}
+                            options={{
+                                mask: '(99) 9999-9999'
+                            }}
+                            style={Gerenciarstyles.input}
+                            value={telefone}
+                            onChangeText={handlePhoneChange}
+                            placeholder="(XX) XXXX-XXXX"
+                        />
                     </View>
                     <View style={Gerenciarstyles.borda}></View>
                     <View style={Gerenciarstyles.password}>
@@ -228,64 +212,47 @@ const Gerenciarr = ({ navigation }) => {
                             <TextInput
                                 style={Gerenciarstyles.inputField}
                                 autoCorrect={false}
-                                value={senhaGer}
-                                onChangeText={setSenhaGer}
-                                accessibilityLabel="Senha Gerenciar"
+                                value={senhaveia}
+                                onChangeText={setSenhaveia}
                                 secureTextEntry={!senhaVisivel.senhaGer}
                                 maxLength={30}
                             />
                             <TouchableOpacity onPress={() => toggleSenhaVisibilidade('senhaGer')} style={Gerenciarstyles.iconWrapper}>
-                                <Ionicons name={senhaVisivel.senhaGer ? 'eye-off' : 'eye'} size={24} color="gray" />
+                                <Ionicons name={senhaVisivel.senhaGer ? 'eye-off' : 'eye'} size={24} color="black" />
                             </TouchableOpacity>
                         </View>
-
-                        <Text onPress={() => navigation.navigate('EsqueciSenha', { originScreen: 'Gerenciar' })} style={Gerenciarstyles.textEsqueciSenha}>Esqueceu sua senha ?</Text>
-
-                        <Text style={Gerenciarstyles.textNewSenha}>Nova senha:</Text>
+                        <Text style={Gerenciarstyles.textActualSenha}>Nova Senha:</Text>
                         <View style={Gerenciarstyles.inputContainer}>
                             <TextInput
                                 style={Gerenciarstyles.inputField}
                                 autoCorrect={false}
                                 value={novaSenhaGer}
                                 onChangeText={setNovaSenhaGer}
-                                accessibilityLabel="Nova Senha Gerenciar"
                                 secureTextEntry={!senhaVisivel.novaSenhaGer}
                                 maxLength={30}
                             />
                             <TouchableOpacity onPress={() => toggleSenhaVisibilidade('novaSenhaGer')} style={Gerenciarstyles.iconWrapper}>
-                                <Ionicons name={senhaVisivel.novaSenhaGer ? 'eye-off' : 'eye'} size={24} color="gray" />
+                                <Ionicons name={senhaVisivel.novaSenhaGer ? 'eye-off' : 'eye'} size={24} color="black" />
                             </TouchableOpacity>
                         </View>
-
-                        <Text style={Gerenciarstyles.textNewSenha}>Confirmar nova senha:</Text>
+                        <Text style={Gerenciarstyles.textActualSenha}>Confirmar Senha:</Text>
                         <View style={Gerenciarstyles.inputContainer}>
                             <TextInput
                                 style={Gerenciarstyles.inputField}
                                 autoCorrect={false}
                                 value={confirmarSenhaGer}
                                 onChangeText={setConfirmarSenhaGer}
-                                accessibilityLabel="Confirmar Nova Senha Gerenciar"
                                 secureTextEntry={!senhaVisivel.confirmarSenhaGer}
                                 maxLength={30}
                             />
                             <TouchableOpacity onPress={() => toggleSenhaVisibilidade('confirmarSenhaGer')} style={Gerenciarstyles.iconWrapper}>
-                                <Ionicons name={senhaVisivel.confirmarSenhaGer ? 'eye-off' : 'eye'} size={24} color="gray" />
+                                <Ionicons name={senhaVisivel.confirmarSenhaGer ? 'eye-off' : 'eye'} size={24} color="black" />
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={Gerenciarstyles.borda}></View>
-                    <View style={Gerenciarstyles.contato}>
-                        <Text style={Gerenciarstyles.textEmail}>E-mail:</Text>
-                        <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} />
-                        <Text style={Gerenciarstyles.textNewTelefone}>Telefone:</Text>
-                        <TextInput style={Gerenciarstyles.input} value={telefone} onChangeText={handlePhoneChange} />
-                    </View>
-                    <View style={Gerenciarstyles.borda}></View>
-                    <View style={Gerenciarstyles.bottomButtons}>
-                        <TouchableOpacity style={Gerenciarstyles.botaoSalvar} onPress={handleGerenciar}>
-                            <Text style={Gerenciarstyles.btnSave}>Salvar</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity onPress={handleGerenciar} style={Gerenciarstyles.btnSave}>
+                        <Text style={Gerenciarstyles.btnText}>Atualizar</Text>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
         </KeyboardAvoidingView>

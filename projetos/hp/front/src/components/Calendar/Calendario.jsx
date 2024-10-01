@@ -8,7 +8,7 @@ import TaskModal from './TaskModal';
 // Função para formatar a data
 const formatDate = (date) => {
   const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
+  const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
@@ -31,14 +31,24 @@ const CalendarioOFC = () => {
     }
     try {
       const formattedDate = new Date(date).toISOString().split('T')[0];
-      const response = await fetch(`http://172.20.10.4:8085/tasks?userId=${userId}&date=${formattedDate}`);
+      const response = await fetch(`http://10.135.60.38:8085/tasks?userId=${userId}&date=${formattedDate}`);
+
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: ${response.statusText}`);
       }
+
       const data = await response.json();
+
+      // Logando a resposta completa para ver o que está sendo retornado
+      console.log('Resposta da API:', data);
+
       if (Array.isArray(data)) {
         setTasks(data);
-        const tasksForSelectedDate = data.filter((task) => task.Data === formattedDate);
+        // Filtrar as tarefas pela data, comparando somente a parte da data de 'Inicio'
+        const tasksForSelectedDate = data.filter((task) => {
+          const taskDate = new Date(task.Inicio).toISOString().split('T')[0]; // Extrair a parte da data de 'Inicio'
+          return taskDate === formattedDate;
+        });
         setTasksForDate(tasksForSelectedDate);
       } else {
         console.error('A resposta da API não é um array:', data);
@@ -47,6 +57,7 @@ const CalendarioOFC = () => {
       console.error('Erro ao buscar tarefas:', error);
     }
   };
+
 
   const handleDateClick = (value) => {
     setDate(value);
@@ -66,7 +77,6 @@ const CalendarioOFC = () => {
   };
 
   const openFormForAdd = () => {
-    console.log("Abrindo formulário para adicionar tarefa");
     setIsEditing(false);
     setTaskToEdit(null);
     setIsFormOpen(true);
@@ -89,10 +99,13 @@ const CalendarioOFC = () => {
   return (
     <div className="calendar-container">
       <div className="calendar-wrapper">
-        <Calendar onClickDay={handleDateClick} />
+        <Calendar
+          onClickDay={handleDateClick}
+          value={date} // Definindo o valor do calendário como a data selecionada
+        />
       </div>
       <div className="tasks-list">
-        <h3 className='task-superior'>Tarefas para {formatDate(date)}</h3>
+        <h3 className='task-superior'>{formatDate(date)}</h3>
         <ul className='scroll'>
           {tasksForDate.length > 0 ? (
             tasksForDate.map((task) => (
@@ -106,10 +119,7 @@ const CalendarioOFC = () => {
           )}
         </ul>
         <div className='btn-add'>
-          <button onClick={() => {
-            console.log("Botão Adicionar Tarefa clicado");
-            setIsFormOpen(true);
-          }} className='btn-add-task'>
+          <button onClick={openFormForAdd} className='btn-add-task'>
             <img className='btn-add-img' src="/src/image/mais.png" alt="menu icon" width={50} />
           </button>
           {isFormOpen && (
@@ -117,6 +127,7 @@ const CalendarioOFC = () => {
               taskToEdit={taskToEdit}
               isEditing={isEditing}
               onClose={handleCloseForm}
+              selectedDate={date}  /* Passando a data como objeto Date */
             />
           )}
         </div>

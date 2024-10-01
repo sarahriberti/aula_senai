@@ -42,7 +42,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
             setSelectedDate(convertFromUTC(loadedDate));
 
             setStartHour(selectedTask.Hora_Ini ? new Date(`1970-01-01T${selectedTask.Hora_Ini}:00`) : null);
-            setEndHour(selectedTask.Hora_Fin ? new Date(`1970-01-01T${selectedTask.Hora_Fin}:00`) : null);           
+            setEndHour(selectedTask.Hora_Fin ? new Date(`1970-01-01T${selectedTask.Hora_Fin}:00`) : null);
             setTitle(selectedTask.Titulo);
             setDescription(selectedTask.Descr);
             setNotificationEnabled(selectedTask.Notific);
@@ -107,7 +107,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
 
         setErrorMessage('');
 
-        const userId = await AsyncStorage.getItem('ID_Usu'); 
+        const userId = await AsyncStorage.getItem('ID_Usu');
         console.log('User ID:', userId); // Verifica se o valor do ID está correto
 
         // Converta a data para UTC
@@ -130,7 +130,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         console.log('Task data:', task);
 
         try {
-            const response = await fetch(selectedTask ? 'http://192.168.137.1:8085/atualizar_tarefa' : 'http://192.168.137.1:8085/receber_dados', {
+            const response = await fetch(selectedTask ? 'http://10.135.60.38:8085/atualizar_tarefa' : 'http://10.135.60.38:8085/receber_dados', {
                 method: selectedTask ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',

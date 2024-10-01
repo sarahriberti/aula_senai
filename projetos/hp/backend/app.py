@@ -57,6 +57,7 @@ def get_tasks():
 @app.route('/atualizar_cad', methods=['POST'])
 def atualizar_nome_usuario():
     data = request.get_json()
+    print('apiiiiiiiiiiiiiiiiii', data)
     if data.get('acao') == 'update_cad':
         ret = atualizar_cad(data)
         print('teste ret ',ret)
@@ -66,6 +67,7 @@ def atualizar_nome_usuario():
 @app.route('/atualizar_tarefa', methods=['PUT'])
 def atualizar_tarefa_route():
     dados = request.json
+    print("UPDATE TESTE-----", dados)
     if not dados:
         return jsonify({'error': 'Dados não fornecidos'}), 400
 
@@ -97,13 +99,14 @@ def receber_dados():
                 dados['donationValue']
             )
         
-        elif dados.get('email_log') is None and dados.get('ID_Usu') is None:
+        elif dados.get('email_log') is None and dados.get('id_usuario') is None:
             ret = processar_dados_cad(dados)
-        elif dados.get('email_log') is not None and dados.get('ID_Usu') is None:
+        elif dados.get('email_log') is not None and dados.get('id_usuario') is None:
             ret = processar_dados_log(dados)
-        elif dados.get('ID_Usu') is not None:
+        elif dados.get('id_usuario') is not None:
             ret = recuperar_cadastro(dados)
-            print("TESTE ---------", ret)
+            print("RETORNO DO CADASTRO ---------", ret)  # Isso deve exibir o retorno JSON completo
+
         else:
             ret = {'error': 'Dados não reconhecidos'}
 
@@ -113,4 +116,4 @@ def receber_dados():
 
 # Executa a aplicação
 if __name__ == '__main__':
-    app.run(port=8085, host='0.0.0.0', debug=True, threaded=True)
+    app.run(port=8085, host='10.135.60.38', debug=False, threaded=True)

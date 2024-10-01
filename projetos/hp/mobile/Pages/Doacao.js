@@ -11,88 +11,86 @@ const PagDoacaoMobile = () => {
         donationAmount: 'R$ 0,00',
     });
 
+    const [showThanksScreen, setShowThanksScreen] = useState(false);
+
     const handleChange = (name, value) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    // Função para formatar o valor da doação como moeda brasileira (R$)
+    // Função para formatar o número do cartão em blocos de 4 dígitos
+    const handleCardNumberChange = (text) => {
+        let formattedText = text.replace(/\D/g, ''); // Remove qualquer caractere não numérico
+        if (formattedText.length > 16) {
+            formattedText = formattedText.slice(0, 16); // Limita a 16 dígitos
+        }
+        // Insere espaços a cada 4 dígitos
+        formattedText = formattedText.replace(/(\d{4})(?=\d)/g, '$1 ');
+        setFormData({ ...formData, cardNumber: formattedText });
+    };
+
     const handleDonationChange = (text) => {
-        // Remove tudo que não for número
         let unformattedValue = text.replace(/\D/g, '');
-        
-        // Limite de até 99.999,99
         if (unformattedValue.length > 8) {
             unformattedValue = unformattedValue.slice(0, 8);
         }
-
-        // Converte para número e formata em moeda com vírgula
         const formattedValue = (Number(unformattedValue) / 100).toLocaleString('pt-BR', {
             style: 'currency',
             currency: 'BRL',
         });
-
         setFormData({ ...formData, donationAmount: formattedValue });
     };
 
-    // Função para validar o número do cartão usando o algoritmo de Luhn
     const validateCardNumber = (number) => {
-        const regex = /^\d{16}$/; // Verifica se o número contém 16 dígitos
+        const regex = /^\d{4} \d{4} \d{4} \d{4}$/; // Verifica se o número contém 16 dígitos com os espaços adequados
         if (!regex.test(number)) return false;
 
+        const cardNumberWithoutSpaces = number.replace(/\s/g, ''); // Remove os espaços para validar
         let sum = 0;
         let shouldDouble = false;
-        for (let i = number.length - 1; i >= 0; i--) {
-            let digit = parseInt(number[i]);
-
+        for (let i = cardNumberWithoutSpaces.length - 1; i >= 0; i--) {
+            let digit = parseInt(cardNumberWithoutSpaces[i]);
             if (shouldDouble) {
                 digit *= 2;
                 if (digit > 9) digit -= 9;
             }
-
             sum += digit;
             shouldDouble = !shouldDouble;
         }
-
         return sum % 10 === 0;
     };
 
-    // Função para formatar e validar a data de expiração (MM/YY)
     const handleExpirationDateChange = (text) => {
-        let formattedText = text.replace(/\D/g, ''); // Remove qualquer caractere não numérico
-
+        let formattedText = text.replace(/\D/g, '');
         if (formattedText.length > 2) {
             formattedText = `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}`;
         }
-
         setFormData({ ...formData, expirationDate: formattedText });
     };
 
     const validateExpirationDate = (expirationDate) => {
-        const regex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/; // Valida MM/YY
+        const regex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
         if (!regex.test(expirationDate)) return false;
 
         const [month, year] = expirationDate.split('/').map(Number);
         const currentDate = new Date();
         const currentMonth = currentDate.getMonth() + 1;
         const currentYear = currentDate.getFullYear() % 100;
+        return !(year < currentYear || (year === currentYear && month < currentMonth));
+    };
 
-        // Verifica se a data de expiração já passou
-        if (year < currentYear || (year === currentYear && month < currentMonth)) {
-            return false;
+    // Função para validar o CVV (3 ou 4 dígitos)
+    const handleCvvChange = (text) => {
+        let formattedText = text.replace(/\D/g, '');
+        if (formattedText.length > 3) {
+            formattedText = formattedText.slice(0, 3); // Limita a 4 dígitos
         }
-
-        return true;
+        setFormData({ ...formData, cvv: formattedText });
     };
 
-    // Função para validar o nome (apenas letras e espaços, sem acento, máximo 30 caracteres)
+    // Função para validar o nome (sem apenas espaços, e espaços permitidos apenas entre os nomes)
     const validateCardholderName = (name) => {
-        const regex = /^[A-Za-z ]{1,30}$/; // Permite apenas letras sem acentos e espaços, máximo de 30 caracteres
-        return regex.test(name);
-    };
-
-    const validateDonationAmount = (amount) => {
-        const numericValue = Number(amount.replace(/\D/g, '')) / 100;
-        return numericValue <= 99999.99; // Verifica se o valor é menor ou igual a 99.999,99
+        const regex = /^[A-Za-z]+( [A-Za-z]+)*$/; // Permite apenas letras e um espaço entre palavras, sem espaços no início, fim ou múltiplos consecutivos.
+        return regex.test(name.trim()); // O trim() remove espaços no início e no fim
     };
 
     const handleSubmit = () => {
@@ -107,7 +105,7 @@ const PagDoacaoMobile = () => {
         }
 
         if (!validateCardholderName(formData.cardholderName)) {
-            Alert.alert('Nome inválido', 'Por favor, insira um nome válido (somente letras e espaços, sem acento, até 30 caracteres).');
+            Alert.alert('Nome inválido', 'Por favor, insira um nome válido. O nome não pode conter apenas espaços, e os espaços são permitidos apenas entre o primeiro e último nome.');
             return;
         }
 
@@ -124,10 +122,8 @@ const PagDoacaoMobile = () => {
             cardholderName: '',
             donationAmount: 'R$ 0,00',
         });
-        setShowThanksScreen(true); // Mostrar a tela de agradecimento ao pressionar o botão "Contribuir"
+        setShowThanksScreen(true);
     };
-
-    const [showThanksScreen, setShowThanksScreen] = useState(false);
 
     return (
         <View style={Doacaostyles.container}>
@@ -144,9 +140,10 @@ const PagDoacaoMobile = () => {
                         style={Doacaostyles.input}
                         placeholder="Número do Cartão"
                         value={formData.cardNumber}
-                        onChangeText={(text) => handleChange('cardNumber', text)}
+                        onChangeText={handleCardNumberChange}
                         placeholderTextColor={'#fff'}
                         keyboardType="numeric"
+                        maxLength={19} // Limita o campo a 19 caracteres (16 dígitos + 3 espaços)
                     />
                     <TextInput
                         style={Doacaostyles.input}
@@ -161,8 +158,10 @@ const PagDoacaoMobile = () => {
                         style={Doacaostyles.input}
                         placeholder="CVV"
                         value={formData.cvv}
-                        onChangeText={(text) => handleChange('cvv', text)}
+                        onChangeText={handleCvvChange}
                         placeholderTextColor={'#fff'}
+                        keyboardType="numeric"
+                        maxLength={3} // Limita o campo a 4 dígitos
                     />
                     <TextInput
                         style={Doacaostyles.input}

@@ -32,7 +32,7 @@ function LoginForm({ navigation }) {
     const { email_log, senha_log } = formValues;
 
     try {
-      const response = await fetch('http://192.168.137.1:8085/receber_dados', {
+      const response = await fetch('http://10.135.60.38:8085/receber_dados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ function LoginForm({ navigation }) {
         Alert.alert('Erro', 'Credenciais inválidas. Verifique seu e-mail e senha.');
       } else {
 
-        await AsyncStorage.setItem('ID_Usu', resultado.mensagem[0].toString());
+        await AsyncStorage.setItem('id', resultado.mensagem[0].toString());
         await AsyncStorage.setItem('nome', resultado.mensagem[1]);
         console.log('idddasync', resultado.mensagem[0])
         navigation.navigate('Calendario');

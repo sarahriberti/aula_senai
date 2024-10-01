@@ -10,8 +10,8 @@ def confere_dados_com_banco(email, senha):
     conex.close()
 
     if usuarios is not None:
-        id_bd, nome_bd, data_nasc, celular_bd, email_bd, senha_bd = usuarios
-        if email == email_bd and senha == senha_bd:
+        ID, Nome, Data_Nasc, Celular, Email, Senha = usuarios
+        if email == Email and senha == Senha:
             return usuarios  # Dados de login corretos
         else:
             return False  # Dados de login incorretos

@@ -4,8 +4,9 @@ import conexao  # Importe sua conexão com o banco de dados
 
 # >>> INÍCIO DAS ATUALIZAÇÕES DE DADOS DO USUÁRIO <<<
 def atualizar_cad(data):
+    print('atualizar bancooooo----------',data)
     try:
-        id_usuario = data['ID_Usu']
+        id_usuario = data['id']
         senha_atual = data['senhaveia']
         nova_senha = data.get('senha')
         nome = data['nome']
@@ -16,6 +17,7 @@ def atualizar_cad(data):
         # Conectar ao banco de dados
         conex = conexao.conectar()
         cursor = conex.cursor()
+        print('banco', id_usuario)
 
         # Verificar se a senha atual está correta
         cursor.execute("SELECT Senha FROM usuario WHERE ID = %s", (id_usuario,))

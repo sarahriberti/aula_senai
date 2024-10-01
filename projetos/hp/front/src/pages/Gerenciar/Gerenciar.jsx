@@ -18,24 +18,13 @@ function Gerenciar() {
     id: localStorage.getItem('id')
   });
 
-  const [erro, setErro] = useState(''); // Estado para a mensagem de erro
-  const [info, setInfo] = useState(''); // Estado para a mensagem informativa
+  const [erro, setErro] = useState('');
+  const [info, setInfo] = useState('');
 
+  // Função para atualizar os dados no estado
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'senha' || name === 'confirmarNovaSenha') {
-      if (name === 'senha' && !value) {
-        setDadosUsuario({ ...dadosUsuario, [name]: value, confirmarNovaSenha: '' });
-      } else {
-        setDadosUsuario({ ...dadosUsuario, [name]: value });
-      }
-    } else if (name === 'celular') {
-      // Limpeza dos caracteres não numéricos
-      const cleanedValue = value.replace(/\D/g, '');
-      setDadosUsuario({ ...dadosUsuario, [name]: cleanedValue });
-    } else {
-      setDadosUsuario({ ...dadosUsuario, [name]: value });
-    }
+    setDadosUsuario({ ...dadosUsuario, [name]: value });
   };
 
   const calcularIdade = (dataNascimento) => {
@@ -54,17 +43,16 @@ function Gerenciar() {
     return regex.test(senha) && !/\s/.test(senha);
   };
 
+  // Função para enviar os dados para a API
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verifique se a data de nascimento é válida
     const idade = calcularIdade(dadosUsuario.data_nascimento);
     if (idade < 12 || idade > 100) {
       alert("A idade deve estar entre 12 e 100 anos.");
       return;
     }
 
-    // Verifique se a senha atende aos requisitos
     if (dadosUsuario.senha && !validarSenha(dadosUsuario.senha)) {
       alert("A senha deve ter no mínimo 8 caracteres, incluir uma letra maiúscula, uma letra minúscula, um número, um caractere especial e não pode conter espaços.");
       return;
@@ -80,16 +68,10 @@ function Gerenciar() {
         alert("A nova senha e a confirmação da nova senha não correspondem.");
         return;
       }
-      if (dadosUsuario.senha && dadosUsuario.senha === dadosUsuario.confirmarNovaSenha) {
-        // A nova senha é igual a confirmação da nova senha, então ok para enviar
-      }
-    } else {
-      dadosUsuario.senha = dadosUsuario.senhaveia;
-      dadosUsuario.confirmarNovaSenha = dadosUsuario.senhaveia;
     }
 
     try {
-      const response = await fetch('http://172.20.10.4:8085/atualizar_cad', {
+      const response = await fetch('http://10.135.60.38:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -103,10 +85,10 @@ function Gerenciar() {
       }
 
       const resultado = await response.json();
-      console.log('Resultado da atualização', resultado);
-
       if (resultado.sucesso) {
         alert('Dados atualizados com sucesso!');
+        localStorage.setItem('nome', dadosUsuario.nome);  // Armazena o nome atualizado no localStorage
+        window.location.reload(); // Atualiza a página para refletir as mudanças no MenuLateral
       } else {
         alert('Falha ao atualizar os dados.');
       }
@@ -116,17 +98,17 @@ function Gerenciar() {
     }
   };
 
+  // Puxar dados do usuário
   useEffect(() => {
     const buscarDadosUsuario = async () => {
       const userId = localStorage.getItem('id');
-
       try {
-        const response = await fetch('http://172.20.10.4:8085:8085/receber_dados', {
+        const response = await fetch('http://10.135.60.38:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id_usuario: userId })
+          body: JSON.stringify({ id_usuario: userId }),
         });
 
         if (!response.ok) {
@@ -135,14 +117,13 @@ function Gerenciar() {
         }
 
         const data = await response.json();
-
         if (data && data.mensagem) {
           setDadosUsuario((prevState) => ({
             ...prevState,
-            nome: data.mensagem[1] || '',
-            data_nascimento: data.mensagem[2] ? formatarData(data.mensagem[2]) : '',
-            email: data.mensagem[4] || '',
-            celular: data.mensagem[3] || ''
+            nome: data.mensagem.nome || '',
+            data_nascimento: data.mensagem.data_nascimento || '',
+            email: data.mensagem.email || '',
+            celular: data.mensagem.telefone || '',
           }));
         } else {
           console.error('Estrutura de dados inesperada:', data);
@@ -155,68 +136,53 @@ function Gerenciar() {
     buscarDadosUsuario();
   }, []);
 
-  const formatarData = (data) => {
-    const partes = data.split(' ');
-    const dia = partes[1];
-    const mesAbreviado = partes[2];
-    const ano = partes[3];
-
-    const mesesAbreviados = {
-      'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
-      'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
-    };
-
-    const mesNumero = mesesAbreviados[mesAbreviado];
-    return `${ano}-${mesNumero}-${dia}`;
-  };
-
   return (
     <div className="gerenciar-container">
       <MenuLateral />
       <Form onSubmit={handleSubmit}>
-        {erro && <div className="erro-mensagem">{erro}</div>} {/* Exibe a mensagem de erro, se houver */}
-        {info && <div className="info-mensagem">{info}</div>} {/* Exibe a mensagem informativa, se houver */}
+        {erro && <div className="erro-mensagem">{erro}</div>}
+        {info && <div className="info-mensagem">{info}</div>}
         <div className='gerenciar_inputs'>
           <h2 className='txt_geren'>Gerenciar Conta</h2>
-          <Form.Group controlId="formNome">
+          <Form.Group >
             <Form.Label className='nome-title'>Nome:</Form.Label>
             <Form.Control
               id='nome_gerenciar_id'
               type="text"
-              name="nome_gerenciar"
+              name="nome"
               value={dadosUsuario.nome}
               onChange={handleChange}
             />
           </Form.Group>
 
-          <Form.Group controlId="formDataNascimento">
+          <Form.Group >
             <Form.Label className='data-title'>Data de Nascimento:</Form.Label>
             <Form.Control
               id='data_gerenciar_id'
               type="date"
-              name="data_nas_gerenciar"
+              name="data_nascimento"
               value={dadosUsuario.data_nascimento}
               onChange={handleChange}
             />
           </Form.Group>
 
-          <Form.Group controlId="formEmail">
+          <Form.Group >
             <Form.Label className='email-title'>Email:</Form.Label>
             <Form.Control
               id='email_gerenciar_id'
               type="email"
-              name="email_gerenciar"
+              name="email"
               value={dadosUsuario.email}
               onChange={handleChange}
             />
           </Form.Group>
 
-          <Form.Group controlId="formTelefone">
+          <Form.Group >
             <Form.Label className='telefone-title'>Telefone:</Form.Label>
             <InputMask
               id='telefone_gerenciar_id'
               mask="(99) 99999-9999"
-              name="celular_gerenciar"
+              name="celular"
               value={dadosUsuario.celular}
               onChange={handleChange}
             >
@@ -224,43 +190,43 @@ function Gerenciar() {
             </InputMask>
           </Form.Group>
 
-          <Form.Group controlId="formSenhaAtual">
+          <Form.Group >
             <Form.Label className='senhaatual-title'>Senha Atual:</Form.Label>
             <Form.Control
               id='senhaatual_gerenciar_id'
               type="password"
-              name="senha_atual_gerenciar"
+              name="senhaveia"
               value={dadosUsuario.senhaveia}
               onChange={handleChange}
             />
           </Form.Group>
 
-          <Form.Group controlId="formNovaSenha">
+          <Form.Group >
             <Form.Label className='novasenha-title'>Nova Senha:</Form.Label>
             <Form.Control
               id='novasenha_gerenciar_id'
               type="password"
-              name="senha_nova_gerenciar"
+              name="senha"
               value={dadosUsuario.senha}
               onChange={handleChange}
               placeholder="Deixe em branco para manter a senha atual"
             />
           </Form.Group>
 
-          <Form.Group controlId="formConfirmarNovaSenha">
+          <Form.Group >
             <Form.Label className='confirmsenha-title'>Confirmar Nova Senha:</Form.Label>
             <Form.Control
               id='confimsenha_gerenciar_id'
               type="password"
-              name="confirmarNovaSenha_gerenciar"
+              name="confirmarNovaSenha"
               value={dadosUsuario.confirmarNovaSenha}
               onChange={handleChange}
               placeholder="Deixe em branco para manter a senha atual"
             />
           </Form.Group>
           <Button className='btn-update' variant="primary" type="submit">
-          Atualizar Dados
-        </Button>
+            Atualizar Dados
+          </Button>
         </div>
       </Form>
     </div>
