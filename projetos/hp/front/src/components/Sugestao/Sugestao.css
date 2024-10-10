@@ -1,0 +1,11 @@
+button.btn.btn-primary2 {
+    background-color: transparent;
+    color: white;
+}
+button.btn.btn-primary:hover {
+    background-color: transparent;
+}
+
+button.btn.btn-primary {
+    border: none;
+}
