@@ -55,10 +55,10 @@ def atualizar_tarefa(data):
     novo_descr = data.get('Descr')
     nova_cor = data.get('Cor')
     novo_titulo = data.get('Titulo')
-    nova_data = data.get('Data')  # Assumindo que a data já está no formato correto "YYYY-MM-DD"
-    nova_hora_ini = data.get('Hora_Ini')  # Assumindo que a hora já está no formato correto "HH:MM"
-    nova_hora_fin = data.get('Hora_Fin')  # Assumindo que a hora já está no formato correto "HH:MM"
+    novo_inicio = data.get('Inicio') 
+    novo_termino = data.get('Termino')  
     nova_notific = data.get('Notific')  # Assumindo que isso é diretamente utilizável no banco de dados
+    nova_categoria = data.get('Categori')
     nova_repet = data.get('Repetir')
 
     # Conectar ao banco de dados e atualizar a tarefa
@@ -68,10 +68,10 @@ def atualizar_tarefa(data):
         
         sql = """
         UPDATE tarefas 
-        SET Descr = %s, Cor = %s, Titulo = %s, Data = %s, Hora_Ini = %s, Hora_Fin = %s, Notific = %s, Repetir = %s 
+        SET Descr = %s, Cor = %s, Titulo = %s, Inicio = %s, Termino = %s, Notific = %s, Categoria = %s, Repetir = %s 
         WHERE ID = %s
         """
-        val = (novo_descr, nova_cor, novo_titulo, nova_data, nova_hora_ini, nova_hora_fin, nova_notific, nova_repet, id_tarefa)
+        val = (novo_descr, nova_cor, novo_titulo, novo_inicio, novo_termino, nova_notific, nova_categoria, nova_repet, id_tarefa)
         
         cursor.execute(sql, val)
         conex.commit()

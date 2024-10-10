@@ -2,9 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from processamento import processar_dados_cad, processar_dados_log, recuperar_cadastro, processar_dados_tarefa
 from atualizar import atualizar_cad, atualizar_tarefa
-from Gravar_BD import gravar_valor_doacao
 from conexao import conectar
 import select_task
+from Gravar_BD import gravar_dados_cad_bd
 
 # Inicializa o Flask
 app = Flask(__name__)
@@ -57,7 +57,6 @@ def get_tasks():
 @app.route('/atualizar_cad', methods=['POST'])
 def atualizar_nome_usuario():
     data = request.get_json()
-    print('apiiiiiiiiiiiiiiiiii', data)
     if data.get('acao') == 'update_cad':
         ret = atualizar_cad(data)
         print('teste ret ',ret)
@@ -67,7 +66,6 @@ def atualizar_nome_usuario():
 @app.route('/atualizar_tarefa', methods=['PUT'])
 def atualizar_tarefa_route():
     dados = request.json
-    print("UPDATE TESTE-----", dados)
     if not dados:
         return jsonify({'error': 'Dados não fornecidos'}), 400
 
@@ -81,39 +79,51 @@ def atualizar_tarefa_route():
 @app.route('/receber_dados', methods=['POST'])
 def receber_dados():
     dados = request.json
-    print('Dados ---', dados)
+    print('Dados recebidos ---', dados)
+    
     if not dados:
         return jsonify({'error': 'Dados não fornecidos'}), 400
 
     try:
-        if dados.get('action') == 'salvar_tarefa': 
-            ret = processar_dados_tarefa(dados)
-        
-        elif all(k in dados for k in ('cardNumber', 'expirationDate', 'cvv', 'cardholderName', 'donationValue', 'id_usu')):
-            ret = gravar_valor_doacao(
-                dados['id_usu'],
-                dados['cardNumber'],
-                dados['expirationDate'],
-                dados['cvv'],
-                dados['cardholderName'],
-                dados['donationValue']
+        # Verifica se o e-mail e senha foram fornecidos (caso de cadastro)
+        if dados.get('email') and dados.get('senha'):
+            # Chama a função que grava os dados no BD com a verificação de e-mail duplicado
+            ret = gravar_dados_cad_bd(
+                dados['nome'],
+                dados['dataNascimento'],
+                dados['celular'],
+                dados['email'],
+                dados['senha']
             )
-        
-        elif dados.get('email_log') is None and dados.get('id_usuario') is None:
-            ret = processar_dados_cad(dados)
+            # Retorna erro se o e-mail já existir
+            if ret.get('erro'):
+                return jsonify({'erro': True, 'mensagem': ret['mensagem']}), 400
+            else:
+                return jsonify({'erro': False, 'mensagem': 'Cadastro realizado com sucesso!'}), 200
+
+        # Processa ação para salvar tarefa
+        elif dados.get('action') == 'salvar_tarefa':
+            ret = processar_dados_tarefa(dados)
+            return jsonify(ret)
+
+        # Processa login
         elif dados.get('email_log') is not None and dados.get('id_usuario') is None:
             ret = processar_dados_log(dados)
+
+        # Recupera o cadastro
         elif dados.get('id_usuario') is not None:
             ret = recuperar_cadastro(dados)
-            print("RETORNO DO CADASTRO ---------", ret)  # Isso deve exibir o retorno JSON completo
+            print("RETORNO DO CADASTRO ---------", ret)
 
         else:
             ret = {'error': 'Dados não reconhecidos'}
 
         return jsonify(ret)
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 # Executa a aplicação
 if __name__ == '__main__':
-    app.run(port=8085, host='10.135.60.38', debug=False, threaded=True)
+    app.run(port=8085, host='10.135.60.18', debug=True, threaded=True)

@@ -97,8 +97,8 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
     };
 
     const apiUrl = isEditing
-      ? 'http://10.135.60.38:8085/atualizar_tarefa'
-      : 'http://10.135.60.38:8085/receber_dados';
+      ? 'http://10.135.60.18:8085/atualizar_tarefa'
+      : 'http://10.135.60.18:8085/receber_dados';
 
     try {
       const response = await fetch(apiUrl, {
@@ -130,7 +130,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
   return (
     <div className='main'>
       <Modal show={true} onHide={handleClose}>
-        <div className='adicionar-compromisso'>
+        <div id='add-task' className='adicionar-compromisso'>
           <Modal.Header closeButton>
             <h2 className='comp-name'>{isEditing ? 'Editar Tarefa' : 'Adicionar Tarefa'}</h2>
           </Modal.Header>
@@ -145,6 +145,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
                   name="cor"
                   onChange={handleChange}
                   className='color-choose'
+                  id='color-take'
                 />
               </div>
 
@@ -158,6 +159,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
                     onChange={handleChange}
                     value={formData.titulo}
                     name="titulo"
+                    id='title-camp'
                   />
                 </Form.Group>
               </div>
@@ -230,13 +232,14 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
                     name="descr"
                     onChange={handleChange}
                     value={formData.descr}
+                    id='descr-camp'
                   />
                 </Form.Group>
               </div>
 
               {/* Categoria */}
               <div className='category'>
-                <Form.Select name="categoria" onChange={handleChange} value={formData.categoria}>
+                <Form.Select id='category-selector' name="categoria" onChange={handleChange} value={formData.categoria}>
                   <option>Categoria</option>
                   <option value="1">Lazer</option>
                   <option value="2">Estudo</option>
@@ -248,7 +251,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
               </div>
               {/* Repetir */}
               <div className='repeat'>
-                <Form.Select name="repetir" onChange={handleChange} value={formData.repetir}>
+                <Form.Select id='repeat-selector' name="repetir" onChange={handleChange} value={formData.repetir}>
                   <option>Repetir</option>
                   <option value="1">Diário</option>
                   <option value="2">Semanal</option>
@@ -260,10 +263,10 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Fechar
+            <Button id='cancel-btn-add' variant="secondary" onClick={handleClose}>
+              Cancelar
             </Button>
-            <Button variant="primary" onClick={saveTask}>
+            <Button id='add-or-edit-task-btn' variant="primary" onClick={saveTask}>
               {isEditing ? 'Salvar Alterações' : 'Salvar Tarefa'}
             </Button>
           </Modal.Footer>

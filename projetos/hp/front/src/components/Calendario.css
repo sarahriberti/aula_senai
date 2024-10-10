@@ -210,7 +210,7 @@ button.linke2.btn.btn-primary {
 }
 /*posicionamento logos parte inferior dop menu lateral*/
 .redes{
-  margin-top: 100px;
+  margin-top: 40px;
   justify-content: space-around;
   display: flex;
 }

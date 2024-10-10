@@ -22,6 +22,7 @@ const Cadastro = () => {
         senha: '',
         confirmsenha: '',
     });
+
     const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
     const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para controlar a visibilidade da confirmação de senha
 
@@ -52,73 +53,46 @@ const Cadastro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        if (!validateDate(formValues.dataNascimento)) {
+            setMensagensErro([{ mensagem: 'Você deve ter pelo menos 16 anos.' }]);
+            return;
+        }
+    
         try {
-            const resposta = await fetch('http://10.135.60.38:8085/receber_dados', {
+            const resposta = await fetch('http://10.135.60.18:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formValues),
             });
-
+    
             const resultado = await resposta.json();
-
-            const transformarErros = (erros) => {
-                const resultado2 = {};
-
-                for (const erro of erros) {
-                    if (erro.erro) {
-
-                        if (erro.mensagem.nome) {
-                            // Para manter o nome como chave
-                            resultado2.nome = erro.mensagem.nome;
-                        }
-                        if (erro.mensagem.data_nascimento) {
-                            // Para manter o nome como chave
-                            resultado2.dataNascimento = erro.mensagem.data_nascimento;
-                        }
-
-                        if (erro.mensagem.celular) {
-                            // Para manter o nome como chave
-                            resultado2.celular = erro.mensagem.celular;
-                        }
-                        if (erro.mensagem.email) {
-                            // Para manter o nome como chave
-                            resultado2.email = erro.mensagem.email;
-                        }
-                        if (erro.mensagem.senha) {
-                            // Para manter o nome como chave
-                            resultado2.senha = erro.mensagem.senha
-                        }
-
-                        if (erro.mensagem.confirmsenha) {
-                            resultado2.confirmsenha = erro.mensagem.confirmsenha;
-                        }
-
-
-                    }
-                }
-
-                return resultado2;
-            };
-
+    
+            if (resposta.status !== 200) {
+                setMensagensErro([{ mensagem: resultado.mensagem || 'Erro ao processar os dados.' }]);
+                return;
+            }
+    
+            // Valida se há erro de e-mail duplicado
             if (resultado.erro) {
-                setMensagensErro(transformarErros(resultado.mensagens));
+                setMensagensErro([{ mensagem: resultado.mensagem }]);
             } else {
                 navigate('/CadConcluido');
             }
         } catch (error) {
             console.error('Erro ao enviar dados:', error);
+            setMensagensErro([{ mensagem: 'Erro ao se conectar com o servidor. Tente novamente mais tarde.' }]);
         }
     };
-
-
+    
     return (
         <>
             <main className='container_cad'>
-                {/* {mensagensErro.length > 0 && (
+                {mensagensErro.length > 0 && (
                     <div style={{ color: 'red' }}>
-                        {/*mensagem que vai aparecer 
+                        {/*mensagem que vai aparecer */}
                         <p>Erro ao processar os dados:</p>
                         <ul>
                             {mensagensErro.map((mensagem, index) => (
@@ -126,7 +100,7 @@ const Cadastro = () => {
                             ))}
                         </ul>
                     </div>
-                )}*/}
+                )}
                 <section className="cadastro">
                     {/*Formulario criado */}
                     <div className="formulario">
@@ -135,16 +109,12 @@ const Cadastro = () => {
                         <form onSubmit={handleSubmit} id='form_cadastro'>
                             <div className="class_nome">
                                 <label htmlFor="nome">Nome</label><br />
-                                <input type="text" name="nome" className="nome" id="nome" placeholder="Digite seu Nome" value={formValues.nome} onChange={handleChange} />
-                                {mensagensErro.nome && <p style={{ color: 'red' }}>{mensagensErro.nome}</p>}
+                                <input type="text" name="nome" className="nome" id="nome" placeholder="Digite seu Nome" value={formValues.nome} onChange={handleChange} required />
                             </div>
                             <div className="class_date">
                                 <label htmlFor="dataNascimento">Data de nascimento</label>
-
-                                <input type="date" name="dataNascimento" className="dataNascimento" id="dataNascimento" value={formValues.dataNascimento} onChange={handleChange} />
-                                {mensagensErro.dataNascimento && <p style={{ color: 'red' }}>{mensagensErro.dataNascimento}</p>}
+                                <input type="date" name="dataNascimento" className="dataNascimento" id="dataNascimento" value={formValues.dataNascimento} onChange={handleChange} required />
                             </div>
-
                             <div className="class_cel">
                                 <label htmlFor="celular">Celular</label>
                                 <InputMask
@@ -152,14 +122,12 @@ const Cadastro = () => {
                                     value={formValues.celular}
                                     onChange={handleChange}
                                 >
-                                    {() => <input type="tel" name="celular" className="celular" id="celular" placeholder="Digite seu número" />}
+                                    {() => <input type="tel" name="celular" className="celular" id="celular" placeholder="Digite seu número" required />}
                                 </InputMask>
-                                {mensagensErro.celular && <p style={{ color: 'red' }}>{mensagensErro.celular}</p>}
                             </div>
                             <div className="class_email">
                                 <label htmlFor="email">E-mail</label>
-                                <input type="email" name="email" className="email" id="email" placeholder="Digite seu E-mail" value={formValues.email} onChange={handleChange} />
-                                {mensagensErro.email && <p style={{ color: 'red' }}>{mensagensErro.email}</p>}
+                                <input type="email" name="email" className="email" id="email" placeholder="Digite seu E-mail" value={formValues.email} onChange={handleChange} required />
                             </div>
                             <div className="class_senha">
                                 <label htmlFor="senha">Senha</label>
@@ -172,9 +140,8 @@ const Cadastro = () => {
                                         placeholder="Digite sua senha"
                                         value={formValues.senha}
                                         onChange={handleChange}
-
+                                        required
                                     />
-
                                     <button
                                         type="button"
                                         className="toggle-password"
@@ -182,9 +149,7 @@ const Cadastro = () => {
                                     >
                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                                     </button>
-
                                 </div>
-                                {mensagensErro.senha && <p style={{ color: 'red' }}>{mensagensErro.senha}</p>}
                             </div>
                             <div className="class_confir">
                                 <label htmlFor="confirmsenha"> Confirmar senha</label>
@@ -198,9 +163,8 @@ const Cadastro = () => {
                                         data-equal="password"
                                         value={formValues.confirmsenha}
                                         onChange={handleChange}
-
+                                        required
                                     />
-
                                     <button
                                         type="button"
                                         className="toggle-password"
@@ -209,7 +173,6 @@ const Cadastro = () => {
                                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                                     </button>
                                 </div>
-                                {mensagensErro.confirmsenha && <p style={{ color: 'red' }}>{mensagensErro.confirmsenha}</p>}
                             </div>
                             <div className="botoes_cad">
                                 <input type="submit" value="Cadastrar-se" id="enter_cad" />

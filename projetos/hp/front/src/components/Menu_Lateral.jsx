@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import instagramIcon from '../image/instagramDourado.png';
 import facebookIcon from '../image/facebookDourado.png';
 import whatsappIcon from '../image/whatsappDourado.png';
+import Sugestao from './Sugestao/Sugestao';
 
 function MenuLateral() {
   const [show, setShow] = useState(false);
@@ -57,6 +58,7 @@ function MenuLateral() {
                 <li className='item'><Link to="/Gerenciar" className='itens'>Gerenciar Conta</Link></li>
                 <li className='item'><Link to="/Calendario" className='itens2'>Calendário</Link></li>
                 <li className='item'><Compartilhar className='itens'/></li>
+                <li className='item'><Sugestao className='itens'/></li>
                 <li className='item'><Link to="/Doacao" className='itens1'>Contribuição</Link></li>
                 <li className='item'><Sair className='itens'/></li>
               </ul>

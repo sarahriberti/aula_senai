@@ -33,7 +33,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const resposta = await fetch('http://10.135.60.38:8085/receber_dados', {
+            const resposta = await fetch('http://10.135.60.18:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +79,17 @@ const Login = () => {
                         {/* Campo de e-mail do login */}
                         <div className="email_log">
                             <label htmlFor="email_log" className="nome_input">E-mail</label>
-                            <input type="email" name="email_log" className="email" id="email" placeholder="Digite seu E-mail" value={formValues.email_log} onChange={handleChange} required />
+                            <input 
+                                type="email" 
+                                name="email_log" 
+                                className="email" 
+                                id="email" 
+                                placeholder="Digite seu E-mail" 
+                                value={formValues.email_log} 
+                                onChange={handleChange} 
+                                required
+                               
+                            />
                         </div>
 
                         {/* Campo de senha do login */}
@@ -95,11 +105,14 @@ const Login = () => {
                                     value={formValues.senha_log}
                                     onChange={handleChange}
                                     required
+                                   
                                 />
                                 <button
                                     type="button"
                                     className="toggle-password"
                                     onClick={() => setShowPassword(!showPassword)}
+                                    id= 'toggle_password_button'
+                                    
                                 >
                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
@@ -108,21 +121,45 @@ const Login = () => {
 
                         {/* Botões de entrar e cancelar na página do calendário */}
                         <div className="botoes_cad">
-                            <input type="submit" value="Entrar" id="cancel_ent" />
-                            <input type="button" value="Cancelar" id="cancel_cad" />
+                            <input 
+                                type="submit" 
+                                value="Entrar" 
+                                id="cancel_ent" 
+                            />
+                            <input 
+                                type="button" 
+                                value="Cancelar" 
+                                id="cancel_cad"                               
+                            />
                         </div>
 
                         {/* Link para a página do cadastro */}
                         <li className="text_return">
-                            <Link to="/Cadastro">Não possui conta? Cadastre-se</Link>
+                            <Link to="/Cadastro" id="cadastro_link" data-xpath="/html/body/section/div/form/li/a">
+                                Não possui conta? Cadastre-se
+                            </Link>
                         </li>
 
                         <h3>Login com</h3>
 
                         {/* Botões de login com Google e Instagram */}
                         <div className="logininferior">
-                            <a href="https://www.google.com.br/?hl=pt-BR"><input type="button" value="Google" /></a>
-                            <a href="https://www.instagram.com/"><input type="button" value="Instagram" /></a>
+                            <a href="https://www.google.com.br/?hl=pt-BR">
+                                <input 
+                                    type="button" 
+                                    value="Google" 
+                                    id="google_login_button" 
+                                    data-xpath="/html/body/section/div/form/div[5]/a[1]/input"
+                                />
+                            </a>
+                            <a href="https://www.instagram.com/">
+                                <input 
+                                    type="button" 
+                                    value="Instagram" 
+                                    id="instagram_login_button" 
+                                    data-xpath="/html/body/section/div/form/div[5]/a[2]/input"
+                                />
+                            </a>
                         </div>
                     </form>
                 </div>

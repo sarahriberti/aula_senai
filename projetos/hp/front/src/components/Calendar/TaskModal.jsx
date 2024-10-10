@@ -34,7 +34,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
     const handleDelete = async (task) => {
         if (task && task.ID) {
             try {
-                const response = await fetch(`http://10.135.60.38:8085/delete_task?taskId=${task.ID}`, {
+                const response = await fetch(`http://10.135.60.18:8085/delete_task?taskId=${task.ID}`, {
                     method: 'DELETE',
                 });
                 const result = await response.json();
@@ -52,7 +52,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
 
     const handleConclude = async () => {
         try {
-            const response = await fetch(`http://10.135.60.38:8085/update_task?taskId=${task.ID}`, {
+            const response = await fetch(`http://10.135.60.18:8085/update_task?taskId=${task.ID}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...task, Concluida: !isConcluded }),
@@ -77,7 +77,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
                 </Modal.Header>
                 <Modal.Body className='Body_TaskModal'>
                     <div className='Color_TaskModal' style={{ backgroundColor: task.Cor }}>
-                        <Check className="check"/>
+                        <Check className="check" />
                     </div>
                     <p className='Nome_TaskModal'><strong>Título:</strong> {task.Titulo}</p>
                     <p className='HrInicial_TaskModal'><strong>Hora Inicial:</strong> {task.Inicio}</p>
@@ -89,11 +89,14 @@ const TaskModal = ({ task, onClose, onEdit }) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowDeleteModal(true)}>
-                        Excluir
+                    <Button variant="secundary" onClick={() => setShowDeleteModal(true)}>
+                        <img src="/src/image/delete.png" alt="" />
                     </Button>
                     <Button variant="primary" onClick={() => onEdit(task)}>
                         Editar
+                    </Button>
+                    <Button variant="primary"> {/* Chama a função handleSave ao clicar em "Salvar" */}
+                        Salvar
                     </Button>
                 </Modal.Footer>
             </Modal>

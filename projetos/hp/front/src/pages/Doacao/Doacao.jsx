@@ -138,7 +138,7 @@ function PagDoacao() {
         const formDataWithId = { ...formData, id_usu: userId, donationValue: valorNumerico };
 
         try {
-            const response = await fetch('http://10.135.60.38:8085/receber_dados', {
+            const response = await fetch('http://10.135.60.18:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -213,6 +213,7 @@ function PagDoacao() {
                         pattern="\d{2}/\d{2}"
                         maxLength="5"
                         placeholder="MM/YY"
+                        id='expirationDate'
                     />
                 </label>
                 <label>
@@ -226,6 +227,7 @@ function PagDoacao() {
                         className='cvv'
                         maxLength="3"
                         pattern="\d*"
+                        id='cvv'
                     />
                 </label>
                 <label>
@@ -240,6 +242,7 @@ function PagDoacao() {
                         maxLength="30"
                         pattern="[A-Za-zÀ-ÿ\s]+"
                         placeholder="Nome do titular do cartão"
+                        id='cardholderName'
                     />
                 </label>
                 <label>
@@ -255,9 +258,10 @@ function PagDoacao() {
                         onFocus={handleFocus}
                         className='donationValue'
                         placeholder="R$ 0,00"
+                        id='ValorDoac'
                     />
                 </label>
-                <button className='botaocont' type="submit">Pagar</button>
+                <button className='botaocont' type="submit" id='Botao_pagar'>Pagar</button>
                 <div className="container_doc">
                     <footer className='footer-doacao'>
                         <p className='confirm-emp'>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>

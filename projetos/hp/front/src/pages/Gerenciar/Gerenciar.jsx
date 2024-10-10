@@ -71,7 +71,7 @@ function Gerenciar() {
     }
 
     try {
-      const response = await fetch('http://10.135.60.38:8085/atualizar_cad', {
+      const response = await fetch('http://10.135.60.18:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ function Gerenciar() {
     const buscarDadosUsuario = async () => {
       const userId = localStorage.getItem('id');
       try {
-        const response = await fetch('http://10.135.60.38:8085/receber_dados', {
+        const response = await fetch('http://10.135.60.18:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -224,7 +224,7 @@ function Gerenciar() {
               placeholder="Deixe em branco para manter a senha atual"
             />
           </Form.Group>
-          <Button className='btn-update' variant="primary" type="submit">
+          <Button id="btn_atualizar_dados"className='btn-update' variant="primary" type="submit">
             Atualizar Dados
           </Button>
         </div>
