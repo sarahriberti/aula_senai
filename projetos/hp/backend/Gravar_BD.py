@@ -48,16 +48,61 @@ def gravar_valor_doacao(id_usu, numero_cartao, data_expiracao, cvv, nome_cartao,
     conex.close()
     return {"valid": "true", "message": "Doação registrada com sucesso!"}
 
-# >>> Função para gravar as tarefas <<<
+# >>> Função para gravar as tarefas <<< 
 def gravar_tarefas(cor, titulo, inicio, termino, notific, descr, categoria, repetir, ID_Usu):
     conex = conexao.conectar()
     cursor = conex.cursor()
-    print('Antes salvar banco:', inicio)
-    sql = "INSERT INTO tarefas (Cor, Titulo, Inicio, Termino, Notific, Descr, Categoria, Repetir, ID_Usu) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    print('DEPOIS DO INSERT---------------', sql)
+
+    # Insere a tarefa no banco de dados
+    sql = """
+    INSERT INTO tarefas (Cor, Titulo, Inicio, Termino, Notific, Descr, Categoria, Repetir, ID_Usu)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
     val = (cor, titulo, inicio, termino, notific, descr, categoria, repetir, ID_Usu)
-    print('VAL-----------', val)
-    cursor.execute(sql, val)
-    conex.commit()
-    print("Tarefa gravada com sucesso!")
-    conex.close()
+    
+    try:
+        cursor.execute(sql, val)
+        conex.commit()
+        print("Tarefa gravada com sucesso:", val)
+    except Exception as e:
+        print("Erro ao gravar tarefa:", e)
+        conex.rollback()  # Reverte qualquer alteração no caso de erro
+    finally:
+        conex.close()  # Fecha a conexão com o banco de dado
+
+# >>> Função para gravar a sugestão <<< 
+def gravar_sugestao(Texto, ID_Usu):
+    try:
+        # Estabelece a conexão com o banco de dados
+        conex = conexao.conectar()
+        
+        # Verifica se a conexão foi bem-sucedida
+        if conex:
+            print("Conexão estabelecida com sucesso!")
+        else:
+            print("Falha ao estabelecer conexão com o banco de dados.")
+            return  # Sai da função se a conexão falhar
+
+        # Cria o cursor e prepara a consulta SQL
+        cursor = conex.cursor()
+        sql = "INSERT INTO sugestao (Texto, ID_Usu) VALUES (%s, %s)"
+        val = (Texto, ID_Usu)
+
+        # Executa a consulta
+        cursor.execute(sql, val)
+        
+        # Confirma a transação
+        conex.commit()
+        print("Sugestão gravada com sucesso!")
+    
+    except mysql.connector.Error as err:
+        # Exibe o erro, caso ocorra
+        print(f"Erro ao gravar sugestão no banco de dados: {err}")
+        print(f"Consulta: {sql}")
+        print(f"Valores: {val}")
+    
+    finally:
+        # Fecha a conexão
+        if conex:
+            conex.close()
+            print("Conexão fechada.")

@@ -174,7 +174,16 @@ button.chamar_menu.btn.btn-primary:hover {
 /*tamanho da imagem de perfil*/
 .imagem1 {
   width: 100px;
-  margin-left: 133px;
+  border-radius: 50px;
+  border: 3px solid #D6B00F;
+
+}
+
+#perfil_gerenciar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
 }
 /*css do nome do usuarioa*/
 .name {

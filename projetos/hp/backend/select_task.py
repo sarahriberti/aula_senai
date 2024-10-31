@@ -1,19 +1,19 @@
 # select_task.py
 from conexao import conectar
 
-def listar_tarefas(user_id, data):
+# >>> Função para listar as tarefas <<<
+def listar_tarefas(user_id):
     connection = conectar()
     if connection is None:
         return {'error': 'Erro ao conectar ao banco de dados.'}
 
     try:
         cursor = connection.cursor(dictionary=True)
-        # Ajustar a query para comparar apenas a data extraída da coluna Inicio
         sql = '''SELECT ID, Cor, Titulo, DATE_FORMAT(Inicio, '%Y-%m-%d %H:%i') as Inicio, 
                         DATE_FORMAT(Termino, '%Y-%m-%d %H:%i') as Termino, Notific, Descr, Categoria, Repetir, ID_Usu 
                 FROM tarefas 
-                WHERE ID_Usu = %s AND DATE_FORMAT(Inicio, '%Y-%m-%d') = %s'''
-        cursor.execute(sql, (user_id, data))
+                WHERE ID_Usu = %s'''
+        cursor.execute(sql, (user_id,))
         tarefas = cursor.fetchall()
         return tarefas
     except Exception as e:
@@ -22,8 +22,7 @@ def listar_tarefas(user_id, data):
         cursor.close()
         connection.close()
 
-
-
+# >>> Função para excluir tarefa <<<
 def excluir_tarefa(task_id):
     connection = conectar()
     if connection is None:

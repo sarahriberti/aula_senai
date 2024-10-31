@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Sair from './Sair';
-import Compartilhar from "../pages/Gerenciar/pages/Compartilhar";
+import Compartilhar from "../pages/Gerenciar/Compartilhar";
 import { Link } from 'react-router-dom';
 import instagramIcon from '../image/instagramDourado.png';
 import facebookIcon from '../image/facebookDourado.png';
@@ -12,11 +12,11 @@ import Sugestao from './Sugestao/Sugestao';
 function MenuLateral() {
   const [show, setShow] = useState(false);
   const [nomeUsuario, setNomeUsuario] = useState('');
+  const [imagemPerfil, setImagemPerfil] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Função para obter o nome do usuário do localStorage
   const getNome = () => {
     const storedNome = localStorage.getItem('nome');
     if (storedNome) {
@@ -24,19 +24,50 @@ function MenuLateral() {
     }
   };
 
-  // Função para atualizar o nome do usuário no localStorage
-  const updateNome = (novoNome) => {
-    localStorage.setItem('nome', novoNome);
-    setNomeUsuario(novoNome);
+  const getUsuarioData = async () => {
+    const idUsuario = localStorage.getItem('id'); // Pega o id_usuario do localStorage
+
+    if (!idUsuario) {
+      console.error('ID do usuário não encontrado no localStorage');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://10.135.60.33:8085/buscar_usuario', { // URL completa do backend Flask
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_usuario: idUsuario }) // Inclui o id_usuario no corpo da requisição
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('response', data);
+
+        // Ajuste as variáveis conforme os nomes retornados do backend
+        setNomeUsuario(data.nome);
+        setImagemPerfil(data.imagem_perfil); // Aqui é 'imagem_perfil' conforme seu backend
+
+        console.log("Dados do Usuário", data);
+      } else {
+        console.error('Erro ao obter dados do usuário');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+    }
   };
 
+
+
   useEffect(() => {
-    getNome(); // Obtém o nome ao montar o componente
+    getNome();
+    getUsuarioData(); // Obtém os dados do usuário ao montar o componente
     const intervalId = setInterval(() => {
-      getNome(); // Atualiza o nome a cada 5 segundos
+      getNome();
     }, 5000);
 
-    return () => clearInterval(intervalId); // Limpeza do intervalo ao desmontar o componente
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -51,16 +82,20 @@ function MenuLateral() {
         <Offcanvas.Header className='fechar_menu' closeButton closeVariant='white'></Offcanvas.Header>
         <div className='perfil'>
           <Offcanvas.Body>
-            <img src="https://cdn-icons-png.flaticon.com/128/848/848006.png" alt="user" width={100} className='imagem1' />
-            <p className='name'><b>{nomeUsuario}</b></p> {/* Exibe o nome do usuário */}
+            <div id='perfil_gerenciar'>
+              <img src={imagemPerfil || "https://cdn-icons-png.flaticon.com/128/848/848006.png"} alt="user" width={100} className='imagem1' />
+
+            </div>
+
+            <p className='name'><b>{nomeUsuario}</b></p>
             <nav>
               <ul>
                 <li className='item'><Link to="/Gerenciar" className='itens'>Gerenciar Conta</Link></li>
                 <li className='item'><Link to="/Calendario" className='itens2'>Calendário</Link></li>
-                <li className='item'><Compartilhar className='itens'/></li>
-                <li className='item'><Sugestao className='itens'/></li>
+                <li className='item'><Compartilhar className='itens' /></li>
+                <li className='item'><Sugestao className='itens' /></li>
                 <li className='item'><Link to="/Doacao" className='itens1'>Contribuição</Link></li>
-                <li className='item'><Sair className='itens'/></li>
+                <li className='item'><Sair className='itens' /></li>
               </ul>
             </nav>
             <div className='redes'>

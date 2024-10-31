@@ -88,42 +88,42 @@ const PagDoacaoMobile = () => {
     };
 
     // Função para validar o nome (sem apenas espaços, e espaços permitidos apenas entre os nomes)
-    const validateCardholderName = (name) => {
-        const regex = /^[A-Za-z]+( [A-Za-z]+)*$/; // Permite apenas letras e um espaço entre palavras, sem espaços no início, fim ou múltiplos consecutivos.
-        return regex.test(name.trim()); // O trim() remove espaços no início e no fim
-    };
+const validateCardholderName = (name) => {
+    const regex = /^[A-Za-z]+( [A-Za-z]+)*$/; // Permite apenas letras e um espaço entre palavras, sem espaços no início, fim ou múltiplos consecutivos.
+    return regex.test(name.trim()); // O trim() remove espaços no início e no fim
+};
 
-    const handleSubmit = () => {
-        if (!validateCardNumber(formData.cardNumber)) {
-            Alert.alert('Número de cartão inválido', 'Por favor, insira um número de cartão válido.');
-            return;
-        }
+const handleSubmit = () => {
+    if (!validateCardNumber(formData.cardNumber)) {
+        Alert.alert('Número de cartão inválido', 'Por favor, insira um número de cartão válido.');
+        return;
+    }
 
-        if (!validateExpirationDate(formData.expirationDate)) {
-            Alert.alert('Data de expiração inválida', 'Por favor, insira uma data de expiração válida.');
-            return;
-        }
+    if (!validateExpirationDate(formData.expirationDate)) {
+        Alert.alert('Data de expiração inválida', 'Por favor, insira uma data de expiração válida.');
+        return;
+    }
 
-        if (!validateCardholderName(formData.cardholderName)) {
-            Alert.alert('Nome inválido', 'Por favor, insira um nome válido. O nome não pode conter apenas espaços, e os espaços são permitidos apenas entre o primeiro e último nome.');
-            return;
-        }
+    if (!validateCardholderName(formData.cardholderName)) {
+        Alert.alert('Nome inválido', 'Por favor, insira um nome válido. O nome não pode conter apenas espaços, e os espaços são permitidos apenas entre o primeiro e último nome.');
+        return;
+    }
 
-        if (!validateDonationAmount(formData.donationAmount)) {
-            Alert.alert('Valor inválido', 'O valor máximo permitido é R$ 99.999,99.');
-            return;
-        }
+    if (!validateDonationAmount(formData.donationAmount)) {
+        Alert.alert('Valor inválido', 'O valor máximo permitido é R$ 99.999,99.');
+        return;
+    }
 
-        console.log('Dados do formulário:', formData);
-        setFormData({
-            cardNumber: '',
-            expirationDate: '',
-            cvv: '',
-            cardholderName: '',
-            donationAmount: 'R$ 0,00',
-        });
-        setShowThanksScreen(true);
-    };
+    console.log('Dados do formulário:', formData);
+    setFormData({
+        cardNumber: '',
+        expirationDate: '',
+        cvv: '',
+        cardholderName: '',
+        donationAmount: 'R$ 0,00',
+    });
+    setShowThanksScreen(true);
+};
 
     return (
         <View style={Doacaostyles.container}>

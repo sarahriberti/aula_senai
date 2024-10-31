@@ -16,12 +16,16 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
     cor: '#563d7c',
     notific: false,
     repetir: '5',
-    categoria: '6',
+    categoria: '',
     Inicio: formatDate(selectedDate) || formatDate(new Date()), // Data de início
     Termino: formatDate(selectedDate) || formatDate(new Date()), // Data de término
     hora_ini: '', // Campo para horário de início
     hora_fin: '', // Campo para horário de término
+    titulo: '', // Campo para título da tarefa
+    descr: '' // Campo para descrição
   });
+
+  const [error, setError] = useState({}); // Estado para armazenar as mensagens de erro
 
   useEffect(() => {
     if (isEditing && taskToEdit) {
@@ -40,8 +44,8 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
         cor: taskToEdit.Cor || '#563d7c',
         descr: taskToEdit.Descr || '',
         notific: taskToEdit.Notific || false,
-        categoria: taskToEdit.Categoria || '6',
         repetir: taskToEdit.Repetir || '5',
+        categoria: taskToEdit.Categoria || '',
       });
     } else {
       setFormData((prevData) => ({
@@ -56,17 +60,50 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
     onClose();
   };
 
+  // Função para validar as datas e os campos obrigatórios
+  const validateForm = () => {
+    const newError = {};
+
+    if (!formData.titulo) {
+      newError.titulo = 'Este campo é obrigatório.';
+    }
+    if (!formData.hora_ini) {
+      newError.hora_ini = 'Este campo é obrigatório.';
+    }
+    if (!formData.hora_fin) {
+      newError.hora_fin = 'Este campo é obrigatório.';
+    }
+
+    const startDate = new Date(formData.Inicio);
+    const endDate = new Date(formData.Termino);
+    const startTime = new Date(`${formData.Inicio} ${formData.hora_ini}`);
+    const endTime = new Date(`${formData.Termino} ${formData.hora_fin}`);
+
+    if (endDate < startDate) {
+      newError.termino = 'A data de término não pode ser anterior à data de início.';
+    }
+
+    if (startDate.toDateString() === endDate.toDateString() && endTime < startTime) {
+      newError.hora_fin = 'O horário de término não pode ser anterior ao de início.';
+    }
+
+    setError(newError);
+    return Object.keys(newError).length === 0; // Retorna verdadeiro se não houver erros
+  };
+
   const handleChange = (event) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    const { name } = event.target;
+
     setFormData({
       ...formData,
-      [event.target.name]: value,
+      [name]: value,
     });
   };
 
   const saveTask = async () => {
-    if (!formData.titulo || !formData.Inicio || !formData.hora_ini || !formData.hora_fin || !formData.Termino) {
-      alert('Preencha todos os campos obrigatórios.');
+    // Verifique se o formulário é válido
+    if (!validateForm()) {
       return;
     }
 
@@ -88,17 +125,17 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
       Titulo: formData.titulo,
       Inicio: datetime_ini,
       Termino: datetime_fim,
-      Notific: formData.notific,
-      Descr: formData.descr,
-      Categoria: formData.categoria,
+      Notific: formData.notific, // Campo de notificação mantido
+      Descr: formData.descr || '', // A descrição é opcional
       Repetir: formData.repetir,
       ID_Usu: userID,
+      Categoria: formData.categoria,
       taskID: isEditing && taskToEdit ? taskToEdit.ID : null,
     };
 
     const apiUrl = isEditing
-      ? 'http://10.135.60.18:8085/atualizar_tarefa'
-      : 'http://10.135.60.18:8085/receber_dados';
+      ? 'http://10.135.60.33:8085/atualizar_tarefa'
+      : 'http://10.135.60.33:8085/receber_dados';
 
     try {
       const response = await fetch(apiUrl, {
@@ -161,6 +198,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
                     name="titulo"
                     id='title-camp'
                   />
+                  {error.titulo && <small className="text-danger">{error.titulo}</small>}
                 </Form.Group>
               </div>
 
@@ -184,6 +222,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
                       id='input-hora-ini'
                     />
                   </div>
+                  {error.hora_ini && <small className="text-danger">{error.hora_ini}</small>}
                 </Form.Group>
               </div>
 
@@ -191,6 +230,10 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
               <div className='data-horario-compromisso'>
                 <Form.Group className="mb-3">
                   <Form.Label>Término</Form.Label>
+                  {/* Mensagem de erro abaixo do rótulo */}
+                  {error.termino && (
+                    <small className="text-danger">{error.termino}</small>
+                  )}
                   <div className='d-flex'>
                     <Form.Control
                       type="date"
@@ -207,67 +250,87 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
                       id='input-hora-fin'
                     />
                   </div>
+                  {/* Mensagem de erro para o horário de término */}
+                  {error.hora_fin && <small className="text-danger">{error.hora_fin}</small>}
                 </Form.Group>
               </div>
 
               {/* Notificação */}
-              <div className='notification'>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  label="Notificação"
-                  name="notific"
-                  onChange={handleChange}
-                  checked={formData.notific}
-                />
+              <div className='notificacao-compromisso'>
+                <Form.Group className="mb-3">
+                  <Form.Check
+                    type="switch"
+                    label="Notificação"
+                    name="notific"
+                    id="costum-switch"
+                    onChange={handleChange}
+                    checked={formData.notific}
+                  />
+                </Form.Group>
               </div>
 
               {/* Descrição */}
-              <div className='description'>
+              <div className='descricao-compromisso'>
                 <Form.Group className="mb-3">
+                  <Form.Label>Descrição</Form.Label>
                   <Form.Control
                     as="textarea"
-                    rows={3}
                     placeholder='Descrição'
-                    name="descr"
                     onChange={handleChange}
                     value={formData.descr}
+                    name="descr"
                     id='descr-camp'
+                    rows={3}
                   />
                 </Form.Group>
               </div>
 
               {/* Categoria */}
-              <div className='category'>
-                <Form.Select id='category-selector' name="categoria" onChange={handleChange} value={formData.categoria}>
-                  <option>Categoria</option>
-                  <option value="1">Lazer</option>
-                  <option value="2">Estudo</option>
-                  <option value="3">Trabalho</option>
-                  <option value="4">Saúde</option>
-                  <option value="5">Família</option>
-                  <option value="6">Outro</option>
-                </Form.Select>
+              <div className='categoria-compromisso'>
+                <Form.Group className="mb-3">
+                  <Form.Label>Categoria</Form.Label>
+                  <Form.Select
+                    aria-label="Categoria"
+                    name="categoria"
+                    onChange={handleChange}
+                    value={formData.categoria}
+                  >
+                    <option value="1">Lazer</option>
+                    <option value="2">Estudo</option>
+                    <option value="3">Trabalho</option>
+                    <option value="4">Saúde</option>
+                    <option value="5">Família</option>
+                    <option value="6">Outro</option>
+                  </Form.Select>
+                </Form.Group>
               </div>
+
               {/* Repetir */}
-              <div className='repeat'>
-                <Form.Select id='repeat-selector' name="repetir" onChange={handleChange} value={formData.repetir}>
-                  <option>Repetir</option>
-                  <option value="1">Diário</option>
-                  <option value="2">Semanal</option>
-                  <option value="3">Mensal</option>
-                  <option value="4">Anual</option>
-                  <option value="5">Nunca</option>
-                </Form.Select>
+              <div className='repetir-compromisso'>
+                <Form.Group className="mb-3">
+                  <Form.Label>Repetir</Form.Label>
+                  <Form.Select
+                    aria-label="Repetir"
+                    name="repetir"
+                    onChange={handleChange}
+                    value={formData.repetir}
+                  >
+                    <option value="1">Diariamente</option>
+                    <option value="2">Semanalmente</option>
+                    <option value="3">Mensalmente</option>
+                    <option value="4">Anualmente</option>
+                    <option value="5">Nunca</option>
+                  </Form.Select>
+                </Form.Group>
               </div>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button id='cancel-btn-add' variant="secondary" onClick={handleClose}>
-              Cancelar
+            <Button variant="secondary" onClick={handleClose}>
+              Fechar
             </Button>
-            <Button id='add-or-edit-task-btn' variant="primary" onClick={saveTask}>
-              {isEditing ? 'Salvar Alterações' : 'Salvar Tarefa'}
+            <Button variant="primary" onClick={saveTask}>
+              {isEditing ? 'Salvar Alterações' : 'Adicionar'}
             </Button>
           </Modal.Footer>
         </div>

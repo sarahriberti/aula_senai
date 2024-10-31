@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Delete from './Delete';
@@ -8,6 +8,26 @@ import Check from '../Check';
 const formatDate = (date) => {
     const [year, month, day] = date.split('-');
     return `${day}/${month}/${year}`;
+};
+
+// Função para mapear os valores numéricos para os nomes das categorias
+const getCategoriaTexto = (categoria) => {
+    switch (categoria) {
+        case 1:
+            return 'Lazer';
+        case 2:
+            return 'Estudo';
+        case 3:
+            return 'Trabalho';
+        case 4:
+            return 'Saúde';
+        case 5:
+            return 'Família';
+        case 6:
+            return 'Outro';
+        default:
+            return 'Sem categoria';
+    }
 };
 
 const RepetirTxt = (value) => {
@@ -29,20 +49,30 @@ const RepetirTxt = (value) => {
 
 const TaskModal = ({ task, onClose, onEdit }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [isConcluded, setIsConcluded] = useState(task.Concluida || false); // Estado para armazenar se a tarefa está concluída
+    const [isConcluded, setIsConcluded] = useState(false);
+
+    // Carrega o estado da tarefa do localStorage quando o modal é aberto
+    useEffect(() => {
+        const savedTask = localStorage.getItem(`task_${task.ID}_concluded`);
+        if (savedTask !== null) {
+            setIsConcluded(JSON.parse(savedTask));
+        } else {
+            setIsConcluded(task.Concluida);
+        }
+    }, [task.ID, task.Concluida]);
 
     const handleDelete = async (task) => {
         if (task && task.ID) {
             try {
-                const response = await fetch(`http://10.135.60.18:8085/delete_task?taskId=${task.ID}`, {
+                const response = await fetch(`http://10.135.60.33:8085/delete_task?taskId=${task.ID}`, {
                     method: 'DELETE',
                 });
                 const result = await response.json();
                 if (response.ok) {
-                    console.log(result.message); // Mensagem de sucesso
-                    onClose(); // Fechar o TaskModal
+                    console.log(result.message);
+                    onClose();
                 } else {
-                    console.error(result.error); // Mensagem de erro
+                    console.error(result.error);
                 }
             } catch (error) {
                 console.error('Erro ao excluir a tarefa:', error);
@@ -50,52 +80,75 @@ const TaskModal = ({ task, onClose, onEdit }) => {
         }
     };
 
-    const handleConclude = async () => {
+    const handleSave = async () => {
+        const novo_status = isConcluded ? 1 : 0;
+        const ID_Tarefa = task.ID;
+
         try {
-            const response = await fetch(`http://10.135.60.18:8085/update_task?taskId=${task.ID}`, {
-                method: 'PUT',
+            const response = await fetch('http://10.135.60.33:8085/check', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...task, Concluida: !isConcluded }),
+                body: JSON.stringify({
+                    ID_Tarefa,
+                    novo_status,
+                }),
             });
             const result = await response.json();
             if (response.ok) {
-                setIsConcluded(!isConcluded); // Atualiza o estado local da tarefa
-                console.log(result.message); // Mensagem de sucesso
+                localStorage.setItem(`task_${task.ID}_concluded`, JSON.stringify(novo_status === 1));
+                console.log('Tarefa salva com sucesso:', result);
+                onClose();
             } else {
-                console.error(result.error); // Mensagem de erro
+                console.error('Erro ao salvar a tarefa:', result);
             }
         } catch (error) {
-            console.error('Erro ao atualizar a tarefa:', error);
+            console.error('Erro ao salvar a tarefa:', error);
         }
+    };
+
+    const handleCheckboxChange = () => {
+        setIsConcluded(!isConcluded);
     };
 
     return (
         <>
             <Modal show={true} onHide={onClose}>
-                <Modal.Header closeButton className='Header_Titulo_TaskModal'>
-                    <Modal.Title className='Titulo_ModalTask'>Tarefa</Modal.Title>
+                <Modal.Header closeButton className='Header_Titulo_TaskModal' style={{ display: 'flex', alignItems: 'center' }}>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={isConcluded} // Usa o estado correto
+                            onChange={() => setIsConcluded(!isConcluded)} // Atualiza o estado local
+                        />
+                        Concluído
+                    </label>
+                    <div className='Titulo_geral' style={{ display: 'flex', alignItems: 'center', marginLeft: '20px' }}>
+                        <div className='Color_TaskModal' style={{ backgroundColor: task.Cor, width: '35px', height: '35px', marginRight: '10px' }}></div>
+                        <Modal.Title className='Titulo_ModalTask' style={{ fontSize: '25px' }}>{task.Titulo}</Modal.Title>
+                    </div>
                 </Modal.Header>
                 <Modal.Body className='Body_TaskModal'>
-                    <div className='Color_TaskModal' style={{ backgroundColor: task.Cor }}>
-                        <Check className="check" />
+                    <div className='Tempo_Task'>
+                        <p><strong>Inicío:</strong> {task.Inicio}</p>
+                        <p><strong>Final:</strong> {task.Termino}</p>
                     </div>
-                    <p className='Nome_TaskModal'><strong>Título:</strong> {task.Titulo}</p>
-                    <p className='HrInicial_TaskModal'><strong>Hora Inicial:</strong> {task.Inicio}</p>
-                    <p className='HrFinal_TaskModal'><strong>Hora Final:</strong> {task.Termino}</p>
-                    <p className='Descr_TaskModal'><strong>Descrição:</strong> {task.Descr}</p>
-                    <p className='Notf_TaskModal'><strong>Notificação:</strong> {task.Notific ? 'Sim' : 'Não'}</p>
-                    <p className='Rept_TaskModal'><strong>Repetir:</strong> {RepetirTxt(task.Repetir)}</p>
-                    {/* Checkbox para marcar como concluída */}
-
+                    <div className='Descr_TaskModal'>
+                        <p><strong>Descrição:</strong> {task.Descr}</p>
+                    </div>
+                    <div className='NCR'>
+                        <p><strong>Notificação:</strong> {task.Notific ? 'Sim' : 'Não'}</p>
+                        <p><strong>Categoria:</strong> {getCategoriaTexto(task.Categoria)}</p>
+                        <p><strong>Repetir:</strong> {RepetirTxt(task.Repetir)}</p>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secundary" onClick={() => setShowDeleteModal(true)}>
                         <img src="/src/image/delete.png" alt="" />
                     </Button>
-                    <Button variant="primary" onClick={() => onEdit(task)}>
-                        Editar
+                    <Button className='editar-btn' variant="primary" onClick={() => onEdit(task)}>
+                        <img src="/src/image/pencil.png" alt="" />
                     </Button>
-                    <Button variant="primary"> {/* Chama a função handleSave ao clicar em "Salvar" */}
+                    <Button variant="primary" onClick={handleSave}>
                         Salvar
                     </Button>
                 </Modal.Footer>
@@ -105,11 +158,12 @@ const TaskModal = ({ task, onClose, onEdit }) => {
             <Delete
                 show={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
-                onDelete={handleDelete}
+                onDelete={() => handleDelete(task)}
                 task={task} // Passa a tarefa para o Delete.jsx
             />
         </>
     );
+
 };
 
 export default TaskModal;

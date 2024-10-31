@@ -23,32 +23,37 @@ const CalendarioOFC = () => {
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const fetchTasks = async (date) => {
+  // Função para buscar tarefas de um dia específico
+  const fetchTasks = async (selectedDate) => {
     const userId = localStorage.getItem('id');
     if (!userId) {
       console.error('Usuário não encontrado no localStorage');
       return;
     }
     try {
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      const response = await fetch(`http://10.135.60.18:8085/tasks?userId=${userId}&date=${formattedDate}`);
+      const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
+      const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}&date=${formattedDate}`);
 
-      
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: ${response.statusText}`);
       }
 
       const data = await response.json();
-
-      // Logando a resposta completa para ver o que está sendo retornado
       console.log('Resposta da API:', data);
 
       if (Array.isArray(data)) {
         setTasks(data);
-        // Filtrar as tarefas pela data, comparando somente a parte da data de 'Inicio'
+        // Filtra as tarefas para uma data específica
         const tasksForSelectedDate = data.filter((task) => {
-          const taskDate = new Date(task.Inicio).toISOString().split('T')[0]; // Extrair a parte da data de 'Inicio'
-          return taskDate === formattedDate;
+          const taskDate = task.Inicio ? new Date(task.Inicio) : null;
+
+          // Verifica se taskDate é uma data válida antes de chamar toISOString()
+          if (taskDate instanceof Date && !isNaN(taskDate)) {
+            const formattedTaskDate = taskDate.toISOString().split('T')[0];
+            return formattedTaskDate === formattedDate;
+          }
+
+          return false; // Exclui as tarefas sem data válida
         });
         setTasksForDate(tasksForSelectedDate);
       } else {
@@ -59,11 +64,91 @@ const CalendarioOFC = () => {
     }
   };
 
+  // Função para buscar todas as tarefas
+  const fetchAllTasks = async () => {
+    const userId = localStorage.getItem('id');
+    if (!userId) {
+      console.error('Usuário não encontrado no localStorage');
+      return;
+    }
+    try {
+      const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error(`Erro na resposta da API: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Resposta da API:', data);
+
+      if (Array.isArray(data)) {
+        setTasks(data);
+        fetchTasks(date);
+      } else {
+        console.error('A resposta da API não é um array:', data);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar tarefas:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllTasks();
+  }, []);
+
+  const renderTileContent = ({ date, view }) => {
+    if (view === 'month') {
+      const formattedDate = date.toISOString().split('T')[0];
+  
+      // Filtra as tarefas para essa data específica
+      const tasksForThisDate = tasks.filter((task) => {
+        const taskDate = task.Inicio ? new Date(task.Inicio) : null;
+        
+        // Verifica se taskDate é válida antes de usar toISOString()
+        if (taskDate instanceof Date && !isNaN(taskDate)) {
+          const formattedTaskDate = taskDate.toISOString().split('T')[0];
+          return formattedTaskDate === formattedDate;
+        }
+        
+        return false; // Exclui as tarefas com uma data inválida
+      });
+  
+      const limitedTasks = tasksForThisDate.slice(0, 3);
+  
+      if (limitedTasks.length > 0) {
+        return (
+          <div className="task-colors">
+            {limitedTasks.map((task) => (
+              <div
+                key={task.id}
+                className="task-stripe"
+                style={{
+                  backgroundColor: task.Cor,
+                  width: '10px',
+                  height: '10px',
+                  marginBottom: '2px',
+                  borderRadius: '100%',
+                  margin: '1px',
+                }}
+              />
+            ))}
+            {tasksForThisDate.length > 3 && (
+              <div
+                className="more-tasks"
+                style={{ textAlign: 'center', width: '5px', height: '5px' }}
+              >
+                ...
+              </div>
+            )}
+          </div>
+        );
+      }
+    }
+    return null;
+  };  
 
   const handleDateClick = (value) => {
     setDate(value);
-    const selectedDate = value.toISOString().split('T')[0];
-    fetchTasks(selectedDate);
+    fetchTasks(value);
   };
 
   const handleTaskClick = (task) => {
@@ -102,7 +187,8 @@ const CalendarioOFC = () => {
       <div className="calendar-wrapper">
         <Calendar
           onClickDay={handleDateClick}
-          value={date} // Definindo o valor do calendário como a data selecionada
+          value={date}
+          tileContent={renderTileContent}
         />
       </div>
       <div className="tasks-list">
@@ -110,9 +196,15 @@ const CalendarioOFC = () => {
         <ul className='scroll'>
           {tasksForDate.length > 0 ? (
             tasksForDate.map((task) => (
-              <li key={task.id} onClick={() => handleTaskClick(task)}>
+              <li
+                key={task.id}
+                onClick={() => handleTaskClick(task)}
+                style={{ textDecoration: task.Concluida ? 'line-through' : 'none' }}
+              >
                 <div className='circle-color' style={{ backgroundColor: task.Cor }}></div>
-                <span className='titles-tasks'>{task.Titulo}</span>
+                <span className='titles-tasks'>
+                  {task.Titulo}
+                </span>
               </li>
             ))
           ) : (
@@ -128,7 +220,7 @@ const CalendarioOFC = () => {
               taskToEdit={taskToEdit}
               isEditing={isEditing}
               onClose={handleCloseForm}
-              selectedDate={date}  /* Passando a data como objeto Date */
+              selectedDate={date}
             />
           )}
         </div>

@@ -1,4 +1,4 @@
-from validacoes import (
+from validacoes import ( 
     validar_nome,
     validar_data_nascimento,
     validar_celular,
@@ -6,12 +6,13 @@ from validacoes import (
     validar_senha,
     confirmar_senha,
 )
+from atualizar import atualizar_status_tarefa_bd
 import Gravar_BD # >>> Importa o arquivo com a função que insere as informações no banco de dados <<<
 from select_log import ( 
     confere_dados_com_banco
 )
 from select_cad import (consultar_usuario_por_id)
-from datetime import datetime
+from datetime import datetime, timedelta
 
 #Função para processar os dados do cadastro
 #Autor: Anna Clara e Sarah
@@ -94,37 +95,112 @@ def processar_dados_log(dados):
         else:
             # Dados de login incorretos
             return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Dados de login incorretos.'}]}
-#Função para processar os dados do formulário To Do
-#Autor: Emily
-#Data: 12/03/2024
+from datetime import datetime, timedelta
+
+# Função para processar os dados do formulário To Do
+# Autor: Emily
+# Data: 12/03/2024
 def processar_dados_tarefa(dados):
     # Função para processar os dados recebidos do Flask
     # Retorna os dados processados
     print('Processamento:', dados)
+
     # Verificar se todas as chaves necessárias estão presentes
     required_keys = ['Cor', 'Titulo', 'Inicio', 'Termino', 'Notific', 'Descr', 'Categoria', 'Repetir', 'ID_Usu']
     print("Chaves requeridas:", required_keys)
     missing_keys = [key for key in required_keys if key not in dados]
-    
+
     if missing_keys:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': f'Campos ausentes: {", ".join(missing_keys)}'}]}
-    
-    dados_processados_to_do = dados
-    print('Dados processados para gravação:', dados_processados_to_do) 
 
-    # Chama a função para gravar os dados no banco de dados
-    Gravar_BD.gravar_tarefas(
-        dados_processados_to_do['Cor'],
-        dados_processados_to_do['Titulo'],
-        dados_processados_to_do['Inicio'],
-        dados_processados_to_do['Termino'],
-        dados_processados_to_do['Notific'],
-        dados_processados_to_do['Descr'],
-        dados_processados_to_do['Categoria'],
-        dados_processados_to_do['Repetir'],
-        dados_processados_to_do['ID_Usu']
-    )
-    return {'erro': False, 'mensagem': 'Tarefa gravada com sucesso!'}
+    # Dados processados que serão enviados para o banco de dados
+    dados_processados_to_do = dados
+    print('Dados processados para gravação:', dados_processados_to_do)
+
+    # Verificar se a tarefa possui repetição e gerar as tarefas repetidas, se necessário
+    tarefas_para_gravar = [dados_processados_to_do]
+    print('repetir: ', dados['Repetir'])  # Inclui a tarefa original
+    if dados['Repetir'] in ['1', '2', '3', '4']:  # Ativa a repetição somente para os valores 1, 2, 3 e 4
+        inicio = datetime.strptime(dados['Inicio'], '%Y-%m-%d %H:%M')
+        print('data inicio: ', inicio)
+
+        if dados['Repetir'] == '1':  # Diariamente
+            for i in range(1, 51):  # Repete por até 50 dias
+                nova_data = inicio + timedelta(days=i)
+                tarefa_repetida = dados.copy()
+                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefas_para_gravar.append(tarefa_repetida)
+
+        elif dados['Repetir'] == '2':  # Semanalmente
+            for i in range(1, 9):  # Repete por até 8 semanas
+                nova_data = inicio + timedelta(weeks=i)
+                tarefa_repetida = dados.copy()
+                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefas_para_gravar.append(tarefa_repetida)
+
+        elif dados['Repetir'] == '3':  # Mensalmente
+            for i in range(1, 11):  # Repete por até 10 meses
+                nova_data = inicio + timedelta(weeks=i * 4)  # Aproximando um mês por 4 semanas
+                tarefa_repetida = dados.copy()
+                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefas_para_gravar.append(tarefa_repetida)
+
+        elif dados['Repetir'] == '4':  # Anualmente
+            for i in range(1, 6):  # Repete por até 5 anos
+                nova_data = inicio + timedelta(days=i * 365)  # Aproximando um ano
+                tarefa_repetida = dados.copy()
+                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
+                tarefas_para_gravar.append(tarefa_repetida)
+
+    # Grava cada tarefa (incluindo as repetidas) no banco de dados
+    for tarefa in tarefas_para_gravar:
+        print("Tentando gravar tarefa:", tarefa)
+        Gravar_BD.gravar_tarefas(
+            tarefa['Cor'],
+            tarefa['Titulo'],
+            tarefa['Inicio'],
+            tarefa['Termino'],
+            tarefa['Notific'],
+            tarefa['Descr'],
+            tarefa['Categoria'],
+            tarefa['Repetir'],
+            tarefa['ID_Usu']
+        )
+
+    return {'erro': False, 'mensagem': 'Tarefas gravadas com sucesso!'}
+
+#Função para processar o check da tarefa
+#Autor: Júlia e Arthur
+#Data: 17/10/2024
+def processa_check( novo_status, id_tarefa):
+    # Verifica se o ID da tarefa foi fornecido
+    print('proc--',id_tarefa, novo_status)
+
+    if not id_tarefa:
+        return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'ID da tarefa não fornecido'}]}
+
+    # Verifica se o novo_status foi fornecido (0 ou 1)
+    if novo_status not in [0, 1]:
+        return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Novo status inválido. Deve ser 0 ou 1.'}]}
+
+    # Consulta o status de conclusão da tarefa no banco de dados
+    ret = atualizar_status_tarefa_bd(id_tarefa, novo_status)
+    print('ret->',ret)
+    # Se a tarefa foi marcada como concluída (1)
+    if novo_status == 1:
+        return {'erro': False, 'mensagem': 'Tarefa marcada como concluída.'}
+
+    # Se a tarefa foi desmarcada (0)
+    elif novo_status == 0:
+        return {'erro': False, 'mensagem': 'Tarefa desmarcada como concluída.'}
+
+    # Caso haja algum erro inesperado
+    else:
+        return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Status de tarefa inválido.'}]}
 
 #Função para processar o id
 #Autor: Emily
@@ -143,8 +219,32 @@ def recuperar_cadastro(dados):
             'data_nascimento': str(geren[2]),  # Convertendo a data para string
             'telefone': geren[3],
             'email': geren[4],
-            'senha': geren[5]
+            'imagem': geren[5]
         }
         return {'erro': False, 'mensagem': resposta}
     else:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'ID não encontrado ou inexistente'}]}
+
+#Função para processar a sugestão
+#Autor: Arthur
+#Data: 22/10/2024
+def processar_dados_sugestao(userId, texto_sugestao):
+    print("Entrando na função processar_dados_sugestao")
+    
+    # Exibe os dados recebidos
+    print(f"Mensagem: {texto_sugestao}")
+    print(f"ID do Usuário: {userId}")
+
+    # Verifica se os parâmetros são válidos
+    if not texto_sugestao or not userId:
+        print("Texto ou ID do usuário ausente.")
+        return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Texto ou ID do usuário ausente.'}]}
+
+    try:
+        # Chama a função para gravar a sugestão no banco de dados
+        Gravar_BD.gravar_sugestao(texto_sugestao, userId)
+        print("Sugestão gravada com sucesso!")
+        return {'erro': False, 'mensagem': 'Sugestão gravada com sucesso!'}
+    except Exception as e:
+        print(f"Erro ao gravar sugestão: {str(e)}")
+        return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Erro ao gravar sugestão. Tente novamente.'}]}

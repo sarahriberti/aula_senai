@@ -1,172 +1,116 @@
 import { StyleSheet } from "react-native";
 
-export default Gerenciarstyles = StyleSheet.create({
+export default Loginstyles = StyleSheet.create({
     background: {
-        backgroundColor: '#252942',
-        width: '100%',
         flex: 1,
+        backgroundColor: '#34374F',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    titlebox: {
-        marginTop: 20,
-    },
-    title: {
-        color: '#fff',
-        fontWeight: "bold",
-        fontSize: 30,
-    },
-    main: {
-        backgroundColor: '#546594',
-        width: '90%',
-        borderRadius: 50,
-        alignItems: 'center',
-    },
-    header: {
         width: '100%',
-        height: 100,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center'
     },
-    perfil: {
-        marginTop: 5,
-        width: 100,
-        height: 100,
+    containerLogo: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    logo: {
+        width: 300,
+        height: 150,
     },
     container: {
-        borderRadius: 50,
-        backgroundColor: '#546594',
-        height: '90%',
-        width: '100%',
-    },
-    borda: {
-        marginTop: 20,
-        borderBottomWidth: 3,
-        borderBottomColor: '#C39910',
-    },
-    dadosbasicos: {
-        width: '93%',
-        marginTop: 10,
-        marginLeft: 30,
-    },
-    contato: {
-        width: '93%',
-        marginTop: 10,
-        marginLeft: 30,
-    },
-    password: {
-        width: '93%',
-        marginTop: 20,
-        marginLeft: 30,
-    },
-    email: {
-        width: '93%',
-        marginTop: 20,
-        marginLeft: 30,
-    },
-    telefone: {
-        width: '93%',
-        marginTop: 20,
-        marginLeft: 30,
-    },
-    textNome: {
+        flex: 2,
+        width: 380,
+        backgroundColor: '#516292',
         color: '#fff',
-        fontSize: 20,
-    },
-    textData: {
-        marginTop: 10,
-        color: '#fff',
-        fontSize: 20,
-    },
-    textActualSenha: {
-        color: '#fff',
-        fontSize: 20,
-    },
-    textNewSenha: {
-        marginTop: 10,
-        color: '#fff',
-        fontSize: 20,
-    },
-    textConfSenha: {
-        marginTop: 10,
-        color: '#fff',
-        fontSize: 20,
-    },
-    textExEmail: {
-        color: '#fff',
-        fontSize: 20,
-    },
-    textEmail: {
-        marginTop: 10,
-        color: '#fff',
-        fontSize: 20,
-    },
-    textActualTelefone: {
-        color: '#fff',
-        fontSize: 20,
-    },
-    textNewTelefone: {
-        marginTop: 10,
-        color: '#fff',
-        fontSize: 20,
-    },
-    input: {
-        marginTop: 10,
-        backgroundColor: '#252942',
-        width: '90%',
-        height: 50,
-        color: '#fff',
-        paddingHorizontal: 10,
-        borderRadius: 5,
-        fontSize: 20,
-    },
-    btnBox: {
-        width: '93%',
-        marginTop: 20,
-        marginLeft: 15,
-        display: "flex",
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    btnSave: {
-        backgroundColor: '#C39910',
+        borderRadius: 35,
+        marginBottom: '10%',
         justifyContent: 'center',
-        alignItems: 'center',
-        width: 100,
-        height: 35,
-        borderRadius: 90,
-        fontSize: 20,
+
+    },
+    label: {
         color: '#fff',
-        marginLeft: 117,
-        textAlign: 'center',
-        marginTop: 20,
-        marginBottom: 20
+        fontSize: 20,
+        marginLeft: 20,
+    },
+
+    btnSubmit: {
+        backgroundColor: '#34374F',
+        justifyContent: 'center',
+        marginBottom: 15,
+        alignItems: 'center',
+        width: '40%',
+        height: 45,
+        borderRadius: 2,
     },
     submitTxt: {
         color: '#fff',
-        fontSize: 17,
+        fontSize: 18,
     },
-    textEsqueciSenha: {
+    botoes: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+
+    },
+    textCad: {
         color: '#fff',
         fontSize: 17,
+        textAlign: 'center',
     },
-    inputContainer: {
+    logarCom: {
+        width: 75,
+        height: 75,
+        borderRadius: 100,
+        borderWidth: 3,
+        borderColor: '#C39910',
+    },
+    logarInferior: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    textLogar: {
+        color: '#fff',
+        fontSize: 20,
+        textAlign: 'center',
+        marginTop: 15,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    senhaContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#252942',
+        backgroundColor: '#34374f',
+        borderRadius: 2,
         width: '90%',
-        height: 50,
-        color: '#fff',
-        paddingHorizontal: 10,
-        borderRadius: 5,
-        marginTop: 10,
+
+        marginBottom: 20,
+        paddingRight: 10, // Espaço para o ícone
+        marginLeft: 20,
+
+        fontSize: 17,
+
     },
-    inputField: {
+    senhaInput: {
         flex: 1,
         color: '#fff',
+        fontSize: 18,
+        padding: 10,
+
     },
-    iconWrapper: {
-        paddingHorizontal: 10,
+
+    inputs: {
+        backgroundColor: '#34374F',
+        width: '90%',
+        color: '#fff',
+        marginLeft: 20,
+        marginBottom: 20,
+        fontSize: 17,
+        borderRadius: 2,
+        padding: 10,
+        alignItems: 'center',
     },
 });

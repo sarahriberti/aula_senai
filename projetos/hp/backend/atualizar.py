@@ -13,6 +13,7 @@ def atualizar_cad(data):
         data_nascimento = data['data_nascimento']
         celular = data['celular']
         email = data['email']
+        imagem_perfil = data.get('imagemPerfil')
 
         # Conectar ao banco de dados
         conex = conexao.conectar()
@@ -30,13 +31,13 @@ def atualizar_cad(data):
         # Atualizar os dados do usuário
         if nova_senha:
             cursor.execute(
-                "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s, Senha = %s WHERE ID = %s",
-                (nome, data_nascimento, celular, email, nova_senha, id_usuario)
+                "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s, Senha = %s, Imagem_perfil = %s WHERE ID = %s",
+                (nome, data_nascimento, celular, email, nova_senha, imagem_perfil, id_usuario)
             )
         else:
             cursor.execute(
-                "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s WHERE ID = %s",
-                (nome, data_nascimento, celular, email, id_usuario)
+                "UPDATE usuario SET Nome = %s, Data_Nasc = %s, Celular = %s, Email = %s, Imagem_perfil = %s WHERE ID = %s",
+                (nome, data_nascimento, celular, email, imagem_perfil, id_usuario)
             )
 
         conex.commit()
@@ -84,3 +85,51 @@ def atualizar_tarefa(data):
     finally:
         if conex:
             conex.close()
+
+def gravar_status_concluida(id_tarefa, concluida):
+    conex = conexao.conectar()
+    cursor = conex.cursor()
+
+    try:
+        # Atualiza o status de conclusão da tarefa
+        sql = "UPDATE tarefas SET Concluida = %s WHERE ID = %s"
+        val = (concluida, id_tarefa)
+        
+        cursor.execute(sql, val)
+        conex.commit()
+
+        print("Status de tarefa atualizado com sucesso!")
+        
+        return {'erro': False, 'mensagem': 'Status de tarefa atualizado com sucesso!'}
+
+    except Exception as e:
+        return {'erro': True, 'mensagem': str(e)}
+
+    finally:
+        conex.close()          
+
+def atualizar_status_tarefa_bd(id_tarefa, novo_status):
+    conex = conexao.conectar()
+    cursor = conex.cursor()
+    print('gravação==',id_tarefa,novo_status)
+    try:
+        # Atualiza o status da tarefa no banco de dados
+        sql = "UPDATE tarefas SET Concluida = %s WHERE ID = %s"
+        cursor.execute(sql, (novo_status, id_tarefa))
+        
+        # Confirma a alteração no banco de dados
+        conex.commit()
+        
+        # Verifica se alguma linha foi afetada
+        if cursor.rowcount == 0:
+            return {'erro': True, 'mensagem': 'Tarefa não encontrada ou não atualizada'}
+        
+        # Retorna o novo status da tarefa
+        return {'erro': False, 'mensagem': 'Status da tarefa atualizado com sucesso!', 'concluida': novo_status}
+    
+    except Exception as e:
+        conex.rollback()  # Faz o rollback em caso de erro
+        return {'erro': True, 'mensagem': str(e)}
+    
+    finally:
+        conex.close()
