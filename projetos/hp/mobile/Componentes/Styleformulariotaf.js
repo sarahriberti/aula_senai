@@ -53,9 +53,20 @@ export default stylesTaf = StyleSheet.create({
         color:'white',
         fontSize:17
     },
-    dateTarefa: {
-        marginTop: 20,
-        width: '90%'
+    datetimeInicioTarefa: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '90%',
+        marginTop: 10,
+    },
+    hourIni: {
+        marginLeft: 36,
+    },
+    datetimeTerminoTarefa: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '90%',
+        marginTop: 10,
     },
     txtDate: {
         color: 'white',
@@ -63,7 +74,7 @@ export default stylesTaf = StyleSheet.create({
     },
     dateBoxBtn: {
         backgroundColor: '#252942',
-        width: '100%',
+        width: 150,
         height: 40,
     },
     txtDateInt: {
@@ -87,22 +98,20 @@ export default stylesTaf = StyleSheet.create({
     btnHour: {
         backgroundColor: '#252942',
         height: 40,
+        marginLeft: 30,
     },
     txtBtnHour: {
         color: 'white',
         fontSize: 20,
         marginTop: 8,
-    },
-    hourIni: {
-        width: '45%',
+        width: 150,
     },
     txthourIni: {
         color: 'white',
         fontSize: 20,
     },
     hourFim: {
-        marginLeft: '10%',
-        width: '45%',
+        marginLeft: 36,
     },
     txthourFim: {
         color: 'white',
@@ -135,6 +144,44 @@ export default stylesTaf = StyleSheet.create({
         width: '90%',
         height: '20%',
     },
+    categTarefa: {
+        marginTop: 20,
+        width: '90%',
+        height: 50,
+        backgroundColor: '#252942',
+    },
+    pickerCateg: {
+        height: 50,
+        width: '100%',
+        backgroundColor: '#252942',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        marginBottom: 20,
+    },
+    pickerItemFun: {
+        color: 'white', // Cor desejada para a opção "Lazer"
+        backgroundColor:'#252942'
+    },
+    pickerItemStudy: {
+        color: 'white', // Cor desejada para a opção "Estudo"
+        backgroundColor:'#252942'
+    },
+    pickerItemWork: {
+        color: 'white', // Cor desejada para a opção "Trabalho"
+        backgroundColor:'#252942'
+    },
+    pickerItemHealth: {
+        color: 'white', // Cor desejada para a opção "Saúde"
+        backgroundColor:'#252942'
+    },
+    pickerItemFamily: {
+        color: 'white', // Cor desejada para a opção "Família"
+        backgroundColor:'#252942'
+    },
+    pickerItemOther: {
+        color: 'white', // Cor desejada para a opção "Outro"
+        backgroundColor:'#252942'
+    },
     repeatTarefa: {
         marginTop: 20,
         width: '90%',
@@ -148,7 +195,6 @@ export default stylesTaf = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         marginBottom: 20,
-
     },
     dropdown: {
         
@@ -156,7 +202,7 @@ export default stylesTaf = StyleSheet.create({
         marginTop: 2, // Ajuste conforme necessário
     },
     pickerItemNone: {
-        color: 'white', // Cor desejada para a opção "Não Repetir"
+        color: 'white', // Cor desejada para a opção "Nunca"
         backgroundColor:'#252942'
     },
     pickerItemDaily: {
@@ -179,8 +225,7 @@ export default stylesTaf = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginTop:10,
-        
+        marginTop:15,
     },
     btnCancelar: {
         backgroundColor: '#252942',
@@ -198,5 +243,8 @@ export default stylesTaf = StyleSheet.create({
     descrCampo:{
         color:'white',
         fontSize:17
-    }
+    },
+
+
+
 });

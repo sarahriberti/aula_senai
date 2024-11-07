@@ -15,6 +15,7 @@ import CadastroConcluido from './Pages/CadConcluido';
 import MyPager from './Pages/BoasVindas';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Esqueci from './Pages/EsqueciSenha';
+import Sugestao from './Componentes/Sugestao';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,6 +23,7 @@ const Drawer = createDrawerNavigator();
 function CustomDrawerContent({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
+  const [modalVisible5, setModalVisible5] = useState(false);
   const [nome, setNome] = useState('');
 
   useEffect(() => {
@@ -78,6 +80,12 @@ function CustomDrawerContent({ navigation }) {
         onPress={() => setModalVisible(true)}
         style={styles.drawerItem}
       />
+       <DrawerItem
+        label="Sugestão"
+        labelStyle={styles.drawerItemText}
+        onPress={() => setModalVisible5(true)}
+        style={styles.drawerItem}
+      />
       <DrawerItem
         label="Sair"
         labelStyle={styles.drawerItemText}
@@ -97,6 +105,7 @@ function CustomDrawerContent({ navigation }) {
      
         <Compartilho modalVisible={modalVisible} setModalVisible={setModalVisible} />
         <Saira modalVisible2={modalVisible2} setModalVisible2={setModalVisible2} navigation={navigation} />
+        <Sugestao modalVisible5={modalVisible5} setModalVisible5={setModalVisible5}  navigation={navigation}/>
       </View>
     </DrawerContentScrollView>
   );
@@ -122,6 +131,7 @@ function Menu() {
         <Drawer.Screen name="Gerenciar" component={Gerenciarr} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Doacao" component={PagDoacaoMobile} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Compartilhar" component={Compartilho} />
+        <Drawer.Screen name="Sugestao" component={Sugestao} />
         <Drawer.Screen name="Sair" component={Saira} />
       </Drawer.Navigator>
     </View>
@@ -168,7 +178,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   logo: {
-    marginTop: 60,
+    marginTop: 20,
     width: 50,
     height: 50,
     borderWidth: 2,
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   logo2: {
-    marginTop: 60,
+    marginTop: 20,
     width: 50,
     height: 50,
     borderWidth: 2,
@@ -184,7 +194,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   logo3: {
-    marginTop: 60,
+    marginTop: 20,
     width: 50,
     height: 50,
     borderWidth: 2,

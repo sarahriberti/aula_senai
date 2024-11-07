@@ -6,26 +6,34 @@ import { Picker } from '@react-native-picker/picker';
 import stylesTaf from './Styleformulariotaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Função para converter data para UTC
-function convertToUTC(date) {
-    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+// Funções para manipulação de data e hora
+function combineDateTime(date, time) {
+    const combined = new Date(date);
+    combined.setHours(time.getHours(), time.getMinutes(), 0, 0);
+    return combined;
 }
 
-// Função para converter data de UTC para local
-function convertFromUTC(date) {
-    return new Date(date);
+function extractDate(datetime) {
+    return new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate());
+}
+
+function extractTime(datetime) {
+    return new Date(1970, 0, 1, datetime.getHours(), datetime.getMinutes());
 }
 
 export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAddTask, selectedTask }) {
     const [taskID, setTaskID] = useState(null);
     const [taskID_Usu, setTaskID_Usu] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [selectedStartDate, setSelectedStartDate] = useState(null);
+    const [selectedEndDate, setSelectedEndDate] = useState(null);
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
     const [startHour, setStartHour] = useState(null);
     const [endHour, setEndHour] = useState(null);
     const [showStartTimePicker, setShowStartTimePicker] = useState(false);
     const [showEndTimePicker, setShowEndTimePicker] = useState(false);
     const [notificationEnabled, setNotificationEnabled] = useState(false);
+    const [selectedCategOption, setSelectedCategOption] = useState('6');
     const [selectedRepeatOption, setSelectedRepeatOption] = useState('none');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -36,16 +44,16 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         if (selectedTask) {
             setTaskID_Usu(selectedTask.ID_Usu);
             setTaskID(selectedTask.ID);
-
-            // Converta a data UTC de volta para a data local
-            const loadedDate = new Date(selectedTask.Data + 'T00:00:00Z');
-            setSelectedDate(convertFromUTC(loadedDate));
-
-            setStartHour(selectedTask.Hora_Ini ? new Date(`1970-01-01T${selectedTask.Hora_Ini}:00`) : null);
-            setEndHour(selectedTask.Hora_Fin ? new Date(`1970-01-01T${selectedTask.Hora_Fin}:00`) : null);           
+            const startDate = new Date(selectedTask.Inicio);
+            const endDate = new Date(selectedTask.Termino);
+            setSelectedStartDate(extractDate(startDate));
+            setSelectedEndDate(extractDate(endDate));
+            setStartHour(extractTime(startDate));
+            setEndHour(extractTime(endDate));
             setTitle(selectedTask.Titulo);
             setDescription(selectedTask.Descr);
             setNotificationEnabled(selectedTask.Notific);
+            setSelectedCategOption(selectedTask.Categoria);
             setSelectedRepeatOption(selectedTask.Repetir);
             setColor(selectedTask.Cor);
         } else {
@@ -60,10 +68,17 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         setModalVisible4(!isModalVisible4);
     };
 
-    const handleDateChange = (event, date) => {
-        setShowDatePicker(false);
+    const handleStartDateChange = (event, date) => {
+        setShowStartDatePicker(false);
         if (date) {
-            setSelectedDate(date);
+            setSelectedStartDate(date);
+        }
+    };
+
+    const handleEndDateChange = (event, date) => {
+        setShowEndDatePicker(false);
+        if (date) {
+            setSelectedEndDate(date);
         }
     };
 
@@ -88,40 +103,42 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
     const clearForm = () => {
         setTaskID_Usu(null);
         setTaskID(null);
-        setSelectedDate(null);
+        setSelectedStartDate(null);
+        setSelectedEndDate(null);
         setStartHour(null);
         setEndHour(null);
         setTitle('');
         setDescription('');
         setNotificationEnabled(false);
+        setSelectedCategOption('6');
         setSelectedRepeatOption('none');
         setColor('#252942');
         setErrorMessage('');
     };
 
     const saveTask = async () => {
-        if (!title || !selectedDate || !startHour || !endHour) {
+        if (!title || !selectedStartDate || !startHour || !selectedEndDate || !endHour) {
             setErrorMessage('Por favor, preencha todos os campos obrigatórios.');
             return;
         }
 
         setErrorMessage('');
 
-        const userId = await AsyncStorage.getItem('ID_Usu'); 
-        console.log('User ID:', userId); // Verifica se o valor do ID está correto
+        const userId = await AsyncStorage.getItem('ID_Usu');
+        console.log('User ID:', userId);
 
-        // Converta a data para UTC
-        const utcDate = convertToUTC(selectedDate);
+        const inicio = combineDateTime(selectedStartDate, startHour);
+        const termino = combineDateTime(selectedEndDate, endHour);
 
         const task = {
             action: selectedTask ? 'atualizar_tarefa' : 'salvar_tarefa',
             Cor: color,
             Titulo: title,
-            Data: utcDate.toISOString().split('T')[0], // Salve a data no formato YYYY-MM-DD
-            Hora_Ini: startHour instanceof Date ? startHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
-            Hora_Fin: endHour instanceof Date ? endHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : null,
+            Inicio: inicio.toISOString(),
+            Termino: termino.toISOString(),
             Notific: notificationEnabled,
             Descr: description,
+            Categoria: selectedCategOption,
             Repetir: selectedRepeatOption,
             ID_Usu: userId,
             taskID: selectedTask ? selectedTask.ID : null,
@@ -130,7 +147,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         console.log('Task data:', task);
 
         try {
-            const response = await fetch(selectedTask ? 'http://10.135.60.38:8085/atualizar_tarefa' : 'http://10.135.60.38:8085/receber_dados', {
+            const response = await fetch(selectedTask ? 'http://10.135.60.33:8085/atualizar_tarefa' : 'http://10.135.60.33:8085/receber_dados', {
                 method: selectedTask ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -180,25 +197,26 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                     onChangeText={setTitle}
                                 />
                             </View>
-                            <View style={stylesTaf.dateTarefa}>
-                                <Text style={stylesTaf.txtDate}>Data</Text>
-                                <TouchableOpacity style={stylesTaf.dateBoxBtn} onPress={() => setShowDatePicker(true)}>
-                                    <Text style={stylesTaf.txtDateInt}>
-                                        {selectedDate ? selectedDate.toLocaleDateString('pt-BR') : 'dd/mm/aaaa'}
-                                    </Text>
-                                </TouchableOpacity>
-                                {showDatePicker && (
-                                    <DateTimePicker
-                                        value={selectedDate || new Date()}
-                                        mode="date"
-                                        display="default"
-                                        onChange={handleDateChange}
-                                    />
-                                )}
-                            </View>
-                            <View style={stylesTaf.hourTarefa}>
+                            {/* Data e Horário de Início */}
+                            <View style={stylesTaf.datetimeInicioTarefa}>
+                                <View style={stylesTaf.dateInicioTarefa}>
+                                    <Text style={stylesTaf.txtDate}>Data de Início</Text>
+                                    <TouchableOpacity style={stylesTaf.dateBoxBtn} onPress={() => setShowStartDatePicker(true)}>
+                                        <Text style={stylesTaf.txtDateInt}>
+                                            {selectedStartDate ? selectedStartDate.toLocaleDateString('pt-BR') : 'dd/mm/aaaa'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    {showStartDatePicker && (
+                                        <DateTimePicker
+                                            value={selectedStartDate || new Date()}
+                                            mode="date"
+                                            display="default"
+                                            onChange={handleStartDateChange}
+                                        />
+                                    )}
+                                </View>
                                 <View style={stylesTaf.hourIni}>
-                                    <Text style={stylesTaf.txthourIni}>Início</Text>
+                                    <Text style={stylesTaf.txthourIni}></Text>
                                     <TouchableOpacity style={stylesTaf.btnHour} onPress={() => setShowStartTimePicker(true)}>
                                         <Text style={stylesTaf.txtBtnHour}>
                                             {startHour ? startHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : 'hh:mm'}
@@ -213,8 +231,28 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                         />
                                     )}
                                 </View>
+                            </View>
+
+                            <View style={stylesTaf.datetimeTerminoTarefa}>
+                                {/* Data e Horário de Término */}
+                                <View style={stylesTaf.terminoDataHora}>
+                                    <Text style={stylesTaf.txtDate}>Término</Text>
+                                    <TouchableOpacity style={stylesTaf.dateBoxBtn} onPress={() => setShowEndDatePicker(true)}>
+                                        <Text style={stylesTaf.txtDateInt}>
+                                            {selectedEndDate ? selectedEndDate.toLocaleDateString('pt-BR') : 'dd/mm/aaaa'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    {showEndDatePicker && (
+                                        <DateTimePicker
+                                            value={selectedEndDate || new Date()}
+                                            mode="date"
+                                            display="default"
+                                            onChange={handleEndDateChange}
+                                        />
+                                    )}
+                                </View>
                                 <View style={stylesTaf.hourFim}>
-                                    <Text style={stylesTaf.txthourFim}>Final</Text>
+                                    <Text style={stylesTaf.txthourFim}></Text>
                                     <TouchableOpacity style={stylesTaf.btnHour} onPress={() => setShowEndTimePicker(true)}>
                                         <Text style={stylesTaf.txtBtnHour}>
                                             {endHour ? endHour.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : 'hh:mm'}
@@ -230,6 +268,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                     )}
                                 </View>
                             </View>
+
                             <View style={stylesTaf.notiTarefa}>
                                 <TouchableOpacity
                                     style={stylesTaf.TarefaBTN}
@@ -248,6 +287,47 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                     onChangeText={setDescription}
                                 />
                             </View>
+                            <View style={stylesTaf.categTarefa}>
+                                <Picker
+                                    selectedValue={selectedRepeatOption}
+                                    onValueChange={handleRepeatChange}
+                                    style={stylesTaf.pickerCateg}
+                                    mode='dropdown'
+                                    dropdownIconColor={'white'}
+                                    dropdownStyle={stylesTaf.dropdown}
+                                >
+                                    <Picker.Item
+                                        label="Lazer"
+                                        value="1"
+                                        style={stylesTaf.pickerItemFun}
+                                    />
+                                    <Picker.Item
+                                        label="Estudo"
+                                        value="2"
+                                        style={stylesTaf.pickerItemStudy}
+                                    />
+                                    <Picker.Item
+                                        label="Trabalho"
+                                        value="3"
+                                        style={stylesTaf.pickerItemWork}
+                                    />
+                                    <Picker.Item
+                                        label="Saúde"
+                                        value="4"
+                                        style={stylesTaf.pickerItemHealth}
+                                    />
+                                    <Picker.Item
+                                        label="Família"
+                                        value="5"
+                                        style={stylesTaf.pickerItemFamily}
+                                    />
+                                    <Picker.Item
+                                        label="Outro"
+                                        value="6"
+                                        style={stylesTaf.pickerItemOther}
+                                    />
+                                </Picker>
+                            </View>
                             <View style={stylesTaf.repeatTarefa}>
                                 <Picker
                                     selectedValue={selectedRepeatOption}
@@ -257,11 +337,6 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                     dropdownIconColor={'white'}
                                     dropdownStyle={stylesTaf.dropdown}
                                 >
-                                    <Picker.Item
-                                        label="Não Repetir"
-                                        value="none"
-                                        style={stylesTaf.pickerItemNone}
-                                    />
                                     <Picker.Item
                                         label="Diariamente"
                                         value="daily"
@@ -281,6 +356,11 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                         label="Anualmente"
                                         value="yearly"
                                         style={stylesTaf.pickerItemYearly}
+                                    />
+                                    <Picker.Item
+                                        label="Nunca"
+                                        value="none"
+                                        style={stylesTaf.pickerItemNone}
                                     />
                                 </Picker>
                             </View>

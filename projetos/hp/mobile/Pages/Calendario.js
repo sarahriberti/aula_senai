@@ -4,7 +4,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
 import FormularioTaf from '../Componentes/FormularioTaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment, { max } from 'moment-timezone';
+import moment from 'moment-timezone';
 
 // Configuração de localidade
 LocaleConfig.locales['pt'] = {
@@ -30,7 +30,7 @@ const TodoListScreen = ({ navigation }) => {
       if (userId) {
         const localDate = moment(date).tz('America/Sao_Paulo').format('YYYY-MM-DD');
         console.log(`Fetching tasks for userId: ${userId} on date: ${localDate}`);
-        const response = await fetch(`http://10.135.60.38:8085/tasks?userId=${userId}&date=${localDate}`);
+        const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}&date=${localDate}`);
         const data = await response.json();
         setTasks(data);
       }
@@ -43,7 +43,7 @@ const TodoListScreen = ({ navigation }) => {
     const fetchUserDataAndTasks = async () => {
       try {
         const id = await AsyncStorage.getItem('ID_Usu');
-        console.log('busca async id', id)
+        console.log('busca async id', id);
         if (id !== null) {
           setUserId(id);
           await fetchTasks(selectedDate);
@@ -64,7 +64,7 @@ const TodoListScreen = ({ navigation }) => {
 
   useEffect(() => {
     // Atualiza a lista de tarefas renderizadas sempre que 'tasks' ou 'selectedDate' muda
-    const filteredTasks = tasks.filter(task => task.Data === selectedDate);
+    const filteredTasks = tasks.filter(task => moment(task.Inicio).format('YYYY-MM-DD') === selectedDate);
     setRenderedTasks(filteredTasks.map((task, index) => (
       <Pressable
         key={task.id || index}
@@ -115,8 +115,9 @@ const TodoListScreen = ({ navigation }) => {
           onDayPress={handleDayPress}
           markedDates={{
             ...tasks.reduce((acc, task) => {
-              if (task.Data) {
-                acc[task.Data] = { marked: true, dotColor: '#546594' };
+              const taskDate = moment(task.Inicio).format('YYYY-MM-DD');
+              if (taskDate) {
+                acc[taskDate] = { marked: true, dotColor: '#546594' };
               }
               return acc;
             }, {}),
@@ -229,46 +230,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#34374f',
-    padding: 20,
-  },
-  caixa_tarefas: {
-    marginTop: 10,
-    backgroundColor: '#546594',
-    borderRadius: 10,
-    padding: 5,
-    flex: 1,
-  },
-  scrollTarefas: {
-    maxHeight: 150, // Define a altura máxima para permitir o scroll
-  },
-  TextHeader: {
-    color: 'gold',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    marginBottom: 10,
-    width: '100%',
+    padding: 15,
   },
   Tarefa: {
-    backgroundColor: '#252942',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 10,
-    marginBottom: 5,
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 8,
   },
   Text: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 16,
   },
-  addButton: {
-    backgroundColor: '#ffcc00',
+  TextHeader: {
+    fontSize: 18,
+    color: '#ffcc00',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  caixa_tarefas: {
+    marginTop: 15,
+    backgroundColor: '#252942',
+    borderRadius: 8,
     padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 10,
   },
-  addButtonText: {
-    color: '#34374f',
-    fontWeight: 'bold',
+  scrollTarefas: {
+    maxHeight: 300,
   },
 });
 
