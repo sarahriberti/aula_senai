@@ -4,6 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import Formulario from '../Formulario';
 import './Calendar.css';
 import TaskModal from './TaskModal';
+import BotaoAjudaCalend from '../BotoesAjuda/BotaoAjudaCalend';
 
 // Função para formatar a data
 const formatDate = (date) => {
@@ -182,6 +183,21 @@ const CalendarioOFC = () => {
     fetchTasks(date);
   };
 
+  // Função para atualizar o status da tarefa concluída
+  const updateTaskStatus = (taskId, isConcluded) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.ID === taskId ? { ...task, Concluida: isConcluded } : task
+      )
+    );
+    
+    setTasksForDate((prevTasksForDate) =>
+      prevTasksForDate.map((task) =>
+        task.ID === taskId ? { ...task, Concluida: isConcluded } : task
+      )
+    );
+  };
+
   return (
     <div className="calendar-container">
       <div className="calendar-wrapper">
@@ -232,6 +248,7 @@ const CalendarioOFC = () => {
           onEdit={openFormForEdit}
         />
       )}
+      <BotaoAjudaCalend/>
     </div>
   );
 };

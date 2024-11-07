@@ -21,7 +21,7 @@ import dumbledoreImage from '../../../src/image/dumbledore.jpg';
 import severusImage from '../../../src/image/severus.jpg';
 import minervaImage from '../../../src/image/minerva.jpg';
 import lupinImage from '../../../src/image/lupin.jpg';
-
+import BotaoAjudaCalend from '../../components/BotoesAjuda/BotaoAjudaCalend';
 
 
 
@@ -308,6 +308,7 @@ function Gerenciar() {
           </Button>
         </div>
       </Form>
+      <BotaoAjudaCalend/>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import MenuLateral from '../../components/Menu_Lateral';
 import '../Doacao/Doacao.css';
+import BotaoAjudaCalend from '../../components/BotoesAjuda/BotaoAjudaCalend';
 
 function formatarValor(valor) {
     const valorNumerico = valor.replace(/\D/g, '');
@@ -64,16 +65,12 @@ function PagDoacao() {
 
     const handleValorChange = (event) => {
         let valor = event.target.value.replace(/\D/g, '');
-        if (valor.length === 0) {
-            setValorDoacao('');
-            return;
-        }
-        setValorDoacao(formatarValor(valor));
+        setValorDoacao(valor);
     };
 
     const handleBlur = () => {
         if (valorDoacao.length > 0) {
-            setValorDoacao(formatarValor(valorDoacao.replace(/[^\d]/g, '')));
+            setValorDoacao(formatarValor(valorDoacao));
         }
     };
 
@@ -133,9 +130,10 @@ function PagDoacao() {
             return;
         }
 
+        // Salvar o valor formatado como R$ na variável donationValue
         const valorNumerico = valorDoacao.replace(/[^\d]/g, '');
 
-        const formDataWithId = { ...formData, id_usu: userId, donationValue: valorNumerico };
+        const formDataWithId = { ...formData, id_usu: userId, donationValue: `R$ ${(Number(valorNumerico) / 100).toFixed(2).replace('.', ',')}` };
 
         try {
             const response = await fetch('http://10.135.60.33:8085/receber_dados', {
@@ -213,7 +211,6 @@ function PagDoacao() {
                         pattern="\d{2}/\d{2}"
                         maxLength="5"
                         placeholder="MM/YY"
-                        id='expirationDate'
                     />
                 </label>
                 <label>
@@ -227,7 +224,6 @@ function PagDoacao() {
                         className='cvv'
                         maxLength="3"
                         pattern="\d*"
-                        id='cvv'
                     />
                 </label>
                 <label>
@@ -242,7 +238,6 @@ function PagDoacao() {
                         maxLength="30"
                         pattern="[A-Za-zÀ-ÿ\s]+"
                         placeholder="Nome do titular do cartão"
-                        id='cardholderName'
                     />
                 </label>
                 <label>
@@ -250,7 +245,7 @@ function PagDoacao() {
                     <input
                         type="text"
                         name='donationValue'
-                        value={valorDoacao}
+                        value={formatarValor(valorDoacao)}
                         onChange={handleValorChange}
                         required
                         maxLength="10"
@@ -258,16 +253,16 @@ function PagDoacao() {
                         onFocus={handleFocus}
                         className='donationValue'
                         placeholder="R$ 0,00"
-                        id='ValorDoac'
                     />
                 </label>
-                <button className='botaocont' type="submit" id='Botao_pagar'>Pagar</button>
+                <button className='botaocont' type="submit">Pagar</button>
                 <div className="container_doc">
                     <footer className='footer-doacao'>
                         <p className='confirm-emp'>&copy; 2024 Sua Empresa. Todos os direitos reservados.</p>
-                    </footer>
-                </div>
+                        </footer>
+                        </div>
             </form>
+            <BotaoAjudaCalend/>
         </div>
     );
 }

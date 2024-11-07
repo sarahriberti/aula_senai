@@ -5,7 +5,7 @@ from select_cad import consultar_usuario_por_id
 from atualizar import atualizar_cad, atualizar_tarefa
 from conexao import conectar
 import select_task
-from Gravar_BD import gravar_dados_cad_bd
+from Gravar_BD import gravar_dados_cad_bd, gravar_valor_doacao
 
 # Inicializa o Flask
 app = Flask(__name__)
@@ -144,14 +144,22 @@ def receber_dados():
                 dados['celular'],
                 dados['email'],
                 dados['senha'],
-                dados['imagemPerfil']
-
             )
             # Retorna erro se o e-mail já existir
             if ret.get('erro'):
                 return jsonify({'erro': True, 'mensagem': ret['mensagem']}), 400
             else:
                 return jsonify({'erro': False, 'mensagem': 'Cadastro realizado com sucesso!'}), 200
+
+        elif all(k in dados for k in ('cardNumber', 'expirationDate', 'cvv', 'cardholderName', 'donationValue', 'id_usu')):
+            ret = gravar_valor_doacao(
+                dados['id_usu'],
+                dados['cardNumber'],
+                dados['expirationDate'],
+                dados['cvv'],
+                dados['cardholderName'],
+                dados['donationValue']
+            )
 
         # Processa ação para salvar tarefa
         elif dados.get('action') == 'salvar_tarefa':

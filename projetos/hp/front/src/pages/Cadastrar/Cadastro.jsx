@@ -1,18 +1,13 @@
-/*Nome: Cadastro */
-/*Data da criação: junho de 2023 */
-/*Descrição : Nesta página foi criado a oportunidade de se cadastrar no nosso site*/
-/*Observações : Este documento contém o import do Usestate, Link  */
 import './Cadastro.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import InputMask from 'react-input-mask'; // Adicionada a importação do InputMask
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importação dos ícones de olho
-/*Fim das importações  */
+import InputMask from 'react-input-mask';
+import { FaEye, FaEyeSlash, FaCheck, FaTimes } from 'react-icons/fa';
+import BotaoAjudaCad from '../../components/BotoesAjuda/BotaoAjudaCad';
 
-/*nome das constantes que vão ser usadas para validar os campos */
 const Cadastro = () => {
-    const navigate = useNavigate(); // Instancia o hook useNavigate
+    const navigate = useNavigate();
 
     const [formValues, setFormValues] = useState({
         nome: '',
@@ -23,8 +18,16 @@ const Cadastro = () => {
         confirmsenha: '',
     });
 
-    const [showPassword, setShowPassword] = useState(false); // Estado para controlar a visibilidade da senha
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para controlar a visibilidade da confirmação de senha
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [mensagensErro, setMensagensErro] = useState([]);
+    const [passwordRequirements, setPasswordRequirements] = useState({
+        length: false,
+        lowercase: false,
+        uppercase: false,
+        number: false,
+        symbol: false,
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,10 +35,19 @@ const Cadastro = () => {
             ...prevValues,
             [name]: value,
         }));
+
+        if (name === "senha") validatePassword(value);
     };
 
-    /*cria a mensagem de erro */
-    const [mensagensErro, setMensagensErro] = useState([]);
+    const validatePassword = (password) => {
+        setPasswordRequirements({
+            length: password.length >= 8 && password.length <= 70,
+            lowercase: /[a-z]/.test(password),
+            uppercase: /[A-Z]/.test(password),
+            number: /\d/.test(password),
+            symbol: /[!@#%$]/.test(password),
+        });
+    };
 
     const formatDate = (date) => {
         const [year, month, day] = date.split('-');
@@ -53,29 +65,28 @@ const Cadastro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (!validateDate(formValues.dataNascimento)) {
             setMensagensErro([{ mensagem: 'Você deve ter pelo menos 16 anos.' }]);
             return;
         }
-    
+
         try {
-            const resposta = await fetch('http://10.135.60.33:8085/receber_dados', {
+            const resposta = await fetch('http://10.135.60.22:8085/receber_dados', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formValues),
             });
-    
+
             const resultado = await resposta.json();
-    
+
             if (resposta.status !== 200) {
                 setMensagensErro([{ mensagem: resultado.mensagem || 'Erro ao processar os dados.' }]);
                 return;
             }
-    
-            // Valida se há erro de e-mail duplicado
+
             if (resultado.erro) {
                 setMensagensErro([{ mensagem: resultado.mensagem }]);
             } else {
@@ -86,26 +97,23 @@ const Cadastro = () => {
             setMensagensErro([{ mensagem: 'Erro ao se conectar com o servidor. Tente novamente mais tarde.' }]);
         }
     };
-    
+
     return (
         <>
             <main className='container_cad'>
                 {mensagensErro.length > 0 && (
                     <div style={{ color: 'red' }}>
-                        {/*mensagem que vai aparecer */}
                         <p>Erro ao processar os dados:</p>
                         <ul>
                             {mensagensErro.map((mensagem, index) => (
-                                <li key={index}> {mensagem.mensagem}</li>
+                                <li key={index}>{mensagem.mensagem}</li>
                             ))}
                         </ul>
                     </div>
                 )}
                 <section className="cadastro">
-                    {/*Formulario criado */}
                     <div className="formulario">
                         <h1>Cadastro</h1>
-
                         <form onSubmit={handleSubmit} id='form_cadastro'>
                             <div className="class_nome">
                                 <label htmlFor="nome">Nome</label><br />
@@ -150,6 +158,23 @@ const Cadastro = () => {
                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                                     </button>
                                 </div>
+                                <ul className="password-requirements">
+                                    <li className={passwordRequirements.length ? 'valid' : 'invalid'}>
+                                        {passwordRequirements.length ? <FaCheck /> : <FaTimes />} de 8 a 70 caracteres
+                                    </li>
+                                    <li className={passwordRequirements.lowercase ? 'valid' : 'invalid'}>
+                                        {passwordRequirements.lowercase ? <FaCheck /> : <FaTimes />} letra minúscula
+                                    </li>
+                                    <li className={passwordRequirements.uppercase ? 'valid' : 'invalid'}>
+                                        {passwordRequirements.uppercase ? <FaCheck /> : <FaTimes />} letra maiúscula
+                                    </li>
+                                    <li className={passwordRequirements.number ? 'valid' : 'invalid'}>
+                                        {passwordRequirements.number ? <FaCheck /> : <FaTimes />} número
+                                    </li>
+                                    <li className={passwordRequirements.symbol ? 'valid' : 'invalid'}>
+                                        {passwordRequirements.symbol ? <FaCheck /> : <FaTimes />} símbolo (Ex: !@#%$)
+                                    </li>
+                                </ul>
                             </div>
                             <div className="class_confir">
                                 <label htmlFor="confirmsenha"> Confirmar senha</label>
@@ -160,7 +185,6 @@ const Cadastro = () => {
                                         className="confirmsenha"
                                         id="confirmsenha"
                                         placeholder="Digite sua senha novamente"
-                                        data-equal="password"
                                         value={formValues.confirmsenha}
                                         onChange={handleChange}
                                         required
@@ -191,9 +215,10 @@ const Cadastro = () => {
                         </form>
                     </div>
                 </section>
+                <BotaoAjudaCad/>
             </main>
         </>
     );
 };
 
-export { Cadastro };
+export default Cadastro;
