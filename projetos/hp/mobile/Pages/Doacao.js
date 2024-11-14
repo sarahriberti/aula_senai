@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import Doacaostyles from '../Componentes/Doacaostyles';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
+import Doacaostyles from '../Style/Doacaostyles';
 
-const PagDoacaoMobile = () => {
+const PagDoacaoMobile = ({ navigation }) => {  // Corrigido: desestruturando navigation
     const [formData, setFormData] = useState({
         cardNumber: '',
         expirationDate: '',
@@ -62,7 +62,7 @@ const PagDoacaoMobile = () => {
     const handleExpirationDateChange = (text) => {
         let formattedText = text.replace(/\D/g, '');
         if (formattedText.length > 2) {
-            formattedText = `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}`;
+            formattedText = `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}`; // Corrigido para usar template string
         }
         setFormData({ ...formData, expirationDate: formattedText });
     };
@@ -82,51 +82,60 @@ const PagDoacaoMobile = () => {
     const handleCvvChange = (text) => {
         let formattedText = text.replace(/\D/g, '');
         if (formattedText.length > 3) {
-            formattedText = formattedText.slice(0, 3); // Limita a 4 dígitos
+            formattedText = formattedText.slice(0, 3); // Limita a 3 dígitos
         }
         setFormData({ ...formData, cvv: formattedText });
     };
 
     // Função para validar o nome (sem apenas espaços, e espaços permitidos apenas entre os nomes)
-const validateCardholderName = (name) => {
-    const regex = /^[A-Za-z]+( [A-Za-z]+)*$/; // Permite apenas letras e um espaço entre palavras, sem espaços no início, fim ou múltiplos consecutivos.
-    return regex.test(name.trim()); // O trim() remove espaços no início e no fim
-};
+    const validateCardholderName = (name) => {
+        const regex = /^[A-Za-z]+( [A-Za-z]+)*$/; // Permite apenas letras e um espaço entre palavras, sem espaços no início, fim ou múltiplos consecutivos.
+        return regex.test(name.trim()); // O trim() remove espaços no início e no fim
+    };
 
-const handleSubmit = () => {
-    if (!validateCardNumber(formData.cardNumber)) {
-        Alert.alert('Número de cartão inválido', 'Por favor, insira um número de cartão válido.');
-        return;
-    }
+    const handleSubmit = () => {
+        if (!validateCardNumber(formData.cardNumber)) {
+            Alert.alert('Número de cartão inválido', 'Por favor, insira um número de cartão válido.');
+            return;
+        }
 
-    if (!validateExpirationDate(formData.expirationDate)) {
-        Alert.alert('Data de expiração inválida', 'Por favor, insira uma data de expiração válida.');
-        return;
-    }
+        if (!validateExpirationDate(formData.expirationDate)) {
+            Alert.alert('Data de expiração inválida', 'Por favor, insira uma data de expiração válida.');
+            return;
+        }
 
-    if (!validateCardholderName(formData.cardholderName)) {
-        Alert.alert('Nome inválido', 'Por favor, insira um nome válido. O nome não pode conter apenas espaços, e os espaços são permitidos apenas entre o primeiro e último nome.');
-        return;
-    }
+        if (!validateCardholderName(formData.cardholderName)) {
+            Alert.alert('Nome inválido', 'Por favor, insira um nome válido. O nome não pode conter apenas espaços, e os espaços são permitidos apenas entre o primeiro e último nome.');
+            return;
+        }
 
-    if (!validateDonationAmount(formData.donationAmount)) {
-        Alert.alert('Valor inválido', 'O valor máximo permitido é R$ 99.999,99.');
-        return;
-    }
+        // Função para validar o valor da doação
+        const validateDonationAmount = (amount) => {
+            const numericAmount = parseFloat(amount.replace(/[^\d,]/g, '').replace(',', '.'));
+            return numericAmount > 0 && numericAmount <= 99999.99;
+        };
 
-    console.log('Dados do formulário:', formData);
-    setFormData({
-        cardNumber: '',
-        expirationDate: '',
-        cvv: '',
-        cardholderName: '',
-        donationAmount: 'R$ 0,00',
-    });
-    setShowThanksScreen(true);
-};
+        if (!validateDonationAmount(formData.donationAmount)) {
+            Alert.alert('Valor da doação inválido', 'Por favor, insira um valor válido para a doação.');
+            return;
+        }
+
+        console.log('Dados do formulário:', formData);
+        setFormData({
+            cardNumber: '',
+            expirationDate: '',
+            cvv: '',
+            cardholderName: '',
+            donationAmount: 'R$ 0,00',
+        });
+        setShowThanksScreen(true);
+    };
 
     return (
         <View style={Doacaostyles.container}>
+            <TouchableOpacity onPress={() => navigation.navigate('DoacaoHelp')}>
+                <Image source={require('../assets/ponto-de-interrogacao.png')} style={Doacaostyles.iconAjudaDoac} />
+            </TouchableOpacity>
             <ScrollView>
                 <Text style={Doacaostyles.informacoesTextHeader}> CONTRIBUIÇÕES </Text>
 
@@ -161,7 +170,7 @@ const handleSubmit = () => {
                         onChangeText={handleCvvChange}
                         placeholderTextColor={'#fff'}
                         keyboardType="numeric"
-                        maxLength={3} // Limita o campo a 4 dígitos
+                        maxLength={3} // Limita o campo a 3 dígitos
                     />
                     <TextInput
                         style={Doacaostyles.input}

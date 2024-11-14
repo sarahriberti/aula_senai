@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, ScrollView, Alert, Linking } from 'react-native';
-import Loginstyles from '../Componentes/Loginstyles';
+import Loginstyles from '../Style/Loginstyles';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -32,7 +32,7 @@ function LoginForm({ navigation }) {
     const { email_log, senha_log } = formValues;
 
     try {
-      const response = await fetch('http://10.135.60.38:8085/receber_dados', {
+      const response = await fetch('http://10.135.60.33:8085/receber_dados', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,10 +67,13 @@ function LoginForm({ navigation }) {
   // Renderização do componente
   return (
     <KeyboardAvoidingView style={Loginstyles.background} behavior="padding">
+      <TouchableOpacity onPress={() => navigation.navigate('HelpLogin')}  >
+        <Image source={require('../assets/ponto-de-interrogacao.png')} style={Loginstyles.iconAjudaLogin} />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={Loginstyles.scrollViewContent}>
         <View style={Loginstyles.containerLogo}>
           {/* Logo do aplicativo */}
-          <Image style={Loginstyles.logo} resizeMode='contain' source={require('../assets/Images/corujalogocima.png')} />
+          <Image style={Loginstyles.logo} resizeMode='contain' source={require('../assets/corujalogocima.png')} />
         </View>
         <View style={Loginstyles.container}>
           <Text style={Loginstyles.label}>E-mail</Text>
@@ -120,6 +123,7 @@ function LoginForm({ navigation }) {
               <Text style={Loginstyles.submitTxt}>Cancelar</Text>
             </TouchableOpacity>
           </View>
+
           {/* Link para a tela de cadastro */}
           <Text style={Loginstyles.textCad} onPress={() => navigation.navigate('Cadastro')}>Não possui uma conta? Cadastre-se</Text>
           {/*<Text onPress={() => navigation.navigate('EsqueciSenha')} style={Loginstyles.textCad}>Esqueceu sua senha ?</Text> */}
@@ -128,12 +132,13 @@ function LoginForm({ navigation }) {
           {/* Ícones para fazer login com redes sociais */}
           <View style={Loginstyles.logarInferior}>
             <TouchableOpacity onPress={handleFacebookPress}>
-              <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/facebook.png')} />
+              <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/facebook.png')} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleGooglePress}>
-              <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/Images/@google.png')} />
+              <Image style={Loginstyles.logarCom} resizeMode='contain' source={require('../assets/@google.png')} />
             </TouchableOpacity>
           </View>
+
         </View>
       </ScrollView>
       {/* Barra de status */}

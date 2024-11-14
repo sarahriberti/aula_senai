@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, Pressable } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Pressable, TouchableOpacity, Image } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
 import FormularioTaf from '../Componentes/FormularioTaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment-timezone';
+import moment, { max } from 'moment-timezone';
 
 // Configuração de localidade
 LocaleConfig.locales['pt'] = {
@@ -222,41 +222,63 @@ const TodoListScreen = ({ navigation }) => {
           setSelectedTask={setSelectedTask}
         />
       </ScrollView>
+      <TouchableOpacity onPress={() => navigation.navigate('HelpCalend')}  >
+            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={styles.iconAjudaCalend}/>
+          </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#34374f',
-    padding: 15,
-  },
-  Tarefa: {
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-  Text: {
-    color: 'white',
-    fontSize: 16,
-  },
-  TextHeader: {
-    fontSize: 18,
-    color: '#ffcc00',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  caixa_tarefas: {
-    marginTop: 15,
-    backgroundColor: '#252942',
-    borderRadius: 8,
-    padding: 15,
-  },
-  scrollTarefas: {
-    maxHeight: 300,
-  },
-});
+    container: {
+      flex: 1,
+      backgroundColor: '#34374f',
+      padding: 20,
+    },
+    iconAjudaCalend:{
+      width: 50, // Ajuste o tamanho do ícone aqui
+          height: 50, // Ajuste o tamanho do ícone aqu
+          left:184,
+    },
+    caixa_tarefas: {
+      marginTop: 10,
+      backgroundColor: '#546594',
+      borderRadius: 10,
+      padding: 5,
+      flex: 1,
+    },
+    scrollTarefas: {
+      maxHeight: 150, // Define a altura máxima para permitir o scroll
+    },
+    TextHeader: {
+      color: 'gold',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      marginBottom: 10,
+      width: '100%',
+    },
+    Tarefa: {
+      backgroundColor: '#252942',
+      padding: 10,
+      borderRadius: 10,
+      marginTop: 10,
+      marginBottom: 5,
+    },
+    Text: {
+      color: '#FFFFFF',
+      fontWeight: 'bold',
+    },
+    addButton: {
+      backgroundColor: '#ffcc00',
+      padding: 15,
+      borderRadius: 10,
+      alignItems: 'center',
+      marginTop: 10,
+    },
+    addButtonText: {
+      color: '#34374f',
+      fontWeight: 'bold',
+    },
+  });
 
 export default TodoListScreen;

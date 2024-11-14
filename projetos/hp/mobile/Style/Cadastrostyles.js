@@ -27,7 +27,7 @@ export default Cadastrostyles = StyleSheet.create({
         backgroundColor: '#34374f',
         color: '#fff',
         width: "88%",
-        marginBottom: 20,
+        marginBottom: 5, // Reduzido para ajustar o espaçamento do ícone e mensagem de erro
         fontSize: 18,
         padding: 10,
         marginLeft: 10,
@@ -40,7 +40,7 @@ export default Cadastrostyles = StyleSheet.create({
         width: '90%',
         height: 45,
         borderRadius: 5,
-        marginLeft: 12
+        marginLeft: 12,
     },
     submitTxt: {
         color: 'white',
@@ -64,7 +64,6 @@ export default Cadastrostyles = StyleSheet.create({
         marginRight: 80,
         borderWidth: 2,
         borderColor: "#C39910",
-
     },
     google: {
         width: 60,
@@ -85,7 +84,6 @@ export default Cadastrostyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
     senhaContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -93,7 +91,7 @@ export default Cadastrostyles = StyleSheet.create({
         borderRadius: 5,
         width: '90%',
         marginLeft: 10,
-        marginBottom: 20,
+        marginBottom: 10,
         paddingRight: 10, // Espaço para o ícone
     },
     senhaInput: {
@@ -103,4 +101,23 @@ export default Cadastrostyles = StyleSheet.create({
         padding: 10,
     },
 
+    // Estilos adicionais para validação em tempo real
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#34374f',
+        borderRadius: 5,
+        width: '90%',
+        marginBottom: 5,
+        marginLeft: 10,
+    },
+    errorIcon: {
+        marginLeft: 10, // Espaçamento do lado de fora do campo
+    },
+    errorText: {
+        color: 'white', // Mensagem de erro em branco
+        fontSize: 12,
+        marginLeft: 10,
+        marginBottom: 10,
+    },
 });

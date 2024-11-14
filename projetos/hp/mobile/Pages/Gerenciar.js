@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, KeyboardAvoidingView, ScrollView, Alert, TouchableOpacity, Image } from 'react-native';
-import Gerenciarstyles from '../Componentes/Gerenciarstyles';
+import Gerenciarstyles from '../Style/Gerenciarstyles';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text';
@@ -33,7 +33,7 @@ const Gerenciarr = ({ navigation }) => {
 
         const fetchUserData = async (id) => {
             try {
-                const response = await fetch('http://10.135.60.38:8085/receber_dados', {
+                const response = await fetch('http://10.135.60.33:8085/receber_dados', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ const Gerenciarr = ({ navigation }) => {
         console.log("Dados enviados para o backend:", data);
 
         try {
-            const response = await fetch('http://10.135.60.38:8085/atualizar_cad', {
+            const response = await fetch('http://10.135.60.33:8085/atualizar_cad', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -172,10 +172,15 @@ const Gerenciarr = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView style={Gerenciarstyles.background}>
+
             <View style={Gerenciarstyles.main}>
+
                 <ScrollView keyboardShouldPersistTaps='handled' style={Gerenciarstyles.container}>
+                    <TouchableOpacity onPress={() => navigation.navigate('GerenHelp')}  >
+                        <Image source={require('../assets/ponto-de-interrogacao.png')} style={Gerenciarstyles.iconAjudaGe} />
+                    </TouchableOpacity>
                     <View style={Gerenciarstyles.header}>
-                        <Image style={Gerenciarstyles.perfil} resizeMode='contain' source={require('../assets/Images/user.png')} />
+                        <Image style={Gerenciarstyles.perfil} resizeMode='contain' source={require('../assets/user.png')} />
                     </View>
                     <View style={Gerenciarstyles.dadosbasicos}>
                         <Text style={Gerenciarstyles.textNome}>Nome:</Text>
@@ -193,7 +198,7 @@ const Gerenciarr = ({ navigation }) => {
                         />
                         <Text style={Gerenciarstyles.textEmail}>Email:</Text>
                         <TextInput style={Gerenciarstyles.input} value={email} onChangeText={setEmail} keyboardType="email-address" />
-                        <Text style={Gerenciarstyles.textTelefone}>Telefone:</Text>
+                        <Text style={Gerenciarstyles.textActualTelefone}>Telefone:</Text>
                         <TextInputMask
                             type={'custom'}
                             options={{
@@ -251,7 +256,7 @@ const Gerenciarr = ({ navigation }) => {
                         </View>
                     </View>
                     <TouchableOpacity onPress={handleGerenciar} style={Gerenciarstyles.btnSave}>
-                        <Text style={Gerenciarstyles.btnText}>Atualizar</Text>
+                        <Text style={Gerenciarstyles.btnBox}>Atualizar</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>

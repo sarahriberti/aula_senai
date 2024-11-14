@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, Text, View, Pressable } from 'react-native';
+import { Modal, Text, View, Pressable ,Image,TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
 
 export default function Saira({ modalVisible2, setModalVisible2, navigation }) {
 
@@ -38,6 +36,13 @@ export default function Saira({ modalVisible2, setModalVisible2, navigation }) {
               <Pressable style={{ height: 40, width: 70, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={handleLogout}>
                 <Text style={{ fontSize: 18, color: 'white' }} >Sim</Text>
               </Pressable>
+              <TouchableOpacity onPress={() => navigation.navigate('SairHelp')}  >
+            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={{ width: 50, // Ajuste o tamanho do ícone aqui
+        height: 50, // Ajuste o tamanho do ícone aqui
+        position: 'absolute',
+        top:560,
+        left:50,}}/>
+          </TouchableOpacity>
             </View>
           </View>
         </View>

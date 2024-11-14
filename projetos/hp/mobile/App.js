@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Image, StyleSheet, Text,Linking,TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Text, Linking, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Pictures from './Pages/Calendario';
 import CadastroForm from './Pages/Cadastro';
@@ -16,6 +16,14 @@ import MyPager from './Pages/BoasVindas';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Esqueci from './Pages/EsqueciSenha';
 import Sugestao from './Componentes/Sugestao';
+import Help from './Pages/PagesAjuda/AjudaLP';
+import HelpLogin from './Pages/PagesAjuda/LoginAjuda';
+import AjudaCad from './Pages/PagesAjuda/AjudaCad';
+import AjudaCalend from './Pages/PagesAjuda/AjudaCalend';
+import DoacaoHelp from './Pages/PagesAjuda/Pages_Calend/Doacao_mobile';
+import SairHelp from './Pages/PagesAjuda/Pages_Calend/Sair_mobile';
+import SugestaoHelp from './Pages/PagesAjuda/Pages_Calend/Sugestao_mobile';
+import GerenciarHelp from './Pages/PagesAjuda/Pages_Calend/Gerenciar_mobile';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,6 +45,7 @@ function CustomDrawerContent({ navigation }) {
     };
     getNomeAsync();
   }, []);
+
   const handleFacebookPress = () => {
     Linking.openURL('https://www.facebook.com');
   };
@@ -48,13 +57,9 @@ function CustomDrawerContent({ navigation }) {
     Linking.openURL('https://www.instagram.com');
   };
 
-
   return (
     <DrawerContentScrollView style={styles.container}>
-      <Image
-        source={require('./assets/Images/user.png')}
-        style={styles.logoUser}
-      />
+      <Image source={require('./assets/user.png')} style={styles.logoUser} />
       <Text style={styles.textName}>{nome}</Text>
       <DrawerItem
         label="Calendário"
@@ -80,7 +85,7 @@ function CustomDrawerContent({ navigation }) {
         onPress={() => setModalVisible(true)}
         style={styles.drawerItem}
       />
-       <DrawerItem
+      <DrawerItem
         label="Sugestão"
         labelStyle={styles.drawerItemText}
         onPress={() => setModalVisible5(true)}
@@ -93,19 +98,19 @@ function CustomDrawerContent({ navigation }) {
         style={styles.drawerItem}
       />
       <View style={styles.logos}>
-      <TouchableOpacity onPress={handleFacebookPress}>
-        <Image style={styles.logo} resizeMode='contain' source={require('./assets/Images/facebook.png')} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleInstagramPress}>
-        <Image style={styles.logo2} resizeMode='contain' source={require('./assets/Images/instagramm.png')} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleGooglePress}>
-        <Image style={styles.logo3} resizeMode='contain' source={require('./assets/Images/@google.png')} />
-      </TouchableOpacity>
-     
+        <TouchableOpacity onPress={handleFacebookPress}>
+          <Image style={styles.logo} resizeMode='contain' source={require('./assets/facebook.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleInstagramPress}>
+          <Image style={styles.logo2} resizeMode='contain' source={require('./assets/instagramm.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleGooglePress}>
+          <Image style={styles.logo3} resizeMode='contain' source={require('./assets/@google.png')} />
+        </TouchableOpacity>
+
         <Compartilho modalVisible={modalVisible} setModalVisible={setModalVisible} />
         <Saira modalVisible2={modalVisible2} setModalVisible2={setModalVisible2} navigation={navigation} />
-        <Sugestao modalVisible5={modalVisible5} setModalVisible5={setModalVisible5}  navigation={navigation}/>
+        <Sugestao modalVisible5={modalVisible5} setModalVisible5={setModalVisible5} navigation={navigation} />
       </View>
     </DrawerContentScrollView>
   );
@@ -120,14 +125,7 @@ function Menu() {
           headerTintColor: '#c39910',
         }}
       >
-        <Drawer.Screen name="CalendarioDrawer" component={Pictures}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#252942'
-            }
-          }}
-        />
+        <Drawer.Screen name="CalendarioDrawer" component={Pictures} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Gerenciar" component={Gerenciarr} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Doacao" component={PagDoacaoMobile} options={{ title: '', headerStyle: { backgroundColor: '#252942' } }} />
         <Drawer.Screen name="Compartilhar" component={Compartilho} />
@@ -147,13 +145,17 @@ export default function App() {
         <Stack.Screen name="Cadastro" component={CadastroForm} options={{ headerShown: false }} />
         <Stack.Screen name="Calendario" component={Menu} options={{ headerShown: false }} />
         <Stack.Screen name="FormularioTaf" component={ToDoList} options={{ headerShown: false }} />
-        <Stack.Screen name="CadConcluido" component={CadastroConcluido} options={{ 
-          headerStyle:{
-            backgroundColor:'rgb(25, 29, 42)'
-          }
-         }} />
+        <Stack.Screen name="CadConcluido" component={CadastroConcluido} options={{ headerStyle: { backgroundColor: 'rgb(25, 29, 42)' } }} />
         <Stack.Screen name="Sair" component={Saira} />
-        <Stack.Screen name="EsqueciSenha" component={Esqueci}  options={{ headerShown: false }}/>
+        <Stack.Screen name="EsqueciSenha" component={Esqueci} options={{ headerShown: false }} />
+        <Stack.Screen name="Help" component={Help} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="HelpLogin" component={HelpLogin} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="HelpCad" component={AjudaCad} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="HelpCalend" component={AjudaCalend} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="DoacaoHelp" component={DoacaoHelp} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="SairHelp" component={SairHelp} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="SugHelp" component={SugestaoHelp} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
+        <Stack.Screen name="GerenHelp" component={GerenciarHelp} options={{ title: '', headerStyle: { backgroundColor: '#c39910' } }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

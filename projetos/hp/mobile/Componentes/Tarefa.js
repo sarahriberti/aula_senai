@@ -1,262 +1,154 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, Pressable } from 'react-native';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
-import Tarefas from '../Componentes/Tarefa';
-import FormularioTaf from '../Componentes/FormularioTaf';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment-timezone';
+import { Modal, Text, View, Pressable, TextInput, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Configuração de localidade
-LocaleConfig.locales['pt'] = {
-  monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-  monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-  dayNames: ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'],
-  dayNamesShort: ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'],
-  today: 'Hoje'
-};
-LocaleConfig.defaultLocale = 'pt';
+export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask, setSelectedTask, openTodoListModal }) {
+  const [email, setEmail] = useState('');
+  const [isTaskCompleted, setIsTaskCompleted] = useState(false);
+  const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false); // Estado para modal de confirmação
 
-const TodoListScreen = ({ navigation }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [tasks, setTasks] = useState([]);
-  const [modalVisible3, setModalVisible3] = useState(false);
-  const [isModalVisible4, setModalVisible4] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [renderedTasks, setRenderedTasks] = useState([]);
-
-  const fetchTasks = async (date) => {
-    try {
-      if (userId) {
-        const localDate = moment(date).tz('America/Sao_Paulo').format('YYYY-MM-DD');
-        console.log(`Fetching tasks for userId: ${userId} on date: ${localDate}`);
-        const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}&date=${localDate}`);
-        const data = await response.json();
-        setTasks(data);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar tarefas:', error);
+  useEffect(() => {
+    if (selectedTask) {
+      setEmail(selectedTask.Descr || ''); // Atualizando a descrição da tarefa
+      setIsTaskCompleted(selectedTask.isCompleted || false);
     }
-  };
+  }, [selectedTask]);
 
-  useEffect(() => {
-    const fetchUserDataAndTasks = async () => {
-      try {
-        const id = await AsyncStorage.getItem('ID_Usu');
-        console.log('busca async id', id);
-        if (id !== null) {
-          setUserId(id);
-          await fetchTasks(selectedDate);
-        }
-      } catch (error) {
-        console.error('Erro ao recuperar o ID do usuário ou buscar tarefas:', error);
-      }
-    };
-
-    fetchUserDataAndTasks();
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
-      fetchTasks(selectedDate);
-    }
-  }, [selectedDate]);
-
-  useEffect(() => {
-    // Atualiza a lista de tarefas renderizadas sempre que 'tasks' ou 'selectedDate' muda
-    const filteredTasks = tasks.filter(task => moment(task.Inicio).format('YYYY-MM-DD') === selectedDate);
-    setRenderedTasks(filteredTasks.map((task, index) => (
-      <Pressable
-        key={task.id || index}
-        style={[styles.Tarefa, { backgroundColor: task.Cor || '#252942' }]}
-        onPress={() => openTodoListModal(task)}
-      >
-        <Text style={styles.Text}>{task.Titulo}</Text>
-      </Pressable>
-    )));
-  }, [tasks, selectedDate]);
-
-  const handleDayPress = (day) => {
-    const localDate = moment(day.dateString).tz('America/Sao_Paulo').format('YYYY-MM-DD');
-    setSelectedDate(localDate);
-  };
-
-  const getFormattedDate = (dateString) => {
-    if (!dateString) return '';
-    const date = moment(dateString).tz('America/Sao_Paulo').toDate();
-    const daysOfWeek = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
-    const dayOfWeek = daysOfWeek[date.getDay()];
+  const formatDateTime = (dateTime) => {
+    if (!dateTime) return 'dd/mm/yyyy hh:mm';
+    const date = new Date(dateTime);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    return `${dayOfWeek} - ${day}/${month}/${year}`;
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
 
-  const handleAddTask = (task) => {
-    if (selectedTask) {
-      setTasks(prevTasks =>
-        prevTasks.map(t => t.id === selectedTask.id ? task : t)
-      );
-    } else {
-      setTasks(prevTasks => [...prevTasks, task]);
+  const handleEdit = () => {
+    setModalVisible3(false);
+    openTodoListModal(selectedTask);
+  };
+
+  const toggleTaskCompleted = () => {
+    setIsTaskCompleted(!isTaskCompleted);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedTask(null);
+    setModalVisible3(false);
+  };
+
+  const handleDelete = async () => {
+    if (selectedTask && selectedTask.ID) {
+      try {
+        const response = await fetch(`http://10.135.60.33:8085/delete_task?taskId=${selectedTask.ID}`, {
+          method: 'DELETE',
+        });
+        const result = await response.json();
+        if (response.ok) {
+          console.log(result.message); // Mensagem de sucesso
+          setModalVisible3(false);
+          setSelectedTask(null);
+          openTodoListModal(null); // Atualize a lista de tarefas
+        } else {
+          console.error(result.error); // Mensagem de erro
+        }
+      } catch (error) {
+        console.error('Erro ao excluir a tarefa:', error);
+      }
     }
-    setModalVisible4(false);
   };
 
-  const openTodoListModal = (task) => {
-    setSelectedTask(task);
-    setModalVisible3(true);
+  const handleConfirmDelete = () => {
+    setConfirmDeleteVisible(true); // Mostra o modal de confirmação
+  };
+
+  const handleCloseConfirmDelete = () => {
+    setConfirmDeleteVisible(false); // Fecha o modal de confirmação
+  };
+
+  const handleConfirmDeleteYes = () => {
+    handleDelete(); // Chama a função de exclusão
+    setConfirmDeleteVisible(false); // Fecha o modal de confirmação
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Calendar
-          onDayPress={handleDayPress}
-          markedDates={{
-            ...tasks.reduce((acc, task) => {
-              const taskDate = moment(task.Inicio).format('YYYY-MM-DD');
-              if (taskDate) {
-                acc[taskDate] = { marked: true, dotColor: '#546594' };
-              }
-              return acc;
-            }, {}),
-            [selectedDate]: { selected: true, marked: true, selectedColor: '#ffcc00' }
-          }}
-          theme={{
-            backgroundColor: '#34374f',
-            calendarBackground: '#34374f',
-            textSectionTitleColor: '#ffcc00',
-            selectedDayBackgroundColor: '#ffcc00',
-            selectedDayTextColor: '#34374f',
-            todayTextColor: '#ffcc00',
-            dayTextColor: '#ffffff',
-            dotColor: '#ffcc00',
-            selectedDotColor: '#ffffff',
-            arrowColor: '#ffcc00',
-            disabledArrowColor: '#d9e1e8',
-            monthTextColor: '#ffcc00',
-            indicatorColor: '#ffcc00',
-            textDayFontFamily: 'monospace',
-            textMonthFontFamily: 'monospace',
-            textDayHeaderFontFamily: 'monospace',
-            textDayFontWeight: '300',
-            textMonthFontWeight: 'bold',
-            textDayHeaderFontWeight: '300',
-            textDayFontSize: 16,
-            textMonthFontSize: 20,
-            textDayHeaderFontSize: 16,
-            'stylesheet.calendar.header': {
-              week: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                backgroundColor: '#c39910',
-                borderWidth: 1,
-                borderColor: '#efcd5e',
-                height: 35,
-                width: '100%',
-              },
-              dayHeader: {
-                paddingTop: 5,
-                color: 'black',
-                textAlign: 'center',
-                fontSize: 14,  // Diminua o tamanho da fonte
-                borderWidth: 1,
-                borderColor: '#efcd5e',
-                width: 48.5,  // Reduza a largura das colunas dos dias
-              },
-              monthText: {
-                color: '#ffcc00',
-                fontSize: 20,
-                fontWeight: 'bold',
-              },
-              arrow: {
-                padding: 1,
-              },
-            },
-            'stylesheet.day.basic': {
-              base: {
-                width: 50,
-                height: 60,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#34374f',
-                borderWidth: 1.5,
-                borderColor: '#ffcc00',
-                marginBottom: -15,
-              },
-              text: {
-                fontSize: 16,
-                color: '#ffffff',
-                backgroundColor: 'transparent',
-              },
-              selected: {
-                backgroundColor: '#ffcc00',
-              },
-              today: {
-                borderRadius: 0,
-              },
-            },
-          }}
-        />
-        <View style={styles.caixa_tarefas}>
-          <Text style={styles.TextHeader}>
-            {getFormattedDate(selectedDate)}
-          </Text>
-          <ScrollView style={styles.scrollTarefas}>
-            {renderedTasks}
-          </ScrollView>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent' }}>
+      {/* Modal de confirmação */}
+      <Modal 
+        animationType="slide"
+        transparent={true}
+        visible={confirmDeleteVisible}
+        onRequestClose={handleCloseConfirmDelete}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <View style={{ backgroundColor: '#546594', padding: 20, borderRadius: 10, width: '80%', alignItems: 'center' }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, color:'white' }}>Deseja realmente excluir esta tarefa?</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+              <Pressable
+                style={{ height: 40, width: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#c39910', borderRadius: 5 }}
+                onPress={handleConfirmDeleteYes}
+              >
+                <Text style={{ fontSize: 17, color: 'white'}}>Sim</Text>
+              </Pressable>
+              <Pressable
+                style={{ height: 40, width: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#c39910', borderRadius: 5 }}
+                onPress={handleCloseConfirmDelete}
+              >
+                <Text style={{ fontSize: 17, color: 'white'}}>Não</Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
-        <Tarefas
-          modalVisible3={modalVisible3}
-          setModalVisible3={setModalVisible3}
-          selectedTask={selectedTask}
-          setSelectedTask={setSelectedTask}
-          openTodoListModal={() => setModalVisible4(true)}
-        />
-        <FormularioTaf
-          isModalVisible4={isModalVisible4}
-          setModalVisible4={setModalVisible4}
-          onAddTask={handleAddTask}
-          selectedTask={selectedTask}
-          setSelectedTask={setSelectedTask}
-        />
-      </ScrollView>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible3}
+        onRequestClose={handleCloseModal}
+      >
+        <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <View style={{ borderColor: '#546594', backgroundColor: '#546594', padding: 20, borderRadius: 10, width: '80%', alignItems: 'center' }}>
+            <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10 }} onPress={handleCloseModal}>
+              <Icon name="close" size={24} color="#fff" />
+            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', flex: 1, marginRight: 10 }}>
+                {selectedTask ? selectedTask.Titulo : 'Tarefa'}
+              </Text>
+              <TouchableOpacity onPress={toggleTaskCompleted} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Icon name={isTaskCompleted ? 'check-box' : 'check-box-outline-blank'} size={24} color={isTaskCompleted ? '#54a847' : '#ccc'} />
+                <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Tarefa Concluída</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold', marginTop: 10 }}>
+              Início: {selectedTask ? formatDateTime(selectedTask.Inicio) : 'dd/mm/yyyy hh:mm'}
+            </Text>
+            <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold', marginTop: 10 }}>
+              Término: {selectedTask ? formatDateTime(selectedTask.Termino) : 'dd/mm/yyyy hh:mm'}
+            </Text>
+            <TextInput
+              style={{ height: 80, width: 300, backgroundColor: '#f4efdf', borderRadius: 25, padding: 10 }}
+              placeholder='Descrição'
+              value={email} // Exibe a descrição da tarefa
+              onChangeText={setEmail}
+              multiline={true}
+              editable={false} // Desabilita a edição se necessário
+            />
+            <View style={{ borderBottomWidth: 3, width: 350, borderColor: '#C39910', marginVertical: 10, padding: 5 }} />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+              <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5 }} onPress={handleEdit}>
+                <Text style={{ fontSize: 17, color: 'white' }}>Editar</Text>
+              </Pressable>
+              <Pressable style={{ height: 40, width: 110, justifyContent: 'center', alignItems: 'center', backgroundColor: '#34374F', borderRadius: 5, marginLeft: 30 }} onPress={handleConfirmDelete}>
+                <Text style={{ fontSize: 17, color: 'white' }}>Excluir</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#34374f',
-    padding: 15,
-  },
-  Tarefa: {
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-  },
-  Text: {
-    color: 'white',
-    fontSize: 16,
-  },
-  TextHeader: {
-    fontSize: 18,
-    color: '#ffcc00',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  caixa_tarefas: {
-    marginTop: 15,
-    backgroundColor: '#252942',
-    borderRadius: 8,
-    padding: 15,
-  },
-  scrollTarefas: {
-    maxHeight: 300,
-  },
-});
-
-export default TodoListScreen;
+}

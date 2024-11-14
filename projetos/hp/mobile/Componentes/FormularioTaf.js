@@ -3,7 +3,7 @@ import { View, Pressable, Text, Image, TouchableOpacity, TextInput } from 'react
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import stylesTaf from './Styleformulariotaf';
+import stylesTaf from '../Style/Styleformulariotaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Funções para manipulação de data e hora
@@ -180,7 +180,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
     return (
         <View style={stylesTaf.main}>
             <Pressable style={stylesTaf.btnToDo} onPress={toggleModal}>
-                <Image style={stylesTaf.btnImage} resizeMode='contain' source={require('../assets/Images/maizola.png')} />
+                <Image style={stylesTaf.btnImage} resizeMode='contain' source={require('../assets/maizola.png')} />
             </Pressable>
             <Modal isVisible={isModalVisible4} onBackdropPress={toggleModal}>
                 <View style={stylesTaf.modalMain}>

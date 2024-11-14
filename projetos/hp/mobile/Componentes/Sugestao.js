@@ -58,7 +58,7 @@ const Sugestao = ({ modalVisible5, setModalVisible5 }) => {
             setFeedbackMessage('');
 
             try {
-                const response = await fetch('http://10.135.60.27:8085/receber_sugestao', {
+                const response = await fetch('http://10.135.60.33:8085/receber_sugestao', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
