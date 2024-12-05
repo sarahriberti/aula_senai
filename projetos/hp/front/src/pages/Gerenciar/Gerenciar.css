@@ -135,11 +135,6 @@ button.btn-update.btn.btn-primary:hover {
 /* >>> FINAL FORMS <<< */
 
 
-.imagem-selecionada {
-  border: 2px solid blue; /* Por exemplo, borda azul para destacar */
-  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
-}
-
 .grupo-imagens {
   display: flex;
   gap: 10px;
@@ -147,12 +142,58 @@ button.btn-update.btn.btn-primary:hover {
   align-items: center; /* Centraliza verticalmente, caso necessário */
 }
 
-.imagem-opcao {
-  cursor: pointer;
-  width: 100px; /* Ajuste o tamanho conforme necessário */
-  height: auto;
+.imagem-perfil-padrao {
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+
 }
 
-.imagem-selecionada {
-  border: 2px solid blue;
+/* Estilo para imagem de perfil selecionada */
+.imagem-perfil-selecionada {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  border: 3px solid #C39910; /* Verde para destacar que foi selecionada */
+  object-fit: cover;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper .form-control {
+  padding-right: 2rem; /* Espaço para o ícone */
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #888; /* Cor do ícone */
+}
+
+.eye-icon:hover {
+  color: #333; /* Cor ao passar o mouse */
+}
+
+/* >>> ESTILIZAÇÃO DAS MENSAGENS DE ERRO <<<*/
+.erro-mensagem {
+  background-color: #ffcccc;
+  color: #cc0000;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.info-mensagem {
+  background-color: #ccffcc;
+  color: #008800;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  text-align: center;
 }

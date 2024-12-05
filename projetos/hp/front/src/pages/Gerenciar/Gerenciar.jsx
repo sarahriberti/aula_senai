@@ -1,29 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Gerenciar.css';
 import MenuLateral from '../../components/Menu_Lateral';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa os ícones
 import InputMask from 'react-input-mask';
-import corvinalImage from '../../../src/image/corvinal.jpg';
-import sonserinaImage from '../../../src/image/sonserina.jpg';
-import grifinoriaImage from '../../../src/image/grifinoria.jpg';
-import lufalufaImage from '../../../src/image/lufalufa.jpg';
-import trioImage from '../../../src/image/trio.jpg';
-import hermioneImage from '../../../src/image/hermione.jpg';
-import potterImage from '../../../src/image/potter.jpg';
-import ronyImage from '../../../src/image/rony.jpg';
-import lunaImage from '../../../src/image/luna.jpg';
-import dracoImage from '../../../src/image/draco.jpg';
-import cedricImage from '../../../src/image/cedric.jpg';
-import weasleysImage from '../../../src/image/weasleys.jpg';
-import dumbledoreImage from '../../../src/image/dumbledore.jpg';
-import severusImage from '../../../src/image/severus.jpg';
-import minervaImage from '../../../src/image/minerva.jpg';
-import lupinImage from '../../../src/image/lupin.jpg';
-import BotaoAjudaCalend from '../../components/BotoesAjuda/BotaoAjudaCalend';
-
-
+import adicionarPerfil from '../../../src/image/adicionar-usuario.png'
 
 function Gerenciar() {
   const [dadosUsuario, setDadosUsuario] = useState({
@@ -42,41 +24,56 @@ function Gerenciar() {
   const [erro, setErro] = useState('');
   const [info, setInfo] = useState('');
 
-
   const opcoesImagens = [
-    {src: corvinalImage, alt: 'ImagemCorvinal' },
-    {src: sonserinaImage, alt: 'ImagemSonserina' },
-    {src: grifinoriaImage, alt: 'ImagemGrifinoria' },
-    {src: lufalufaImage, alt: 'ImagemLufaLufa' },
-    {src: trioImage, alt: 'ImagemTrio' },
-    {src: hermioneImage, alt: 'Imagemhermione' },
-    {src: potterImage, alt: 'Imagempotter' },
-    {src: ronyImage, alt: 'Imagemrony' },
-    {src: lunaImage, alt: 'Imagemluna' },
-    {src: dracoImage, alt: 'Imagedraco' },
-    {src: cedricImage, alt: 'Imagemcedric' },
-    {src: weasleysImage, alt: 'Imagemweasleys' },
-    {src: dumbledoreImage, alt: 'Imagemdumbledore' },
-    {src: severusImage, alt: 'Imagemseverus' },
-    {src: minervaImage, alt: 'Imagemminerva' },
-    {src: lupinImage, alt: 'Imagemlupin' },
-
-    
+    { src: adicionarPerfil, alt: 'imagem user perfil' },
   ];
 
-  const selecionarImagem = (src) => {
-    setDadosUsuario((prevState) => ({ ...prevState, imagemPerfil: src }));
+  const selecionarImagem = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const novaImagem = reader.result;
+          setDadosUsuario((prevState) => ({
+            ...prevState,
+            imagemPerfil: novaImagem,
+          }));
+
+          fetch('http://10.135.60.33:8085/atualizar_cad', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...dadosUsuario,
+              imagemPerfil: novaImagem,
+            }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Erro ao salvar imagem no banco.');
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log('Imagem salva com sucesso:', data);
+            })
+            .catch((error) => {
+              console.error('Erro ao salvar imagem:', error);
+            });
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
+    fileInput.click();
   };
 
-  const agruparImagens = (imagens, tamanhoDoGrupo) => {
-    const grupos = [];
-    for (let i = 0; i < imagens.length; i += tamanhoDoGrupo) {
-      grupos.push(imagens.slice(i, i + tamanhoDoGrupo));
-    }
-    return grupos;
-  };
-
-  const gruposDeImagens = agruparImagens(opcoesImagens, 4);
 
   // Função para atualizar os dados no estado
   const handleChange = (e) => {
@@ -95,66 +92,72 @@ function Gerenciar() {
     return idade;
   };
 
+  // Função para validar a senha
   const validarSenha = (senha) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(senha) && !/\s/.test(senha);
-  };
+  };  
 
   // Função para enviar os dados para a API
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const idade = calcularIdade(dadosUsuario.data_nascimento);
     if (idade < 12 || idade > 100) {
-      alert("A idade deve estar entre 12 e 100 anos.");
+      setErro("A idade deve estar entre 12 e 100 anos.");
       return;
     }
-  
+
     if (dadosUsuario.senha && !validarSenha(dadosUsuario.senha)) {
-      alert("A senha deve ter no mínimo 8 caracteres, incluir uma letra maiúscula, uma letra minúscula, um número, um caractere especial e não pode conter espaços.");
+      setErro("A senha deve ter no mínimo 8 caracteres, incluir uma letra maiúscula, uma letra minúscula, um número, um caractere especial e não pode conter espaços.");
       return;
     }
-  
+
     if (!dadosUsuario.senhaveia) {
-      alert("Senha atual é obrigatória.");
+      setErro("Senha atual é obrigatória.");
       return;
     }
-  
+
     if (dadosUsuario.senha || dadosUsuario.confirmarNovaSenha) {
       if (dadosUsuario.senha !== dadosUsuario.confirmarNovaSenha) {
-        alert("A nova senha e a confirmação da nova senha não correspondem.");
+        setErro("A nova senha e a confirmação da nova senha não correspondem.");
         return;
       }
     }
-  
+
     try {
       const response = await fetch('http://10.135.60.33:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(dadosUsuario) // Enviando os dados, incluindo imagemPerfil
+        body: JSON.stringify(dadosUsuario)
       });
-  
+
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Erro na resposta da API: ${response.statusText} - ${errorText}`);
       }
-  
+
       const resultado = await response.json();
       if (resultado.sucesso) {
-        alert('Dados atualizados com sucesso!');
-        localStorage.setItem('nome', dadosUsuario.nome);  // Armazena o nome atualizado no localStorage
-        window.location.reload(); // Atualiza a página para refletir as mudanças no MenuLateral
+        setInfo("Dados atualizados com sucesso!");
       } else {
-        alert('Falha ao atualizar os dados.');
+        setErro("Falha ao atualizar os dados.");
       }
     } catch (error) {
-      console.error('Erro ao atualizar dados:', error);
-      alert('Erro ao atualizar os dados.');
+      console.error("Erro ao atualizar dados:", error);
+      setErro("Erro ao atualizar os dados.");
     }
+
+    // Remove mensagens automaticamente após 10 segundos
+    setTimeout(() => {
+      setErro('');
+      setInfo('');
+    }, 50000);
   };
-  
+
+
   // Puxar dados do usuário
   useEffect(() => {
     const buscarDadosUsuario = async () => {
@@ -181,6 +184,7 @@ function Gerenciar() {
             data_nascimento: data.mensagem.data_nascimento || '',
             email: data.mensagem.email || '',
             celular: data.mensagem.telefone || '',
+            imagemPerfil: data.mensagem.imagem_perfil || '', // Carrega a imagem salva no banco
           }));
         } else {
           console.error('Estrutura de dados inesperada:', data);
@@ -193,34 +197,44 @@ function Gerenciar() {
     buscarDadosUsuario();
   }, []);
 
+  const imagemExibida = dadosUsuario.imagemPerfil.startsWith('data:image')
+    ? dadosUsuario.imagemPerfil
+    : dadosUsuario.imagemPerfil
+      ? `http://10.135.60.57:8085/imagens/${dadosUsuario.imagemPerfil}`
+      : adicionarPerfil;
+
+  const [mostrarSenha, setMostrarSenha] = useState({
+    senhaveia: false,
+    senha: false,
+    confirmarNovaSenha: false,
+  });
+
+  const toggleSenha = (campo) => {
+    setMostrarSenha((prevState) => ({
+      ...prevState,
+      [campo]: !prevState[campo],
+    }));
+  };
+
   return (
     <div className="gerenciar-container">
       <MenuLateral />
       <Form onSubmit={handleSubmit}>
-        {erro && <div className="erro-mensagem">{erro}</div>}
-        {info && <div className="info-mensagem">{info}</div>}
         <div className='gerenciar_inputs'>
           <h2 className='txt_geren'>Gerenciar Conta</h2>
 
           <Form.Group>
-            <Form.Label>Escolha sua Imagem de Perfil:</Form.Label>
-            <Carousel interval={null} indicators={false} controls={true}>
-              {gruposDeImagens.map((grupo, index) => (
-                <Carousel.Item key={index}>
-                  <div className="grupo-imagens">
-                    {grupo.map((imagem, idx) => (
-                      <img
-                        key={idx}
-                        src={imagem.src}
-                        alt={imagem.alt}
-                        className={`imagem-opcao ${dadosUsuario.imagemPerfil === imagem.src ? 'imagem-selecionada' : ''}`}
-                        onClick={() => selecionarImagem(imagem.src)}
-                      />
-                    ))}
-                  </div>
-                </Carousel.Item>
+            <div className="grupo-imagens">
+              {opcoesImagens.map((imagem, idx) => (
+                <img
+                  id="gerenciar-imagem-perfil"
+                  src={imagemExibida}
+                  alt="Imagem do usuário"
+                  className={dadosUsuario.imagemPerfil ? "imagem-perfil-selecionada" : "imagem-perfil-padrao"}
+                  onClick={() => selecionarImagem()}
+                />
               ))}
-            </Carousel>
+            </div>
           </Form.Group>
 
           <Form.Group >
@@ -269,46 +283,86 @@ function Gerenciar() {
             </InputMask>
           </Form.Group>
 
-          <Form.Group >
-            <Form.Label className='senhaatual-title'>Senha Atual:</Form.Label>
-            <Form.Control
-              id='senhaatual_gerenciar_id'
-              type="password"
-              name="senhaveia"
-              value={dadosUsuario.senhaveia}
-              onChange={handleChange}
-            />
-          </Form.Group>
+          <div className="senha_gerenciar">
+            <label htmlFor="senhaatual_gerenciar_id" className="nome_input">Senha Atual</label>
+            <div className="input-wrapper">
+              <input
+                type={mostrarSenha.senhaveia ? "text" : "password"}
+                name="senhaveia"
+                className="senha"
+                id="senhaatual_gerenciar_id"
+                placeholder="Digite sua senha atual"
+                value={dadosUsuario.senhaveia}
+                onChange={handleChange}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => toggleSenha("senhaveia")}
+                id="toggle_password_senhaveia"
+              >
+                {mostrarSenha.senhaveia ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+          </div>
 
-          <Form.Group >
-            <Form.Label className='novasenha-title'>Nova Senha:</Form.Label>
-            <Form.Control
-              id='novasenha_gerenciar_id'
-              type="password"
-              name="senha"
-              value={dadosUsuario.senha}
-              onChange={handleChange}
-              placeholder="Deixe em branco para manter a senha atual"
-            />
-          </Form.Group>
+          <div className="senha_gerenciar">
+            <label htmlFor="novasenha_gerenciar_id" className="nome_input">Nova Senha</label>
+            <div className="input-wrapper">
+              <input
+                type={mostrarSenha.senha ? "text" : "password"}
+                name="senha"
+                className="senha"
+                id="novasenha_gerenciar_id"
+                placeholder="Digite uma nova senha ou deixe em branco"
+                value={dadosUsuario.senha}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => toggleSenha("senha")}
+                id="toggle_password_senha"
+              >
+                {mostrarSenha.senha ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+          </div>
 
-          <Form.Group >
-            <Form.Label className='confirmsenha-title'>Confirmar Nova Senha:</Form.Label>
-            <Form.Control
-              id='confimsenha_gerenciar_id'
-              type="password"
-              name="confirmarNovaSenha"
-              value={dadosUsuario.confirmarNovaSenha}
-              onChange={handleChange}
-              placeholder="Deixe em branco para manter a senha atual"
-            />
-          </Form.Group>
-          <Button id="btn_atualizar_dados"className='btn-update' variant="primary" type="submit">
+          <div className="senha_gerenciar">
+            <label htmlFor="confimsenha_gerenciar_id" className="nome_input">Confirmar Nova Senha</label>
+            <div className="input-wrapper">
+              <input
+                type={mostrarSenha.confirmarNovaSenha ? "text" : "password"}
+                name="confirmarNovaSenha"
+                className="senha"
+                id="confimsenha_gerenciar_id"
+                placeholder="Confirme a nova senha ou deixe em branco"
+                value={dadosUsuario.confirmarNovaSenha}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => toggleSenha("confirmarNovaSenha")}
+                id="toggle_password_confirmarNovaSenha"
+              >
+                {mostrarSenha.confirmarNovaSenha ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mensagem de erro ou sucesso entre os campos e o botão */}
+          {erro && <div className="erro-mensagem">{erro}</div>}
+          {info && <div className="info-mensagem">{info}</div>}
+
+          {/* Botão de atualização */}
+          <Button id="btn_atualizar_dados" className='btn-update' variant="primary" type="submit">
             Atualizar Dados
           </Button>
         </div>
       </Form>
-      <BotaoAjudaCalend/>
     </div>
   );
 }

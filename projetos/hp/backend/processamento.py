@@ -248,16 +248,14 @@ def processa_check(novo_status, id_tarefa):
     else:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Status de tarefa inválido.'}]}
 
-# Função para processar o id
-# Autor: Emily
-# Data: 04/04/2024
+#Função para processar o id
+#Autor: Emily
+#Data: 04/04/2024
 def recuperar_cadastro(dados):
     dados_processados_gerenciar = dados
     print(f"ID usuario: {dados_processados_gerenciar.get('id_usuario')}")
-
+    
     geren = consultar_usuario_por_id(dados_processados_gerenciar['id_usuario'])
-    print('retorno bancoo', geren)
-
     if geren:
         resposta = {
             'id': geren[0],
@@ -265,7 +263,7 @@ def recuperar_cadastro(dados):
             'data_nascimento': str(geren[2]),  # Convertendo a data para string
             'telefone': geren[3],
             'email': geren[4],
-            'imagem': geren[5]
+            'imagem_perfil': geren[5].decode('utf-8') if geren[5] else None,
         }
         return {'erro': False, 'mensagem': resposta}
     else:

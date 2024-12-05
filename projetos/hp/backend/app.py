@@ -34,6 +34,7 @@ def receber_sugestao():
     id_usuario = dados['ID_Usu']
 
     try:
+        # Chama a função de processamento com os parâmetros
         ret = processar_dados_sugestao(id_usuario, texto_sugestao)
         return jsonify(ret)
     except Exception as e:
@@ -60,7 +61,7 @@ def delete_user():
 
     try:
         # Chame a função para excluir o usuário no seu banco de dados
-        select_task.excluir_usuario(int(user_id))
+        select_task.excluir_usuario(int(user_id))  # Assumindo que você tem uma função para isso
         return jsonify({'message': 'Usuário excluído com sucesso!'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -78,6 +79,7 @@ def get_tasks():
         tasks = select_task.listar_tarefas(user_id)
         if 'error' in tasks:
             return jsonify({'error': tasks['error']}), 500
+
         return jsonify(tasks), 200
     except Exception as e:
         print("Erro ao listar tarefas:", e)
@@ -115,6 +117,7 @@ def tarefa_concluida():
 
     print('Dados recebidos 7--', dados)
     try:
+
         # Verifica se o ID da tarefa foi fornecido
         if dados['ID_Tarefa'] is None:
             return jsonify({'erro': True, 'mensagem': 'ID da tarefa não fornecido'}), 400
@@ -131,8 +134,12 @@ def tarefa_concluida():
         return jsonify({'erro': True, 'mensagem': str(e)}), 500
 
 # >>> ROTA PARA RECEBER E INPUTAR DADOS <<<
+from datetime import datetime
 @app.route('/receber_dados', methods=['POST'])
 def receber_dados():
+    if not request.json:
+        return jsonify({'error': 'Corpo da requisição não é JSON ou está vazio'}), 400
+
     dados = request.json
     print('Dados recebidos ---', dados)
 
@@ -142,10 +149,19 @@ def receber_dados():
     try:
         # Verifica se o e-mail e senha foram fornecidos (caso de cadastro)
         if dados.get('email') and dados.get('senha'):
+            # Verifica se a data de nascimento está no formato correto
+            data_nascimento = dados.get('dataNascimento')
+            if data_nascimento:
+                try:
+                    # Tenta converter para o formato correto
+                    datetime.strptime(data_nascimento, "%Y-%m-%d")
+                except ValueError:
+                    return jsonify({'error': 'Data de nascimento inválida. O formato correto é yyyy-MM-dd.'}), 400
+
             # Chama a função que grava os dados no BD com a verificação de e-mail duplicado
             ret = gravar_dados_cad_bd(
                 dados['nome'],
-                dados['dataNascimento'],
+                data_nascimento,  # Certificando-se de que a data está no formato correto
                 dados['celular'],
                 dados['email'],
                 dados['senha'],
@@ -178,14 +194,14 @@ def receber_dados():
         # Recupera o cadastro
         elif dados.get('id_usuario') is not None:
             ret = recuperar_cadastro(dados)
-            print("RETORNO DO CADASTRO ---------", ret)
 
         else:
-            ret = {'error': 'Dados não reconhecidos'}
+            return jsonify({'error': 'Dados não reconhecidos'}), 400
 
         return jsonify(ret)
 
     except Exception as e:
+        print("Erro:", e)  # Log de erro para depuração
         return jsonify({'error': str(e)}), 500
 
 # >>> ROTA PARA EDITAR TAREFAS <<<
@@ -297,18 +313,23 @@ def buscar_usuario_por_id():
     try:
         # Chama a função para consultar o usuário no banco de dados
         usuario = consultar_usuario_por_id(usuario_id)
+        print("Resultado da consulta:", usuario)
 
+        # Verifica se a consulta retornou dados válidos
         if usuario:
-            # Extrai os dados do usuário retornados da consulta
-            data = {
-                "id": usuario[0],
-                "nome": usuario[1],
-                "data_nascimento": usuario[2],
-                "celular": usuario[3],
-                "email": usuario[4],
-                "imagem_perfil": usuario[5]  # Supondo que este campo contenha a URL da imagem
-            }
-            return jsonify(data), 200
+            # Verifica se os campos essenciais estão presentes
+            if None not in usuario[:5]:  # Verifica se os primeiros 5 campos não têm valor None
+                data = {
+                    "id": usuario[0],
+                    "nome": usuario[1],
+                    "data_nascimento": usuario[2],
+                    "celular": usuario[3],
+                    "email": usuario[4],
+                    "imagem_perfil": usuario[5] if usuario[5] is not None else None  # Se não houver imagem, atribui None
+                }
+                return jsonify(data), 200
+            else:
+                return jsonify({"mensagem": "Dados incompletos do usuário."}), 500
         else:
             return jsonify({"mensagem": "Usuário não encontrado."}), 404
 

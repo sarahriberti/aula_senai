@@ -7,6 +7,7 @@ import instagramIcon from '../image/instagramDourado.png';
 import facebookIcon from '../image/facebookDourado.png';
 import whatsappIcon from '../image/whatsappDourado.png';
 import Sugestao from './Sugestao/Sugestao';
+import Perfilusu from '../../src/image/perfil_original.jpg'
 
 function MenuLateral() {
   const [show, setShow] = useState(false);
@@ -16,58 +17,50 @@ function MenuLateral() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const getNome = () => {
-    const storedNome = localStorage.getItem('nome');
-    if (storedNome) {
-      setNomeUsuario(storedNome);
-    }
-  };
-
-  const getUsuarioData = async () => {
-    const idUsuario = localStorage.getItem('id'); // Pega o id_usuario do localStorage
-
-    if (!idUsuario) {
-      console.error('ID do usuário não encontrado no localStorage');
-      return;
-    }
-
-    try {
-      const response = await fetch('http://10.135.60.33:8085/buscar_usuario', { // URL completa do backend Flask
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id_usuario: idUsuario }) // Inclui o id_usuario no corpo da requisição
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('response', data);
-
-        // Ajuste as variáveis conforme os nomes retornados do backend
-        setNomeUsuario(data.nome);
-        setImagemPerfil(data.imagem_perfil); // Aqui é 'imagem_perfil' conforme seu backend
-
-        console.log("Dados do Usuário", data);
-      } else {
-        console.error('Erro ao obter dados do usuário');
-      }
-    } catch (error) {
-      console.error('Erro:', error);
-    }
-  };
-
-
-
   useEffect(() => {
-    getNome();
-    getUsuarioData(); // Obtém os dados do usuário ao montar o componente
-    const intervalId = setInterval(() => {
-      getNome();
-    }, 5000);
+    const buscarDadosUsuario = async () => {
+      const userId = localStorage.getItem('id');
+      if (!userId) {
+        console.error('ID do usuário não encontrado no localStorage');
+        return;
+      }
+      try {
+        const response = await fetch('http://10.135.60.33:8085/receber_dados', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id_usuario: userId }),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Erro na resposta da API: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log('Resposta da API:', data);
+  
+        if (data && data.erro === false && data.mensagem) {
+          const usuario = data.mensagem;
+          setNomeUsuario(usuario.nome || 'Usuário');
+          
+          if (usuario.imagem_perfil) {
+            const imagemPerfil = usuario.imagem_perfil.startsWith('data:image')
+              ? usuario.imagem_perfil
 
-    return () => clearInterval(intervalId);
-  }, []);
+              : '';
+            setImagemPerfil(imagemPerfil);
+          }
+        } else {
+          console.error('Estrutura de resposta da API inesperada ou erro na resposta:', data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      }
+    };
+  
+    buscarDadosUsuario();
+  }, []);  
 
   return (
     <>
@@ -82,7 +75,13 @@ function MenuLateral() {
         <div className='perfil'>
           <Offcanvas.Body>
             <div id='perfil_gerenciar'>
-              <img src={imagemPerfil || "https://cdn-icons-png.flaticon.com/128/848/848006.png"} alt="user" width={100} className='imagem1' />
+              <img
+                id="menu-lateral-imagem-perfil"
+                src={imagemPerfil ? imagemPerfil : Perfilusu }
+                alt="Imagem de Perfil"
+                width={100}
+                className="imagem1"
+              />
 
             </div>
 
