@@ -6,6 +6,7 @@ calendário e o menu lateral  */
 import CalendarioOFC from "./Calendar/Calendario"
 import './Calendario.css'
 import MenuLateral from "./Menu_Lateral"
+import Notificacao from "./Notificacao/Notificacao"
 import 'bootstrap/dist/css/bootstrap.min.css'
 /*Fim das importações*/
 
@@ -16,6 +17,7 @@ function Calendario() {
             {/*Div que se tem dentro dela os links para os componentes do menu lateral, calendar e tarefa */}
             <div className="menu-box">
                 <MenuLateral />
+                <Notificacao />
             </div>
             <div className="calendar-box">
                 <CalendarioOFC />

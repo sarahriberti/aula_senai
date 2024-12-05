@@ -49,6 +49,7 @@ def atualizar_cad(data):
         print("Erro:", e)  # Log de erro
         return {"sucesso": False, "mensagem": "Ocorreu um erro durante a atualização dos dados."}
 
+# Função para atualizar tarefa
 def atualizar_tarefa(data):
     print('dados upd', data)
     # Extrair dados da requisição
@@ -82,6 +83,63 @@ def atualizar_tarefa(data):
     except Exception as e:
         return {"error": f"Ocorreu um erro ao atualizar a tarefa: {e}"}, 500
     
+    finally:
+        if conex:
+            conex.close()
+def atualizar_tarefas_pai(data):
+    try:
+        task_id = data.get('taskID')
+        if not task_id:
+            return {"error": "ID da tarefa não foi fornecido."}, 400
+
+        conex = conexao.conectar()
+        cursor = conex.cursor()
+
+        # Buscar o ID_PAI da tarefa
+        cursor.execute("SELECT ID_PAI FROM tarefas WHERE ID = %s", (task_id,))
+        result = cursor.fetchone()
+        if not result:
+            return {"error": "Tarefa não encontrada."}, 404
+
+        id_pai = result[0]  # ID_PAI obtido do banco de dados
+
+        # Dados para atualização
+        nova_cor = data.get('Cor')
+        novo_titulo = data.get('Titulo')
+        novo_inicio = data.get('Inicio')
+        novo_termino = data.get('Termino')
+        nova_notific = data.get('Notific')
+        nova_categoria = data.get('Categoria')
+        nova_repetir = data.get('Repetir')
+
+        if not all([nova_cor, novo_titulo, novo_inicio, novo_termino, nova_categoria]):
+            return {"error": "Dados insuficientes para atualizar tarefas."}, 400
+
+        # Atualizar todas as tarefas relacionadas ao ID_PAI
+        sql = """
+        UPDATE tarefas
+        SET Cor = %s, Titulo = %s, Inicio = %s, Termino = %s, Notific = %s, Categoria = %s, Repetir = %s
+        WHERE ID_PAI = %s
+        """
+        val = (
+            nova_cor,
+            novo_titulo,
+            novo_inicio,
+            novo_termino,
+            nova_notific,
+            nova_categoria,
+            nova_repetir,
+            id_pai,
+        )
+
+        cursor.execute(sql, val)
+        conex.commit()
+
+        return {"message": "Tarefas relacionadas atualizadas com sucesso!"}
+
+    except Exception as e:
+        return {"error": f"Ocorreu um erro ao atualizar as tarefas: {e}"}, 500
+
     finally:
         if conex:
             conex.close()

@@ -26,7 +26,59 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
   });
 
   const [error, setError] = useState({}); // Estado para armazenar as mensagens de erro
-
+  const updateRelatedTasks = async (id_tarefa, updatedData) => {
+    try {
+      console.log("ID da tarefa:", id_tarefa);  // Verifica se o ID da tarefa está correto
+  
+      // Fazer a requisição para buscar as tarefas relacionadas
+      const response = await fetch(`http://10.135.60.33:8085/tarefas/relacionadas/${id_tarefa}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Erro ao buscar tarefas relacionadas.');
+      }
+  
+      const result = await response.json();
+      console.log('Resultado da API de busca:', result);
+  
+      if (result.erro) {
+        alert(result.mensagem || 'Erro ao buscar tarefas relacionadas.');
+        return;
+      }
+  
+      const idPai = result.tarefas[0]?.ID_PAI || id_tarefa; // Se não encontrar o ID_PAI, usa o id_tarefa como padrão
+  
+      // Agora, faz a atualização das tarefas relacionadas com o ID encontrado
+      const updateResponse = await fetch(`http://10.135.60.33:8085/tarefas/atualizar/${idPai}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      });
+  
+      if (!updateResponse.ok) {
+        throw new Error('Erro ao atualizar tarefas relacionadas.');
+      }
+  
+      const updateResult = await updateResponse.json();
+      console.log('Resultado da API de atualização:', updateResult);
+  
+      if (!updateResult.erro) {
+        alert('Tarefas relacionadas atualizadas com sucesso.');
+      } else {
+        alert(updateResult.mensagem || 'Erro ao atualizar tarefas relacionadas.');
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar tarefas relacionadas:', error);
+      alert('Ocorreu um erro. Tente novamente.');
+    }
+  };
+  
   useEffect(() => {
     if (isEditing && taskToEdit) {
       const datetimeIni = new Date(taskToEdit.Inicio);
@@ -119,6 +171,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
     console.log('Data e hora de início:', datetime_ini);
     console.log('Data e hora de término:', datetime_fim);
 
+    
     const tarefa = {
       action: isEditing ? 'atualizar_tarefa' : 'salvar_tarefa',
       Cor: formData.cor,

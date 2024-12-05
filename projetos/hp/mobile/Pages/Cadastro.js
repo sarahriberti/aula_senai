@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, TextInput, Image, KeyboardAvoidingView, TouchableOpacity, Text, ScrollView, Alert, Linking } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
 import { TextInputMask } from 'react-native-masked-text';
 import Cadastrostyles from "../Style/Cadastrostyles";
+import { Ionicons } from "@expo/vector-icons";
 
 const CadastroForm = ({ navigation }) => {
   const [formValues, setFormValues] = useState({
@@ -25,6 +25,7 @@ const CadastroForm = ({ navigation }) => {
 
   const [senhaVisivel, setSenhaVisivel] = useState(false);
   const [confirmSenhaVisivel, setConfirmSenhaVisivel] = useState(false);
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
   const handleChange = (name, value) => {
     setFormValues((prevValues) => ({
@@ -36,7 +37,7 @@ const CadastroForm = ({ navigation }) => {
 
   const validarCampo = (name, value) => {
     let error = '';
-    
+
     if (name === 'nome') {
       error = validarNome(value);
     } else if (name === 'email') {
@@ -56,6 +57,18 @@ const CadastroForm = ({ navigation }) => {
       [name]: error,
     }));
   };
+
+  const passwordValidation = (senha) => {
+    return {
+      minLength: senha.length >= 8,
+      hasUpperCase: /[A-Z]/.test(senha),
+      hasLowerCase: /[a-z]/.test(senha),
+      hasNumber: /\d/.test(senha),
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(senha),
+    };
+  };
+
+
 
   const validarNome = (nome) => {
     const nomeLimpo = nome.trim();
@@ -120,7 +133,7 @@ const CadastroForm = ({ navigation }) => {
     const dia = parseInt(data.slice(0, 2), 10);
     const mes = parseInt(data.slice(2, 4), 10);
     const ano = parseInt(data.slice(4), 10);
-    
+
     const dataAtual = new Date();
     const anoAtual = dataAtual.getFullYear();
     const idadeMinima = 13;
@@ -180,7 +193,6 @@ const CadastroForm = ({ navigation }) => {
           body: JSON.stringify(dadosEnvio),
         });
         const resultado = await resposta.json();
-        console.log(resultado);
         if (resultado.erro) {
           Alert.alert('Erro', 'Valores inválidos');
         } else {
@@ -205,9 +217,6 @@ const CadastroForm = ({ navigation }) => {
   return (
     <KeyboardAvoidingView style={Cadastrostyles.background} behavior="padding">
       <ScrollView contentContainerStyle={Cadastrostyles.scrollViewContent}>
-      <TouchableOpacity onPress={() => navigation.navigate('HelpCad')}  >
-            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={Cadastrostyles.iconAjudaCad}/>
-          </TouchableOpacity>
         <View style={Cadastrostyles.containerlogo}>
           <Image style={Cadastrostyles.logo} resizeMode='contain' source={require('../assets/corujalogocima.png')} />
         </View>
@@ -260,24 +269,55 @@ const CadastroForm = ({ navigation }) => {
           </View>
           {formErrors.email ? <Text style={Cadastrostyles.errorText}>{formErrors.email}</Text> : null}
 
-          <Text style={Cadastrostyles.cores}>Senha</Text>
-          <View style={Cadastrostyles.inputContainer}>
-            <TextInput
-              style={Cadastrostyles.inputs}
-              secureTextEntry={!senhaVisivel}
-              value={formValues.senha}
-              onChangeText={(value) => handleChange('senha', value)}
-              maxLength={12}
-            />
-            <TouchableOpacity onPress={toggleSenhaVisibilidade}>
-              <Ionicons
-                name={senhaVisivel ? "eye-off" : "eye"}
-                size={24}
-                color="gray"
+          <View>
+            <Text style={Cadastrostyles.cores}>Senha</Text>
+            <View style={Cadastrostyles.inputContainer}>
+              <TextInput
+                style={Cadastrostyles.inputs}
+                secureTextEntry={!senhaVisivel}
+                value={formValues.senha}
+                onChangeText={(value) => {
+                  handleChange('senha', value);
+                }}
+                maxLength={12}
+                onFocus={() => setShowPasswordRequirements(true)}
+                onBlur={() => setShowPasswordRequirements(false)}
               />
-            </TouchableOpacity>
+              <TouchableOpacity onPress={toggleSenhaVisibilidade}>
+                <Ionicons
+                  name={senhaVisivel ? "eye-off" : "eye"}
+                  size={24}
+                  color="gray"
+                />
+              </TouchableOpacity>
+            </View>
+
+            {showPasswordRequirements && (
+              <View style={Cadastrostyles.passwordRequirements}>
+                {Object.entries(passwordValidation(formValues.senha)).map(([key, isValid]) => (
+                  <View key={key} style={Cadastrostyles.requirementContainer}>
+                    <Ionicons
+                      name={isValid ? "checkmark-circle" : "close-circle"}
+                      size={20}
+                      color={isValid ? "#006400" : "red"}
+                      style={Cadastrostyles.icon}
+                    />
+                    <Text style={Cadastrostyles.requirementText}>
+                      {key === 'minLength' && 'Pelo menos 8 caracteres'}
+                      {key === 'hasUpperCase' && 'Uma letra maiúscula'}
+                      {key === 'hasLowerCase' && 'Uma letra minúscula'}
+                      {key === 'hasNumber' && 'Um número'}
+                      {key === 'hasSpecialChar' && 'Um caractere especial'}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+
+
+
           </View>
-          {formErrors.senha ? <Text style={Cadastrostyles.errorText}>{formErrors.senha}</Text> : null}
+
 
           <Text style={Cadastrostyles.cores}>Confirmar Senha</Text>
           <View style={Cadastrostyles.inputContainer}>

@@ -1,4 +1,4 @@
-from validacoes import ( 
+from validacoes import (
     validar_nome,
     validar_data_nascimento,
     validar_celular,
@@ -6,17 +6,42 @@ from validacoes import (
     validar_senha,
     confirmar_senha,
 )
+import uuid
 from atualizar import atualizar_status_tarefa_bd
+# >>> Importa o arquivo com a função que insere as informações no banco de dados <<<
 import Gravar_BD # >>> Importa o arquivo com a função que insere as informações no banco de dados <<<
-from select_log import ( 
+from select_log import (
     confere_dados_com_banco
 )
 from select_cad import (consultar_usuario_por_id)
 from datetime import datetime, timedelta
+from calendar import monthrange
+
+def avancar_mes(data, meses=1):
+    """
+    Avança a data fornecida pelo número especificado de meses.
+    Ajusta automaticamente para o último dia do mês se necessário.
+
+    :param data: Objeto datetime representando a data inicial.
+    :param meses: Número de meses para avançar (padrão: 1).
+    :return: Objeto datetime ajustado.
+    """
+    ano = data.year
+    mes = data.month + meses
+
+    # Ajusta o ano e o mês se o mês ultrapassar 12
+    while mes > 12:
+        mes -= 12
+        ano += 1
+
+    # Ajusta o dia para o último dia do mês se necessário
+    dia = min(data.day, monthrange(ano, mes)[1])
+
+    return datetime(ano, mes, dia, data.hour, data.minute, data.second)
 
 #Função para processar os dados do cadastro
 #Autor: Anna Clara e Sarah
-#Data: 01/12/2023 
+#Data: 01/12/2023
 def processar_dados_cad(dados):
     # Função para processar os dados recebidos do Flask
     # Retorna os dados processados
@@ -62,12 +87,11 @@ def processar_dados_cad(dados):
 
 #Função para processar os dados do login
 #Autor: Anna Clara e Sarah
-#Data: 01/12/2023 
+#Data: 01/12/2023
 def processar_dados_log(dados):
     #Função para processar os dados de login recebidos do Flask
     #Retorna os dados processados
     dados_processados_log = dados
-    
 
     #Exibe os dados recebidos do login
     print(f"E-mail-login: {dados_processados_log.get('email_log')}")
@@ -95,71 +119,64 @@ def processar_dados_log(dados):
         else:
             # Dados de login incorretos
             return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Dados de login incorretos.'}]}
-from datetime import datetime, timedelta
 
 # Função para processar os dados do formulário To Do
 # Autor: Emily
 # Data: 12/03/2024
 def processar_dados_tarefa(dados):
-    # Função para processar os dados recebidos do Flask
-    # Retorna os dados processados
-    print('Processamento:', dados)
-
+    """
+    Processa os dados de uma tarefa recebida, grava a tarefa no banco de dados e 
+    cria notificações caso necessário.
+    """
     # Verificar se todas as chaves necessárias estão presentes
     required_keys = ['Cor', 'Titulo', 'Inicio', 'Termino', 'Notific', 'Descr', 'Categoria', 'Repetir', 'ID_Usu']
-    print("Chaves requeridas:", required_keys)
     missing_keys = [key for key in required_keys if key not in dados]
 
     if missing_keys:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': f'Campos ausentes: {", ".join(missing_keys)}'}]}
 
-    # Dados processados que serão enviados para o banco de dados
-    dados_processados_to_do = dados
-    print('Dados processados para gravação:', dados_processados_to_do)
+    # Gerar um ID_PAI único
+    id_pai = str(uuid.uuid4())
 
-    # Verificar se a tarefa possui repetição e gerar as tarefas repetidas, se necessário
-    tarefas_para_gravar = [dados_processados_to_do]
-    print('repetir: ', dados['Repetir'])  # Inclui a tarefa original
-    if dados['Repetir'] in ['1', '2', '3', '4']:  # Ativa a repetição somente para os valores 1, 2, 3 e 4
+    # Adicionar o ID_PAI à tarefa original
+    dados['ID_PAI'] = id_pai
+    tarefas_para_gravar = [dados]  # Lista com a tarefa original
+
+    # Função para criar uma tarefa repetida
+    def criar_tarefa_repetida(tarefa, nova_data):
+        tarefa_repetida = tarefa.copy()
+        tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
+        tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
+        tarefa_repetida['ID_PAI'] = id_pai
+        return tarefa_repetida
+
+    # Criar tarefas repetidas com base no tipo de repetição
+    if dados['Repetir'] in ['1', '2', '3', '4']:
         inicio = datetime.strptime(dados['Inicio'], '%Y-%m-%d %H:%M')
-        print('data inicio: ', inicio)
 
         if dados['Repetir'] == '1':  # Diariamente
-            for i in range(1, 51):  # Repete por até 50 dias
+            for i in range(1, 51):  # Até 50 dias
                 nova_data = inicio + timedelta(days=i)
-                tarefa_repetida = dados.copy()
-                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefas_para_gravar.append(tarefa_repetida)
+                tarefas_para_gravar.append(criar_tarefa_repetida(dados, nova_data))
 
         elif dados['Repetir'] == '2':  # Semanalmente
-            for i in range(1, 9):  # Repete por até 8 semanas
+            for i in range(1, 9):  # Até 8 semanas
                 nova_data = inicio + timedelta(weeks=i)
-                tarefa_repetida = dados.copy()
-                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefas_para_gravar.append(tarefa_repetida)
+                tarefas_para_gravar.append(criar_tarefa_repetida(dados, nova_data))
 
         elif dados['Repetir'] == '3':  # Mensalmente
-            for i in range(1, 11):  # Repete por até 10 meses
-                nova_data = inicio + timedelta(weeks=i * 4)  # Aproximando um mês por 4 semanas
-                tarefa_repetida = dados.copy()
-                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefas_para_gravar.append(tarefa_repetida)
+            for _ in range(1, 11):  # Até 10 meses
+                inicio = avancar_mes(inicio)
+                tarefas_para_gravar.append(criar_tarefa_repetida(dados, inicio))
 
         elif dados['Repetir'] == '4':  # Anualmente
-            for i in range(1, 6):  # Repete por até 5 anos
-                nova_data = inicio + timedelta(days=i * 365)  # Aproximando um ano
-                tarefa_repetida = dados.copy()
-                tarefa_repetida['Inicio'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefa_repetida['Termino'] = nova_data.strftime('%Y-%m-%d %H:%M')
-                tarefas_para_gravar.append(tarefa_repetida)
+            for i in range(1, 6):  # Até 5 anos
+                nova_data = inicio.replace(year=inicio.year + i)
+                tarefas_para_gravar.append(criar_tarefa_repetida(dados, nova_data))
 
-    # Grava cada tarefa (incluindo as repetidas) no banco de dados
+    # Gravar as tarefas no banco de dados e criar notificações, se necessário
     for tarefa in tarefas_para_gravar:
-        print("Tentando gravar tarefa:", tarefa)
-        Gravar_BD.gravar_tarefas(
+        resultado = Gravar_BD.gravar_tarefas(
             tarefa['Cor'],
             tarefa['Titulo'],
             tarefa['Inicio'],
@@ -168,17 +185,46 @@ def processar_dados_tarefa(dados):
             tarefa['Descr'],
             tarefa['Categoria'],
             tarefa['Repetir'],
-            tarefa['ID_Usu']
+            tarefa['ID_Usu'],
+            tarefa['ID_PAI']
         )
 
-    return {'erro': False, 'mensagem': 'Tarefas gravadas com sucesso!'}
+        if resultado['erro']:
+            return {'erro': True, 'mensagem': 'Erro ao gravar tarefa: ' + resultado['mensagem']}
 
-#Função para processar o check da tarefa
-#Autor: Júlia e Arthur
-#Data: 17/10/2024
-def processa_check( novo_status, id_tarefa):
+        # Função para criar notificações
+        def criar_notificacoes(tarefa, id_tarefa):
+            mensagens = [
+                f'{tarefa["Titulo"]} em uma hora',
+                f'{tarefa["Titulo"]} em 15 minutos'
+            ]
+
+            inicio_tarefa = datetime.strptime(tarefa['Inicio'], '%Y-%m-%d %H:%M')
+            horarios = [
+                inicio_tarefa - timedelta(hours=1),
+                inicio_tarefa - timedelta(minutes=15)
+            ]
+
+            for i, mensagem in enumerate(mensagens):
+                Gravar_BD.gravar_notificacao(
+                    mensagem=mensagem,
+                    id_usu=tarefa['ID_Usu'],
+                    id_taf=id_tarefa,
+                    data_hora=horarios[i].strftime('%Y-%m-%d %H:%M')
+                )
+
+        # Criar notificações se necessário
+        if tarefa['Notific'] == '1':  # Notificação ativada
+            criar_notificacoes(tarefa, resultado['id_tarefa'])
+
+    return {'erro': False, 'mensagem': 'Tarefas e notificações gravadas com sucesso!'}
+
+# Função para processar o check da tarefa
+# Autor: Júlia e Arthur
+# Data: 17/10/2024
+def processa_check(novo_status, id_tarefa):
     # Verifica se o ID da tarefa foi fornecido
-    print('proc--',id_tarefa, novo_status)
+    print('proc--', id_tarefa, novo_status)
 
     if not id_tarefa:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'ID da tarefa não fornecido'}]}
@@ -189,7 +235,7 @@ def processa_check( novo_status, id_tarefa):
 
     # Consulta o status de conclusão da tarefa no banco de dados
     ret = atualizar_status_tarefa_bd(id_tarefa, novo_status)
-    print('ret->',ret)
+    print('ret->', ret)
     # Se a tarefa foi marcada como concluída (1)
     if novo_status == 1:
         return {'erro': False, 'mensagem': 'Tarefa marcada como concluída.'}
@@ -202,16 +248,16 @@ def processa_check( novo_status, id_tarefa):
     else:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'Status de tarefa inválido.'}]}
 
-#Função para processar o id
-#Autor: Emily
-#Data: 04/04/2024
+# Função para processar o id
+# Autor: Emily
+# Data: 04/04/2024
 def recuperar_cadastro(dados):
     dados_processados_gerenciar = dados
     print(f"ID usuario: {dados_processados_gerenciar.get('id_usuario')}")
-    
+
     geren = consultar_usuario_por_id(dados_processados_gerenciar['id_usuario'])
     print('retorno bancoo', geren)
-    
+
     if geren:
         resposta = {
             'id': geren[0],
@@ -225,12 +271,12 @@ def recuperar_cadastro(dados):
     else:
         return {'erro': True, 'mensagens': [{'erro': True, 'mensagem': 'ID não encontrado ou inexistente'}]}
 
-#Função para processar a sugestão
-#Autor: Arthur
-#Data: 22/10/2024
+# Função para processar a sugestão
+# Autor: Arthur
+# Data: 22/10/2024
 def processar_dados_sugestao(userId, texto_sugestao):
     print("Entrando na função processar_dados_sugestao")
-    
+
     # Exibe os dados recebidos
     print(f"Mensagem: {texto_sugestao}")
     print(f"ID do Usuário: {userId}")

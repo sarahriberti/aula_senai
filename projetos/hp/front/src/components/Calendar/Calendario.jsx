@@ -1,3 +1,4 @@
+// calendario.jsx
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -24,47 +25,6 @@ const CalendarioOFC = () => {
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  // Função para buscar tarefas de um dia específico
-  const fetchTasks = async (selectedDate) => {
-    const userId = localStorage.getItem('id');
-    if (!userId) {
-      console.error('Usuário não encontrado no localStorage');
-      return;
-    }
-    try {
-      const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
-      const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}&date=${formattedDate}`);
-
-      if (!response.ok) {
-        throw new Error(`Erro na resposta da API: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log('Resposta da API:', data);
-
-      if (Array.isArray(data)) {
-        setTasks(data);
-        // Filtra as tarefas para uma data específica
-        const tasksForSelectedDate = data.filter((task) => {
-          const taskDate = task.Inicio ? new Date(task.Inicio) : null;
-
-          // Verifica se taskDate é uma data válida antes de chamar toISOString()
-          if (taskDate instanceof Date && !isNaN(taskDate)) {
-            const formattedTaskDate = taskDate.toISOString().split('T')[0];
-            return formattedTaskDate === formattedDate;
-          }
-
-          return false; // Exclui as tarefas sem data válida
-        });
-        setTasksForDate(tasksForSelectedDate);
-      } else {
-        console.error('A resposta da API não é um array:', data);
-      }
-    } catch (error) {
-      console.error('Erro ao buscar tarefas:', error);
-    }
-  };
-
   // Função para buscar todas as tarefas
   const fetchAllTasks = async () => {
     const userId = localStorage.getItem('id');
@@ -83,12 +43,39 @@ const CalendarioOFC = () => {
 
       if (Array.isArray(data)) {
         setTasks(data);
-        fetchTasks(date);
+        fetchTasks(date, data);
       } else {
         console.error('A resposta da API não é um array:', data);
       }
     } catch (error) {
       console.error('Erro ao buscar tarefas:', error);
+    }
+  };
+
+  // Função para buscar tarefas de um dia específico
+  const fetchTasks = async (selectedDate, allTasks = tasks) => {
+    const userId = localStorage.getItem('id');
+    if (!userId) {
+      console.error('Usuário não encontrado no localStorage');
+      return;
+    }
+    try {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      // Filtra as tarefas para uma data específica
+      const tasksForSelectedDate = allTasks.filter((task) => {
+        const taskDate = task.Inicio ? new Date(task.Inicio) : null;
+
+        // Verifica se taskDate é uma data válida antes de chamar toISOString()
+        if (taskDate instanceof Date && !isNaN(taskDate)) {
+          const formattedTaskDate = taskDate.toISOString().split('T')[0];
+          return formattedTaskDate === formattedDate;
+        }
+
+        return false; // Exclui as tarefas sem data válida
+      });
+      setTasksForDate(tasksForSelectedDate);
+    } catch (error) {
+      console.error('Erro ao buscar tarefas para a data:', error);
     }
   };
 
@@ -120,7 +107,7 @@ const CalendarioOFC = () => {
           <div className="task-colors">
             {limitedTasks.map((task) => (
               <div
-                key={task.id}
+                key={task.ID}
                 className="task-stripe"
                 style={{
                   backgroundColor: task.Cor,
@@ -180,7 +167,7 @@ const CalendarioOFC = () => {
     setIsEditing(false);
     setTaskToEdit(null);
     setIsFormOpen(false);
-    fetchTasks(date);
+    fetchAllTasks(); // Atualiza todas as tarefas após fechar o formulário
   };
 
   // Função para atualizar o status da tarefa concluída
@@ -213,7 +200,7 @@ const CalendarioOFC = () => {
           {tasksForDate.length > 0 ? (
             tasksForDate.map((task) => (
               <li
-                key={task.id}
+                key={task.ID}
                 onClick={() => handleTaskClick(task)}
                 style={{ textDecoration: task.Concluida ? 'line-through' : 'none' }}
               >
@@ -246,6 +233,7 @@ const CalendarioOFC = () => {
           task={selectedTask}
           onClose={handleCloseModal}
           onEdit={openFormForEdit}
+          updateTaskStatus={updateTaskStatus} // Passa a função para atualizar o status
         />
       )}
       <BotaoAjudaCalend/>

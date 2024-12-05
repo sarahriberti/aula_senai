@@ -1,0 +1,126 @@
+/* Container do componente de notificações */
+.notificacao-container {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+}
+
+/* Ícone do sino */
+.notificacao-container .icone-sino {
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.notificacao-container .icone-sino img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Número de notificações */
+.notificacao-container .numero-notificacao {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+/* Modal de notificações */
+.notificacao-container .notificacao-modal {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    width: 90%;
+    max-width: 350px;
+    background-color: #191D2A;
+    border: 2px solid #c39910;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    /* Adiciona barra de rolagem */
+    max-height: 400px;
+}
+
+.notificacao-container .notificacao-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    margin-bottom: 10px;
+    /* Espaçamento entre notificações */
+}
+
+.notificacao-container .notificacao-bolinha {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Botão de fechar */
+.notificacao-container .notificacao-item button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.notificacao-container .notificacao-item button img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Modal de confirmação */
+.notificacao-container .modal-confirmacao {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    /* Aumentando a prioridade para o modal de confirmação */
+}
+
+/* Conteúdo do modal de confirmação */
+.notificacao-container .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+/* Botões do modal de confirmação */
+.notificacao-container .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.notificacao-container .modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.notificacao-container .modal-buttons button:first-child {
+    background-color: #28a745;
+    color: white;
+}
+
+.notificacao-container .modal-buttons button:last-child {
+    background-color: #dc3545;
+    color: white;
+}

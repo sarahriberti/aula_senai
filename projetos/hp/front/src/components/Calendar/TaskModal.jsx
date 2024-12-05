@@ -1,8 +1,9 @@
+// TaskModal.jsx
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Delete from './Delete';
-import Check from '../Check';
+
 
 // Função para formatar a data
 const formatDate = (date) => {
@@ -47,7 +48,7 @@ const RepetirTxt = (value) => {
     }
 };
 
-const TaskModal = ({ task, onClose, onEdit }) => {
+const TaskModal = ({ task, onClose, onEdit, updateTaskStatus }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isConcluded, setIsConcluded] = useState(false);
 
@@ -97,6 +98,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
             if (response.ok) {
                 localStorage.setItem(`task_${task.ID}_concluded`, JSON.stringify(novo_status === 1));
                 console.log('Tarefa salva com sucesso:', result);
+                updateTaskStatus(task.ID, novo_status === 1); // Atualiza o estado no frontend
                 onClose();
             } else {
                 console.error('Erro ao salvar a tarefa:', result);
@@ -129,8 +131,8 @@ const TaskModal = ({ task, onClose, onEdit }) => {
                 </Modal.Header>
                 <Modal.Body className='Body_TaskModal'>
                     <div className='Tempo_Task'>
-                        <p><strong>Inicío:</strong> {task.Inicio}</p>
-                        <p><strong>Final:</strong> {task.Termino}</p>
+                        <p><strong>Início:</strong> {formatDate(task.Inicio.split(' ')[0])} {task.Inicio.split(' ')[1]}</p>
+                        <p><strong>Final:</strong> {formatDate(task.Termino.split(' ')[0])} {task.Termino.split(' ')[1]}</p>
                     </div>
                     <div className='Descr_TaskModal'>
                         <p><strong>Descrição:</strong> {task.Descr}</p>
@@ -142,7 +144,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secundary" onClick={() => setShowDeleteModal(true)}>
+                    <Button variant="secondary" onClick={() => setShowDeleteModal(true)}>
                         <img src="/src/image/delete.png" alt="" />
                     </Button>
                     <Button className='editar-btn' variant="primary" onClick={() => onEdit(task)}>
@@ -161,6 +163,7 @@ const TaskModal = ({ task, onClose, onEdit }) => {
                 onDelete={() => handleDelete(task)}
                 task={task} // Passa a tarefa para o Delete.jsx
             />
+
         </>
     );
 

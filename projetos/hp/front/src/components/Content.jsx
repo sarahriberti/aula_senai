@@ -8,7 +8,6 @@ import Calendario from "./CalendarioOFC";
 import CadConcluido from "../pages/Cadastrar/CadConcluido";
 import Confirmacao from "./confirmacao";
 import Gerenciar from "../pages/Gerenciar/Gerenciar";
-import Compartilhar from "../pages/Gerenciar/Compartilhar";
 import EsqueciSenha from "../pages/Gerenciar/EsqueciSenha";
 import PagDoacao from "../pages/Doacao/Doacao";
 import Ajuda from "./Help_LP/Help";
@@ -28,7 +27,6 @@ const Content = props => (
             <Route path="/Gerenciar" element={<Gerenciar />} />
             <Route path="/EsqueciSenha" element={<EsqueciSenha />} />
             <Route path="/Conf" element={<Confirmacao />} />
-            <Route path="/Compartilhar" element={<Compartilhar />} />
             <Route path="/Doacao" element={<PagDoacao />} />
             <Route path="/Help" element={<Ajuda/>} />
             <Route path="/HelpLogin" element={<AjudaLogin/>} />

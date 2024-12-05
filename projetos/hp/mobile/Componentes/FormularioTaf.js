@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import stylesTaf from '../Style/Styleformulariotaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import ColorPicker from 'react-native-wheel-color-picker'
 // Funções para manipulação de data e hora
 function combineDateTime(date, time) {
     const combined = new Date(date);
@@ -23,6 +23,7 @@ function extractTime(datetime) {
 
 export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAddTask, selectedTask }) {
     const [taskID, setTaskID] = useState(null);
+    const [tasks, setTasks] = useState([]);
     const [taskID_Usu, setTaskID_Usu] = useState(null);
     const [selectedStartDate, setSelectedStartDate] = useState(null);
     const [selectedEndDate, setSelectedEndDate] = useState(null);
@@ -33,12 +34,13 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
     const [showStartTimePicker, setShowStartTimePicker] = useState(false);
     const [showEndTimePicker, setShowEndTimePicker] = useState(false);
     const [notificationEnabled, setNotificationEnabled] = useState(false);
-    const [selectedCategOption, setSelectedCategOption] = useState('6');
-    const [selectedRepeatOption, setSelectedRepeatOption] = useState('none');
+    const [selectedCategOption, setSelectedCategOption] = useState('');
+    const [selectedRepeatOption, setSelectedRepeatOption] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('#252942');
     const [errorMessage, setErrorMessage] = useState('');
+    const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
     useEffect(() => {
         if (selectedTask) {
@@ -100,6 +102,14 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         setSelectedRepeatOption(itemValue);
     };
 
+    const updateTaskInList = (updatedTask) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+                task.taskID === updatedTask.taskID ? updatedTask : task
+            )
+        );
+    };
+
     const clearForm = () => {
         setTaskID_Usu(null);
         setTaskID(null);
@@ -110,10 +120,41 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         setTitle('');
         setDescription('');
         setNotificationEnabled(false);
-        setSelectedCategOption('6');
-        setSelectedRepeatOption('none');
+        setSelectedCategOption('');
+        setSelectedRepeatOption('');
         setColor('#252942');
         setErrorMessage('');
+    };
+
+    const refreshTaskList = async () => {
+        try {
+            const userId = await AsyncStorage.getItem('id');
+            if (!userId) {
+                setErrorMessage('ID do usuário não encontrado');
+                return;
+            }
+
+            const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (result.erro) {
+                setErrorMessage(result.mensagens);
+            } else {
+                setTasks(result.tarefas || []);  // Garantir que tasks seja sempre um array
+            }
+        } catch (error) {
+            console.error('Erro ao carregar tarefas:', error);
+            setErrorMessage('Erro ao carregar tarefas');
+        }
     };
 
     const saveTask = async () => {
@@ -124,9 +165,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
 
         setErrorMessage('');
 
-        const userId = await AsyncStorage.getItem('ID_Usu');
-        console.log('User ID:', userId);
-
+        const userId = await AsyncStorage.getItem('id');
         const inicio = combineDateTime(selectedStartDate, startHour);
         const termino = combineDateTime(selectedEndDate, endHour);
 
@@ -144,32 +183,35 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
             taskID: selectedTask ? selectedTask.ID : null,
         };
 
-        console.log('Task data:', task);
-
         try {
             const response = await fetch(selectedTask ? 'http://10.135.60.33:8085/atualizar_tarefa' : 'http://10.135.60.33:8085/receber_dados', {
                 method: selectedTask ? 'PUT' : 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(task),
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
             const result = await response.json();
-            console.log('Response result:', result);
 
             if (result.erro) {
                 setErrorMessage(result.mensagens);
             } else {
-                console.log('Tarefa salva e adicionada ao calendário.');
-
                 clearForm();
                 toggleModal();
-                onAddTask({ ...task, taskID: result.taskID || task.taskID });
+                if (selectedTask) {
+                    // Atualiza diretamente a lista no estado
+                    updateTaskInList({
+                        ...task,
+                        taskID: selectedTask.ID, // Atualize a tarefa existente
+                        Inicio: inicio.toISOString(),
+                        Termino: termino.toISOString(),
+                    });
+                } else {
+                    // Adiciona uma nova tarefa
+                    onAddTask({ ...task, taskID: result.taskID });
+                }
+
+                // Atualiza a lista de tarefas após salvar
+                refreshTaskList();
             }
         } catch (error) {
             console.error('Erro ao salvar a tarefa:', error);
@@ -187,8 +229,46 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                     <View style={stylesTaf.modal}>
                         <View style={stylesTaf.container}>
                             <View style={stylesTaf.nameBox}>
+
                                 <Text style={stylesTaf.titleModal}>TAREFA</Text>
+
                             </View>
+                            <View style={stylesTaf.row}>
+
+                                <TouchableOpacity
+                                    style={[stylesTaf.colorCircle, { backgroundColor: color }]}
+                                    onPress={() => setColorPickerVisible(true)}
+                                />
+                                <Text style={stylesTaf.txtDate2}>Cor</Text>
+                            </View>
+
+
+                            {colorPickerVisible && (
+                                <Modal
+                                    isVisible={colorPickerVisible}
+                                    
+                                >
+                                    <View style={stylesTaf.colorPickerContainer}>
+                                        <TouchableOpacity
+                                            style={stylesTaf.closeButton}
+                                            onPress={() => setColorPickerVisible(false)}
+
+                                        >
+                                            <Image
+                                                source={require('../assets/x.png')} // Coloque o caminho correto para sua imagem
+                                                style={stylesTaf.closeButtonImage} // Estilos para a imagem
+                                            />
+
+                                        </TouchableOpacity>
+                                        <ColorPicker
+                                            color={color}
+                                            onColorChange={setColor}
+                                            style={{ height: 50, width: 200 }}
+                                        />
+
+                                    </View>
+                                </Modal>
+                            )}
                             <View style={stylesTaf.titleTarefa}>
                                 <Text style={stylesTaf.txtTitle}>Título</Text>
                                 <TextInput
@@ -197,10 +277,13 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                     onChangeText={setTitle}
                                 />
                             </View>
+
+
+
                             {/* Data e Horário de Início */}
                             <View style={stylesTaf.datetimeInicioTarefa}>
                                 <View style={stylesTaf.dateInicioTarefa}>
-                                    <Text style={stylesTaf.txtDate}>Data de Início</Text>
+                                    <Text style={stylesTaf.txtDate}>Início</Text>
                                     <TouchableOpacity style={stylesTaf.dateBoxBtn} onPress={() => setShowStartDatePicker(true)}>
                                         <Text style={stylesTaf.txtDateInt}>
                                             {selectedStartDate ? selectedStartDate.toLocaleDateString('pt-BR') : 'dd/mm/aaaa'}
@@ -289,44 +372,20 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                             </View>
                             <View style={stylesTaf.categTarefa}>
                                 <Picker
-                                    selectedValue={selectedRepeatOption}
-                                    onValueChange={handleRepeatChange}
+                                    selectedValue={selectedCategOption} // Corrigido para usar o estado correto
+                                    onValueChange={(itemValue) => setSelectedCategOption(itemValue)} // Garante que o estado correto seja atualizado
                                     style={stylesTaf.pickerCateg}
-                                    mode='dropdown'
+                                    mode="dropdown"
                                     dropdownIconColor={'white'}
                                     dropdownStyle={stylesTaf.dropdown}
                                 >
-                                    <Picker.Item
-                                        label="Lazer"
-                                        value="1"
-                                        style={stylesTaf.pickerItemFun}
-                                    />
-                                    <Picker.Item
-                                        label="Estudo"
-                                        value="2"
-                                        style={stylesTaf.pickerItemStudy}
-                                    />
-                                    <Picker.Item
-                                        label="Trabalho"
-                                        value="3"
-                                        style={stylesTaf.pickerItemWork}
-                                    />
-                                    <Picker.Item
-                                        label="Saúde"
-                                        value="4"
-                                        style={stylesTaf.pickerItemHealth}
-                                    />
-                                    <Picker.Item
-                                        label="Família"
-                                        value="5"
-                                        style={stylesTaf.pickerItemFamily}
-                                    />
-                                    <Picker.Item
-                                        label="Outro"
-                                        value="6"
-                                        style={stylesTaf.pickerItemOther}
-                                    />
+                                    <Picker.Item label="Lazer" value="1" style={stylesTaf.pickerItemFun} />
+                                    <Picker.Item label="Escola" value="2" style={stylesTaf.pickerItemStudy} />
+                                    <Picker.Item label="Trabalho" value="3" style={stylesTaf.pickerItemWork} />
+                                    <Picker.Item label="Saúde" value="4" style={stylesTaf.pickerItemHealth} />
+                                    <Picker.Item label="Família" value="5" style={stylesTaf.pickerItemFamily} />
                                 </Picker>
+
                             </View>
                             <View style={stylesTaf.repeatTarefa}>
                                 <Picker
@@ -339,27 +398,27 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                                 >
                                     <Picker.Item
                                         label="Diariamente"
-                                        value="daily"
+                                        value="1"
                                         style={stylesTaf.pickerItemDaily}
                                     />
                                     <Picker.Item
                                         label="Semanalmente"
-                                        value="weekly"
+                                        value="2"
                                         style={stylesTaf.pickerItemWeekly}
                                     />
                                     <Picker.Item
                                         label="Mensalmente"
-                                        value="monthly"
+                                        value="3"
                                         style={stylesTaf.pickerItemMonthly}
                                     />
                                     <Picker.Item
                                         label="Anualmente"
-                                        value="yearly"
+                                        value="4"
                                         style={stylesTaf.pickerItemYearly}
                                     />
                                     <Picker.Item
                                         label="Nunca"
-                                        value="none"
+                                        value="5"
                                         style={stylesTaf.pickerItemNone}
                                     />
                                 </Picker>

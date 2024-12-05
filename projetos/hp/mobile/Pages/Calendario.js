@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, Pressable, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Pressable } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
 import FormularioTaf from '../Componentes/FormularioTaf';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment, { max } from 'moment-timezone';
+import moment from 'moment-timezone';
 
 // Configuração de localidade
 LocaleConfig.locales['pt'] = {
@@ -60,21 +60,31 @@ const TodoListScreen = ({ navigation }) => {
     if (userId) {
       fetchTasks(selectedDate);
     }
-  }, [selectedDate]);
+  }, [userId, selectedDate]);
 
   useEffect(() => {
-    // Atualiza a lista de tarefas renderizadas sempre que 'tasks' ou 'selectedDate' muda
-    const filteredTasks = tasks.filter(task => moment(task.Inicio).format('YYYY-MM-DD') === selectedDate);
-    setRenderedTasks(filteredTasks.map((task, index) => (
-      <Pressable
-        key={task.id || index}
-        style={[styles.Tarefa, { backgroundColor: task.Cor || '#252942' }]}
-        onPress={() => openTodoListModal(task)}
-      >
-        <Text style={styles.Text}>{task.Titulo}</Text>
-      </Pressable>
-    )));
+    const filteredTasks = tasks.filter(
+      (task) => moment(task.Inicio).format('YYYY-MM-DD') === selectedDate
+    );
+
+    setRenderedTasks(
+      filteredTasks.map((task, index) => (
+        <Pressable
+          key={task.ID || index}
+          style={styles.taskContainer}
+          onPress={() => openTodoListModal(task)}
+        >
+          {/* Aqui garantimos que 'task.Cor' será aplicada ou usaremos '#252942' como fallback */}
+          <View style={[styles.circleColor, { backgroundColor: task.Cor || '#252942' }]} />
+          <Text style={task.Concluida === 1 ? styles.completedText : styles.normalText}>
+            {task.Titulo}
+          </Text>
+        </Pressable>
+
+      ))
+    );
   }, [tasks, selectedDate]);
+
 
   const handleDayPress = (day) => {
     const localDate = moment(day.dateString).tz('America/Sao_Paulo').format('YYYY-MM-DD');
@@ -93,20 +103,33 @@ const TodoListScreen = ({ navigation }) => {
   };
 
   const handleAddTask = (task) => {
+    // Se for uma tarefa existente, atualize
     if (selectedTask) {
       setTasks(prevTasks =>
         prevTasks.map(t => t.id === selectedTask.id ? task : t)
       );
     } else {
+      // Se for uma nova tarefa, adicione ao estado
       setTasks(prevTasks => [...prevTasks, task]);
     }
+
+    // Fecha o modal
     setModalVisible4(false);
+
+    // Chama a função para recarregar as tarefas imediatamente
+    refreshTaskList();  // Aqui é onde a lista será recarregada
   };
+
 
   const openTodoListModal = (task) => {
     setSelectedTask(task);
     setModalVisible3(true);
   };
+
+  const refreshTaskList = async () => {
+    await fetchTasks(selectedDate);  // Chama a função fetchTasks para recarregar as tarefas
+  };
+
 
   return (
     <View style={styles.container}>
@@ -116,13 +139,35 @@ const TodoListScreen = ({ navigation }) => {
           markedDates={{
             ...tasks.reduce((acc, task) => {
               const taskDate = moment(task.Inicio).format('YYYY-MM-DD');
+
               if (taskDate) {
-                acc[taskDate] = { marked: true, dotColor: '#546594' };
+                if (!acc[taskDate]) {
+                  acc[taskDate] = { dots: [] };
+                }
+
+                if (!acc[taskDate].dots.find(dot => dot.color === task.Cor)) {
+                  acc[taskDate].dots.push({
+                    color: task.Cor || '#C0C0C0', // Cor do dot
+                    selectedDotColor: task.Cor || '#C0C0C0', // Mesma cor do dot
+                  });
+                }
               }
+
               return acc;
             }, {}),
-            [selectedDate]: { selected: true, marked: true, selectedColor: '#ffcc00' }
+            [selectedDate]: {
+              selected: true,
+              marked: true,
+              dots: tasks
+                .filter(task => moment(task.Inicio).format('YYYY-MM-DD') === selectedDate)
+                .map(task => ({
+                  color: task.Cor || '#C0C0C0',
+                  selectedDotColor: task.Cor || '#C0C0C0',
+                })),
+              selectedColor: '#ffcc00', // Fundo dourado para o dia selecionado
+            },
           }}
+          markingType={'multi-dot'}
           theme={{
             backgroundColor: '#34374f',
             calendarBackground: '#34374f',
@@ -132,7 +177,7 @@ const TodoListScreen = ({ navigation }) => {
             todayTextColor: '#ffcc00',
             dayTextColor: '#ffffff',
             dotColor: '#ffcc00',
-            selectedDotColor: '#ffffff',
+            selectedDotColor: '#ffcc00',
             arrowColor: '#ffcc00',
             disabledArrowColor: '#d9e1e8',
             monthTextColor: '#ffcc00',
@@ -146,24 +191,33 @@ const TodoListScreen = ({ navigation }) => {
             textDayFontSize: 16,
             textMonthFontSize: 20,
             textDayHeaderFontSize: 16,
+            // Aumentando o tamanho dos dots e adicionando espaçamento
+            'stylesheet.dot': {
+              dot: {
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                marginHorizontal: 2,
+              },
+            },
             'stylesheet.calendar.header': {
               week: {
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'space-between', // Alterado para "space-evenly" para remover o espaçamento entre as colunas
                 backgroundColor: '#c39910',
                 borderWidth: 1,
                 borderColor: '#efcd5e',
                 height: 35,
-                width: '100%',
+                width: 440, // Ajuste para largura flexível
               },
               dayHeader: {
                 paddingTop: 5,
                 color: 'black',
                 textAlign: 'center',
-                fontSize: 14,  // Diminua o tamanho da fonte
+                fontSize: 16,
                 borderWidth: 1,
                 borderColor: '#efcd5e',
-                width: 48.5,  // Reduza a largura das colunas dos dias
+                width: 62.7, // Ajuste para dividir igualmente os dias da semana
               },
               monthText: {
                 color: '#ffcc00',
@@ -171,19 +225,19 @@ const TodoListScreen = ({ navigation }) => {
                 fontWeight: 'bold',
               },
               arrow: {
-                padding: 1,
+                padding: 10,
               },
             },
             'stylesheet.day.basic': {
               base: {
-                width: 50,
-                height: 60,
+                width: 63, // Mantém a largura original dos dias
+                height: 63, // Mantém a altura original dos dias
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: '#34374f',
                 borderWidth: 1.5,
                 borderColor: '#ffcc00',
-                marginBottom: -15,
+                marginBottom: -15, // Ajuste para remover o espaçamento abaixo dos dias
               },
               text: {
                 fontSize: 16,
@@ -196,7 +250,8 @@ const TodoListScreen = ({ navigation }) => {
               today: {
                 borderRadius: 0,
               },
-            },
+            }
+
           }}
         />
         <View style={styles.caixa_tarefas}>
@@ -204,7 +259,11 @@ const TodoListScreen = ({ navigation }) => {
             {getFormattedDate(selectedDate)}
           </Text>
           <ScrollView style={styles.scrollTarefas}>
-            {renderedTasks}
+            {renderedTasks.length === 0 ? (
+              <Text style={styles.Text}>Nenhuma tarefa para hoje</Text>
+            ) : (
+              renderedTasks
+            )}
           </ScrollView>
         </View>
         <Tarefas
@@ -213,6 +272,7 @@ const TodoListScreen = ({ navigation }) => {
           selectedTask={selectedTask}
           setSelectedTask={setSelectedTask}
           openTodoListModal={() => setModalVisible4(true)}
+
         />
         <FormularioTaf
           isModalVisible4={isModalVisible4}
@@ -220,65 +280,76 @@ const TodoListScreen = ({ navigation }) => {
           onAddTask={handleAddTask}
           selectedTask={selectedTask}
           setSelectedTask={setSelectedTask}
+          refreshTaskList={refreshTaskList}
         />
       </ScrollView>
-      <TouchableOpacity onPress={() => navigation.navigate('HelpCalend')}  >
-            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={styles.iconAjudaCalend}/>
-          </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#34374f',
-      padding: 20,
-    },
-    iconAjudaCalend:{
-      width: 50, // Ajuste o tamanho do ícone aqui
-          height: 50, // Ajuste o tamanho do ícone aqu
-          left:184,
-    },
-    caixa_tarefas: {
-      marginTop: 10,
-      backgroundColor: '#546594',
-      borderRadius: 10,
-      padding: 5,
-      flex: 1,
-    },
-    scrollTarefas: {
-      maxHeight: 150, // Define a altura máxima para permitir o scroll
-    },
-    TextHeader: {
-      color: 'gold',
-      textAlign: 'center',
-      fontWeight: 'bold',
-      marginBottom: 10,
-      width: '100%',
-    },
-    Tarefa: {
-      backgroundColor: '#252942',
-      padding: 10,
-      borderRadius: 10,
-      marginTop: 10,
-      marginBottom: 5,
-    },
-    Text: {
-      color: '#FFFFFF',
-      fontWeight: 'bold',
-    },
-    addButton: {
-      backgroundColor: '#ffcc00',
-      padding: 15,
-      borderRadius: 10,
-      alignItems: 'center',
-      marginTop: 10,
-    },
-    addButtonText: {
-      color: '#34374f',
-      fontWeight: 'bold',
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#34374f',
+  },
+  caixa_tarefas: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#516292',
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
+
+  TextHeader: {
+    color: '#ffcc00',
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  Text: {
+    color: '#ffffff',
+    fontSize: 16,
+    marginVertical: 5,
+  },
+  scrollTarefas: {
+    maxHeight: 300,
+  },
+  Tarefa: {
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  completedText: {
+    textDecorationLine: 'line-through',
+    color: '#ffffff',
+  },
+  normalText: {
+    color: '#ffffff',
+  },
+  taskContainer: {
+    flexDirection: 'row', // Organiza os elementos lado a lado
+    alignItems: 'center', // Alinha verticalmente no centro
+    marginVertical: 5,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#2c3542',
+  },
+  circleColor: {
+    width: 20, // Tamanho do círculo
+    height: 20,
+    borderRadius: 10, // Deixa redondo
+    marginRight: 10, // Espaço entre o círculo e o título
+  },
+  // Estilo do calendário
+  calendar: {
+    width: '100%',
+    height: 200, // Ajuste a altura do calendário para o tamanho da caixa de tarefa
+    marginBottom: 10, // Adiciona um pequeno espaço entre o calendário e a caixa de tarefas
+  },
+
+});
 
 export default TodoListScreen;

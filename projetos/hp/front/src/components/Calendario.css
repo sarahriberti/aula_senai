@@ -3,16 +3,23 @@
   max-width: 100% !important;
   padding: 0 !important;
   display: flex;
+  flex-direction: column;
   background-color:#191D2A;
 
 }
 .menu-box{
-  max-width: 10%;
-  height: 729px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.parte_superior {
+  width: 50%;
 }
 
 .calendar-box{
   max-width: 95%;
+  align-self: center;
 }
 /* >>> TAMANHO DA DIV DO CALENDÁRIO <<< */
 .calendar{
