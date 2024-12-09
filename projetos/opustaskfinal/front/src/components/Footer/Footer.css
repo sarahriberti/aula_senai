@@ -1,0 +1,87 @@
+/* Estilos para o alinhamento e borda do footer */
+.container_footer{
+  border-top: 3px solid  rgb(214, 189, 1);
+  margin-top: 200px;
+  display: flex;
+}
+.abertura {
+  margin-top: 30px;
+  display: flex;
+  background-color: rgb(25, 29, 42);
+}
+.logo_footer{
+  margin-top: 0px;
+  margin-left: 80px;
+  background-color: rgb(25, 29, 42);
+}
+/* Estilos para o display, alinhamento e cursor das imagens nas redes sociais */
+.redes_sociais {
+  cursor: pointer;
+  justify-content: center;
+  color: white;
+  display: flex;
+  margin-left: 390px;
+  margin-top: 30px;
+}
+
+/* Estilos para a fonte, cor, tamanho e alinhamento do parágrafo do footer */
+.texto_f {
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(214, 189, 1);
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+/* Estilos para as imagens nas redes sociais */
+.instagram {
+  display: flex;
+  padding: 15px;
+
+}
+
+.rede{
+  margin-left: 10px;
+  margin-top: 12px;
+}
+/*alinhar listas*/
+
+textarea, select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: #fdf3c5;
+}
+input[type=button] {
+  width: 100%;
+
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+input[type=button]:hover {
+  background-color: #7acada;
+}
+.corujita{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.menu_list{
+  padding: 5px;
+  border: 3px;
+  list-style-type: none;
+  margin-left: 73px;
+}
+
+.frasinha{
+  margin-top: 5px;
+  margin-left: 390px;
+}
+/*fim do footer*/

@@ -1,0 +1,199 @@
+* {
+  /* >>> CONFIGURAÇÃO GERAL <<< */
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  /* >>> COR DO BODY <<< */
+  background-color: #191D2A !important;
+}
+
+/* >>> INÍCIO FORMS <<< */
+.text-geren {
+  font-weight: bold;
+}
+
+.txt_geren {
+  font-weight: bold;
+  margin-left: 200px;
+  margin-top: 40px;
+}
+
+.gerenciar_inputs {
+  width: 700px;
+  margin-left: 450px;
+  height: 1050px;
+  background-color: rgb(60, 69, 97);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 100px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+#nome_gerenciar_id {
+  background-color: #fdf3c5 ;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input.camp-date {
+  background-color: #fdf3c5;
+  width: 500px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formEmail {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formTelefone {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formSenhaAtual {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formNovaSenha {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* alterar os campos do gerenciar, campo por campo, tamanho e cor*/
+input#formConfirmarNovaSenha {
+  background-color: #fdf3c5;
+  width: 650px;
+}
+
+/* deixando os campos no meio, empilhados, e com o nome do campo em cima */
+form.form-geren {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  margin-left: 400px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+}
+
+/* botao alterar dados cor e hover */
+
+button.btn-update.btn.btn-primary {
+  background-color: #A28408;
+  padding: 10px;
+  margin-left: 250px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+button.btn-update.btn.btn-primary:hover {
+  background-color: #C39910;
+}
+
+.form-geren {
+  background-color: rgb(60, 69, 97);
+  border: 50px solid rgb(60, 69, 97);
+}
+
+.data-title {
+  color: white;
+}
+
+.email-title {
+  color: white;
+}
+
+.email-atual {
+  color: white;
+}
+
+.telefone-title {
+  color: white;
+}
+
+.telefone-atual {
+  color: white;
+}
+
+.senhaatual-title {
+  color: white;
+}
+
+.novasenha-title {
+  color: white;
+}
+
+.confirmsenha-title {
+  color: white;
+}
+/* >>> FINAL FORMS <<< */
+
+
+.grupo-imagens {
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* Centraliza o grupo de imagens no contêiner */
+  align-items: center; /* Centraliza verticalmente, caso necessário */
+}
+
+.imagem-perfil-padrao {
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+
+}
+
+/* Estilo para imagem de perfil selecionada */
+.imagem-perfil-selecionada {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  border: 3px solid #C39910; /* Verde para destacar que foi selecionada */
+  object-fit: cover;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper .form-control {
+  padding-right: 2rem; /* Espaço para o ícone */
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #888; /* Cor do ícone */
+}
+
+.eye-icon:hover {
+  color: #333; /* Cor ao passar o mouse */
+}
+
+/* >>> ESTILIZAÇÃO DAS MENSAGENS DE ERRO <<<*/
+.erro-mensagem {
+  background-color: #ffcccc;
+  color: #cc0000;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.info-mensagem {
+  background-color: #ccffcc;
+  color: #008800;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  text-align: center;
+}

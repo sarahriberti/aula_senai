@@ -1,0 +1,10 @@
+.botao_ajuda {
+    border: transparent;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 10px;
+    background-color: transparent;
+    width: 80px;
+}

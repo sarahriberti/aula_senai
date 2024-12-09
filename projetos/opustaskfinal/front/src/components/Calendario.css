@@ -1,0 +1,416 @@
+/* >>> ORGANIZAÇÃO GERAL <<< */
+.container{
+  max-width: 100% !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  background-color:#191D2A;
+
+}
+.menu-box{
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.parte_superior {
+  width: 50%;
+}
+
+.calendar-box{
+  max-width: 95%;
+  align-self: center;
+}
+/* >>> TAMANHO DA DIV DO CALENDÁRIO <<< */
+.calendar{
+  width: 78%;
+}
+/* >>> FINAL DA ORGANIZAÇÃO GERAL <<< */
+
+/* >>> INÍCIO MODAL <<< */
+#adicionar-click { /* >>> BOTÃO DO FORMULÁRIO <<< */
+  text-align: center;
+  width: 70px;
+  height: 70px;
+  background-color:#D6B00F;
+  border-radius: 50px;
+}
+.logo{
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  width: 200px;
+}
+/*Aqui a imagem de '+' da adição de tarefa é modificada */
+.image1{
+  width: 18px;
+}
+.modal-body { /* >>> COR DO MODAL <<< */
+  background-color: rgb(60, 69, 97);
+  color: aliceblue;
+}
+.modal-header {
+  background-color: #191D2A;
+  color: #D6B00F;
+  flex-direction: column-reverse;
+  font-weight: bold;
+}
+.adicionar-compromisso { /* >>> COR DE ONDE ESTÁ ESCRITO "COMPROMISSO" <<< */
+  background-color: #191D2A;
+  text-align: center;
+}
+
+.rodape { /* >>> COR DO FOOTER <<< */
+  background-color:#191D2A;
+}
+
+.horario-compromisso{ /* >>> COR DO HORÁRIO <<< */
+  background-color: #F4EFDF;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  text-align: left;
+  padding: 2px;
+}
+
+input.form-control {
+  border: none;
+  background-color: #fdf3c5;
+}
+
+button.btn.btn-primary {
+  border: none;
+} 
+button.btn.btn-primary:hover{
+  background-color:transparent;
+}
+.hor-edit { /* >>> DISPLAY PARA DEIXAR O O INÍCIO DO HORÁRIO E O TÉRMINO UM DO LADO DO OUTRO <<< */
+  display: flex;
+  color: black;
+}
+.descri{
+  background-color: #F4EFDF !important;
+}
+.repeat-color{
+  background-color: #F4EFDF !important;
+}
+.category-color{
+  background-color: #F4EFDF !important;
+}
+.ini-color{
+  background-color: #F4EFDF !important;
+}
+.ate-color{
+  background-color: #F4EFDF !important;
+}
+.til-color{
+  background-color: #F4EFDF !important;
+}
+.mb-3{
+  text-align: left;
+}
+.color-selector {
+  display: flex;
+  text-align: left;
+}
+.color-choose{
+  margin-left: 10px;
+}
+#input-date-ini{
+  width: 50%;
+}
+#input-date-fin{
+  width: 50%;
+}
+#input-hora-ini{
+  width: 45%;
+  height: 49px;
+  margin-top: 8px;
+}
+#input-hora-fin{
+  width: 45%;
+  height: 49px;
+  margin-top: 8px;
+}
+.d-flex{
+  display: flex ;
+  justify-content: space-between;
+}
+.repeat{
+  margin-top: 15px;
+}
+/* >>> FINAL MODAL <<<*/
+
+/*Inicio MenuLateral*/
+/*Cor do Menu Lateral*/
+.offcanvas-body {
+  background-color: #191D2A;
+}
+.iconess{
+  display: flex;
+
+}
+.offcanvas.offcanvas-start.show {
+  background-color: #191D2A;
+}
+/*cor do botão que chama o menu*/
+button.chamar_menu.btn.btn-primary {
+  background-color:transparent;
+  border: none;
+}
+
+button.chamar_menu.btn.btn-primary:hover {
+  background-color:transparent;
+  border: none;
+}
+/*cor de fundo do menu*/
+
+/*tamanho da logo*/
+.logo_coruja img {
+  width: 20%;
+}
+/*display nos elementos do perfil*/
+.perfil {
+  display: flex;
+}
+/*margem do x que fecha o menu*/
+.fechar_menu {
+  margin-left: 350px;
+  
+}
+/*tamanho da imagem de perfil*/
+.imagem1 {
+  width: 100px;
+  border-radius: 50px;
+  border: 3px solid #D6B00F;
+
+}
+
+#perfil_gerenciar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+/*css do nome do usuarioa*/
+.name {
+  font-size: larger;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+/* arrumando a cor dos botoes */
+button.comp_menu.btn.btn-primary {
+  background-color: transparent;
+}
+/*arrumando a cor dos botoes*/
+button.linke2.btn.btn-primary {
+  background-color: transparent;
+}
+
+/*tamanho logo do instagram e margin para posicionar*/
+.insta{
+  width: 50px;
+  margin-right: 20px;
+}
+/*tamanho logo facebook e margin para distanciafr do instagram*/
+.face{
+  width: 50px;
+  margin-right: 20px;
+}
+/*tamanho da logo do whatsapp e distanciamento do facebook*/
+.whats{
+  width: 50px;
+  margin-right: 50px;
+}
+/*posicionamento logos parte inferior dop menu lateral*/
+.redes{
+  margin-top: 40px;
+  justify-content: space-around;
+  display: flex;
+}
+.item {
+  width: 300px;
+  margin-top: 30px;
+  height: 40px;
+  border-bottom: 2px solid #D6B00F;
+  padding-top: 5px;
+}
+/*fim MenuLateral*/
+/*Inicio das atividades*/
+button.text.btn.btn-primary {
+  width: 0px;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+.itens{
+  margin-right: 160px;
+}
+.itens1{
+  margin-right: 188px;
+}
+.itens2{
+  margin-right: 195px;
+}
+
+/*Fim das atividades*/
+
+/*inicio do calendario*/
+/*ajustar tamanho*/
+.image{
+  margin-top: 50px;
+}
+/*fim do calendario*/
+
+div.modal-content {
+  background-color: #3d4b80;
+}
+
+.description-color{
+  background-color: #F4EFDF !important;
+}
+
+div.modal-footer{
+  background-color: rgb(60, 69, 97);
+}
+
+.Titulo_ModalTask.modal-title.h4{
+  font-size: 30px;
+    font-weight: bold;
+  color:#D6B00F;;
+  }
+
+button.linke.btn.btn-primary {
+  text-align: center;
+  margin-left: -13px;
+}
+
+.box{
+  margin-left: 100px;
+  margin-top: 18px;
+  font-size: 1em;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  color: white;
+}
+.exit{
+  margin-right: 15px;
+}
+.Body_TaskModal.modal-body {
+  background:rgb(60, 69, 97);
+}
+.Header_Titulo_TaskModal.modal-header {
+  background-color: rgb(60, 69, 97);
+}
+
+.Nome_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Data_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.HrInicial_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.HrFinal_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Descr_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Notf_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+.Rept_TaskModal {
+  background-color: #F4EFDF;
+  color: black;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+button.btn.btn-secondary {
+  background-color: #A28408;
+  border: none;
+}
+
+button.btn.btn-secondary:hover {
+  background-color: #cea70e;
+}
+
+button.btn.btn-primary {
+  background-color: #A28408;
+}
+
+button.btn.btn-danger {
+  background-color: #A28408;
+  border: none;
+}
+button.btn.btn-danger:hover {
+  background-color: #cea70e;
+}
+input#telefone_gerenciar_id {
+  padding: 12px;
+}
+.Footer_Del.modal-footer {
+  background-color: #191D2A;
+}
+.modal-header {
+  background-color:rgb(60, 69, 97);
+}
+.titulo-compromisso {
+  text-align: left;
+}
+.data-compromisso {
+  text-align: left;
+}
+.notification {
+  text-align: left;
+}
+textarea.form-control {
+  background-color: #fdf3c5;
+  border: none;
+}
+select.form-select {
+  background-color: #fdf3c5;
+  border: none;
+}
+.Header_delete.modal-header {
+  background-color: #191D2A;
+}
+.body_delete.modal-body{
+  background-color: #191D2A;
+}
+
+/* >>> ESTILIZAÇÃO DA DIV QUE APARECE 
+A COR DA TAREFA NO TASKMODAL  */
+
+.Color_TaskModal{
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+}

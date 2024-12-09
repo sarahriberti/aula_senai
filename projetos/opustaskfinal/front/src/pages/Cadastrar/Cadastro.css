@@ -1,0 +1,166 @@
+.container_cad {
+    font-family: Arial, Helvetica, sans-serif;
+    background-size: 130%;
+    background-image: url(/src/image/magic.gif);
+}
+
+/* Alinhamento e cor do h1 */
+h1 {
+    text-align: center;
+    color: white;
+}
+
+/* Alinhamento e cor do h3 */
+.cadastro h3 {
+    text-align: center;
+    color: white;
+}
+
+/* Cor e fonte dos textos */
+.formulario {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(25, 29, 42);
+    padding: 20px;
+    border-radius: 30px;
+}
+
+/* Tamanho da div e do texto, com alinhamento */
+.cadastro {
+    margin: auto;
+    width: 40%;
+    font-size: 15px;
+}
+
+/* Configurações de todos os inputs como tamanho, espaçamento, alinhamento, display, borda e cor da div */
+input[type=text],
+input[type=email],
+input[type=date],
+input[type=tel],
+input[type=password],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fdf3c5;
+}
+
+/* Configurações do botão submit */
+input[type=submit],
+input[type=button] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: rgb(107, 120, 163);
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Hover para o botão submit */
+input[type=submit]:hover,
+input[type=button]:hover {
+    background-color: #7acada;
+}
+
+/* Estilo dos botões de cadastrar e cancelar */
+.botoes_cad {
+    display: flex;
+}
+
+#cancel_cada {
+    margin-left: 30px;
+}
+
+/* Link de retorno para o login */
+.return_log {
+    text-align: center;
+    list-style-type: none;
+    margin-right: 50px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.text_return {
+    color: rgb(228, 228, 228);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Estilo de erros de validação */
+.error-validation {
+    color: red;
+    font-size: 13px;
+    position: relative;
+}
+
+/* Template oculto */
+.template {
+    display: none;
+}
+
+/* Estilo para o campo de senha */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding-right: 40px;
+    /* Espaço para o ícone */
+}
+
+/* Botão de mostrar/ocultar senha */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0;
+}
+
+/* Requisitos de senha */
+.password-requirements {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.password-requirements li {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.password-requirements .valid {
+    color: green;
+    /* Verde para requisitos atendidos */
+}
+
+.password-requirements .invalid {
+    color: red;
+    /* Vermelho para requisitos não atendidos */
+}
+
+.password-requirements li .valid,
+.password-requirements li .invalid {
+    margin-right: 10px;
+}
