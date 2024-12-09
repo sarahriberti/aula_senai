@@ -6,7 +6,9 @@ a.Gerenciar_help_a {
     max-width: 90px;
     ;
 }
-
+.menu_fixo{
+    width: 100%;
+}
 .inicio_help {
     display: flex;
     margin-left: 1100px;

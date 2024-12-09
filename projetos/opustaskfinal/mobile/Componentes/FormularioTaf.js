@@ -134,7 +134,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
                 return;
             }
 
-            const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}`, {
+            const response = await fetch(`http://10.135.60.28:8085/tasks?userId=${userId}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             });
@@ -184,7 +184,7 @@ export default function FormularioTaf({ isModalVisible4, setModalVisible4, onAdd
         };
 
         try {
-            const response = await fetch(selectedTask ? 'http://10.135.60.33:8085/atualizar_tarefa' : 'http://10.135.60.33:8085/receber_dados', {
+            const response = await fetch(selectedTask ? 'http://10.135.60.28:8085/atualizar_tarefa' : 'http://10.135.60.28:8085/receber_dados', {
                 method: selectedTask ? 'PUT' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(task),

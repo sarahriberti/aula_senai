@@ -65,7 +65,7 @@ const TaskModal = ({ task, onClose, onEdit, updateTaskStatus }) => {
     const handleDelete = async (task) => {
         if (task && task.ID) {
             try {
-                const response = await fetch(`http://10.135.60.33:8085/delete_task?taskId=${task.ID}`, {
+                const response = await fetch(`http://10.135.60.28:8085/delete_task?taskId=${task.ID}`, {
                     method: 'DELETE',
                 });
                 const result = await response.json();
@@ -86,7 +86,7 @@ const TaskModal = ({ task, onClose, onEdit, updateTaskStatus }) => {
         const ID_Tarefa = task.ID;
 
         try {
-            const response = await fetch('http://10.135.60.33:8085/check', {
+            const response = await fetch('http://10.135.60.28:8085/check', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -150,7 +150,7 @@ const TaskModal = ({ task, onClose, onEdit, updateTaskStatus }) => {
                     <Button className='editar-btn' variant="primary" onClick={() => onEdit(task)}>
                         <img src="/src/image/pencil.png" alt="" />
                     </Button>
-                    <Button variant="primary" onClick={handleSave}>
+                    <Button className='botao_task' onClick={handleSave} style={{ background:'#C39910'}}>
                         Salvar
                     </Button>
                 </Modal.Footer>

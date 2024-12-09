@@ -101,6 +101,13 @@ export default Loginstyles = StyleSheet.create({
         padding: 10,
 
     },
+    iconAjudaLogin: {
+        width: 50, // Ajuste o tamanho do ícone aqui
+        height: 50, // Ajuste o tamanho do ícone aqui
+        position: 'absolute',
+        top:5,
+        left:165,
+      },
 
     inputs: {
         backgroundColor: '#34374F',

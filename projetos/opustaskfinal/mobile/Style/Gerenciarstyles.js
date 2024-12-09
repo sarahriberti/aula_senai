@@ -40,6 +40,13 @@ export default Gerenciarstyles = StyleSheet.create({
         height: '90%',
         width: '100%',
     },
+    iconAjudaGe:{
+        width: 40, // Ajuste o tamanho do ícone aqui
+        height: 40, // Ajuste o tamanho do ícone aqui
+        position: 'absolute',
+        top:5,
+        left:350,
+    },
     borda: {
         marginTop: 20,
         borderBottomWidth: 3,

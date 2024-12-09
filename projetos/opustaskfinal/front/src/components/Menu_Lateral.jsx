@@ -25,7 +25,7 @@ function MenuLateral() {
         return;
       }
       try {
-        const response = await fetch('http://10.135.60.33:8085/receber_dados', {
+        const response = await fetch('http://10.135.60.28:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -89,9 +89,9 @@ function MenuLateral() {
             <nav>
               <ul>
                 <li className='item'><Link to="/Gerenciar" className='itens'>Gerenciar Conta</Link></li>
-                <li className='item'><Link to="/Calendario" className='itens2'>Calendário</Link></li>
+                <li className='item'><Link to="/Calendario" className='itens'>Calendário</Link></li>
                 <li className='item'><Sugestao className='itens' /></li>
-                <li className='item'><Link to="/Doacao" className='itens1'>Contribuição</Link></li>
+                <li className='item'><Link to="/Doacao" className='itens'>Contribuição</Link></li>
                 <li className='item'><Sair className='itens' /></li>
               </ul>
             </nav>

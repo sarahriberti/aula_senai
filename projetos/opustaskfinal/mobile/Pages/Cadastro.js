@@ -185,7 +185,7 @@ const CadastroForm = ({ navigation }) => {
         // Preparando os dados para envio
         const dadosEnvio = { ...formValues, dataNascimento: dataConvertida };
 
-        const resposta = await fetch('http://10.135.60.33:8085/receber_dados', {
+        const resposta = await fetch('http://10.135.60.28:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -217,6 +217,9 @@ const CadastroForm = ({ navigation }) => {
   return (
     <KeyboardAvoidingView style={Cadastrostyles.background} behavior="padding">
       <ScrollView contentContainerStyle={Cadastrostyles.scrollViewContent}>
+      <TouchableOpacity onPress={() => navigation.navigate('HelpCad')}  >
+            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={Cadastrostyles.iconAjudaCad}/>
+          </TouchableOpacity>
         <View style={Cadastrostyles.containerlogo}>
           <Image style={Cadastrostyles.logo} resizeMode='contain' source={require('../assets/corujalogocima.png')} />
         </View>
@@ -339,7 +342,9 @@ const CadastroForm = ({ navigation }) => {
 
           <View style={{ marginBottom: 10 }} />
           {formErrors.confirmsenha ? <Text style={Cadastrostyles.errorText}>{formErrors.confirmsenha}</Text> : null}
-
+          <View>
+            <Text style={Cadastrostyles.Txt} onPress={() => navigation.navigate('Login')}>Já possui conta? Faça login</Text>
+          </View>
           <TouchableOpacity style={Cadastrostyles.btnSubmit} onPress={handleSubmit}>
             <Text style={Cadastrostyles.submitTxt}>Cadastrar</Text>
           </TouchableOpacity>

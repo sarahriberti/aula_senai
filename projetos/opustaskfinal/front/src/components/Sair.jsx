@@ -18,7 +18,7 @@ function Sair() {
   return (
     <>
       
-      <Button variant="primary" onClick={handleShow} className='linke2'>
+      <Button variant="primary" onClick={handleShow} className='linke2'style={{ backgroundColor: 'none',padding:0 }}>
         Sair da Conta
       </Button>
 

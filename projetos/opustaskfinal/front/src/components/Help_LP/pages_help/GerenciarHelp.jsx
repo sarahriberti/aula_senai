@@ -22,6 +22,10 @@ const GerenciarHelp = () => {
                             <li className='letra_help'>
                                 <strong>3. Alterar Senha:</strong> Para mudar sua senha, vá até "Gerenciar Conta" e preencha os campos de nova senha. Siga as instruções: coloque sua senha atual, digite a nova senha e confirme-a.
                             </li>
+                            <li className='letra_help'>
+                                <strong>4. Altere seu avatar:</strong>
+                                <img className='imagem_help_login' src="./src/image/avatar_help.png" alt=""  />
+                            </li>
                         </ul>
                     </div>
 
