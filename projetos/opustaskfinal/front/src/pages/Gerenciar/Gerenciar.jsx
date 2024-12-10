@@ -6,7 +6,7 @@ import MenuLateral from '../../components/Menu_Lateral';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa os ícones
 import InputMask from 'react-input-mask';
 import adicionarPerfil from '../../../src/image/adicionar-usuario.png'
-
+import BotaoAjudaCalend from '../../components/BotoesAjuda/BotaoAjudaCalend';
 function Gerenciar() {
   const [dadosUsuario, setDadosUsuario] = useState({
     acao: 'update_cad',
@@ -44,7 +44,11 @@ function Gerenciar() {
             imagemPerfil: novaImagem,
           }));
 
+<<<<<<< HEAD
           fetch('http://10.135.60.27:8085/atualizar_cad', {
+=======
+          fetch('http://10.135.60.28:8085/atualizar_cad', {
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -126,7 +130,11 @@ function Gerenciar() {
     }
 
     try {
+<<<<<<< HEAD
       const response = await fetch('http://10.135.60.27:8085/atualizar_cad', {
+=======
+      const response = await fetch('http://10.135.60.28:8085/atualizar_cad', {
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -163,7 +171,7 @@ function Gerenciar() {
     const buscarDadosUsuario = async () => {
       const userId = localStorage.getItem('id');
       try {
-        const response = await fetch('http://10.135.60.33:8085/receber_dados', {
+        const response = await fetch('http://10.135.60.28:8085/receber_dados', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -363,6 +371,7 @@ function Gerenciar() {
           </Button>
         </div>
       </Form>
+      <BotaoAjudaCalend/>
     </div>
   );
 }

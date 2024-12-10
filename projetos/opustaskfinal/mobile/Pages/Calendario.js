@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, Pressable } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Pressable,TouchableOpacity,Image} from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Tarefas from '../Componentes/Tarefa';
 import FormularioTaf from '../Componentes/FormularioTaf';
@@ -30,7 +30,7 @@ const TodoListScreen = ({ navigation }) => {
       if (userId) {
         const localDate = moment(date).tz('America/Sao_Paulo').format('YYYY-MM-DD');
         console.log(`Fetching tasks for userId: ${userId} on date: ${localDate}`);
-        const response = await fetch(`http://10.135.60.33:8085/tasks?userId=${userId}&date=${localDate}`);
+        const response = await fetch(`http://10.135.60.28:8085/tasks?userId=${userId}&date=${localDate}`);
         const data = await response.json();
         setTasks(data);
       }
@@ -283,6 +283,9 @@ const TodoListScreen = ({ navigation }) => {
           refreshTaskList={refreshTaskList}
         />
       </ScrollView>
+      <TouchableOpacity onPress={() => navigation.navigate('HelpCalend')}  >
+            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={styles.iconAjudaCalend}/>
+          </TouchableOpacity>
     </View>
   );
 };
@@ -299,7 +302,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 10,
   },
-
+  iconAjudaCalend:{
+    width: 50, // Ajuste o tamanho do ícone aqui
+        height: 50, // Ajuste o tamanho do ícone aqu
+        left:200,
+  },
   TextHeader: {
     color: '#ffcc00',
     fontSize: 20,

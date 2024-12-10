@@ -17,6 +17,13 @@ export default Doacaostyles = StyleSheet.create({
         backgroundColor: '#252942',
 
     },
+    iconAjudaDoac:{
+        width: 40, // Ajuste o tamanho do ícone aqui
+        height: 40, // Ajuste o tamanho do ícone aqui
+        
+        top:5,
+        left:190,
+    },
     informacoes: {
         backgroundColor: '#546594',
         color: '#fff',

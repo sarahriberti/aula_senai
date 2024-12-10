@@ -332,6 +332,10 @@ li {
   border-radius: 20px;
 }
 .Descr_TaskModal {
+<<<<<<< HEAD
+=======
+  
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad
   color: black;
   padding: 5px;
   border-radius: 20px;
@@ -350,16 +354,14 @@ li {
 }
 
 button.btn.btn-secondary {
-  background-color: #A28408;
+  background-color: transparent;
   border: none;
 }
 
-button.btn.btn-secondary:hover {
-  background-color: #cea70e;
-}
+
 
 button.btn.btn-primary {
-  background-color: #A28408;
+  background-color: transparent;
 }
 
 button.btn.btn-danger {

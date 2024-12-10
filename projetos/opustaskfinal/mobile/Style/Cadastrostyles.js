@@ -13,6 +13,13 @@ export default Cadastrostyles = StyleSheet.create({
         marginBottom: 30,
         justifyContent: 'center',
     },
+    iconAjudaCad:{
+        width: 50, // Ajuste o tamanho do ícone aqui
+        height: 50, // Ajuste o tamanho do ícone aqui
+        position: 'fixed',
+        top:5,
+        left:150,
+    },
     logo: {
         width: 400,
         height: 150,

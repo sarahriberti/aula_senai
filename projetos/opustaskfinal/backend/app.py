@@ -426,4 +426,8 @@ def excluir_notificacao_route():
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     app.run(port=8085, host='10.135.60.27', debug=True, threaded=True)
+=======
+    app.run(port=8085, host='10.135.60.28', debug=True, threaded=True)
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad

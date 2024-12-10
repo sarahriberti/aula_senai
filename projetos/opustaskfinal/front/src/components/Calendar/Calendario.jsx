@@ -33,7 +33,11 @@ const CalendarioOFC = () => {
       return;
     }
     try {
+<<<<<<< HEAD
       const response = await fetch(`http://10.135.60.27:8085/tasks?userId=${userId}`);
+=======
+      const response = await fetch(`http://10.135.60.28:8085/tasks?userId=${userId}`);
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad
       if (!response.ok) {
         throw new Error(`Erro na resposta da API: ${response.statusText}`);
       }

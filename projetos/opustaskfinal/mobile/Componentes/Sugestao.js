@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native';
+import { Modal, View, Text, TextInput, Button, ActivityIndicator, StyleSheet,TouchableOpacity,Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Sugestao = ({ modalVisible5, setModalVisible5 }) => {
@@ -58,7 +58,7 @@ const Sugestao = ({ modalVisible5, setModalVisible5 }) => {
             setFeedbackMessage('');
 
             try {
-                const response = await fetch('http://10.135.60.33:8085/receber_sugestao', {
+                const response = await fetch('http://10.135.60.28:8085/receber_sugestao', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -112,6 +112,13 @@ const Sugestao = ({ modalVisible5, setModalVisible5 }) => {
                         <Button title="Fechar" onPress={() => setModalVisible5(false)} color="#c39910" />
                         <Button title="Enviar" onPress={handleSave} disabled={loading} color="#c39910" />
                     </View>
+                    <TouchableOpacity onPress={() => navigation.navigate('SugestaoHelp')}  >
+            <Image source={require('../assets/ponto-de-interrogacao.png')}  style={{ width: 50, // Ajuste o tamanho do ícone aqui
+        height: 50, // Ajuste o tamanho do ícone aqui
+        position: 'absolute',
+        top:250,
+        left:150,}}/>
+          </TouchableOpacity>
                 </View>
             </View>
         </Modal>

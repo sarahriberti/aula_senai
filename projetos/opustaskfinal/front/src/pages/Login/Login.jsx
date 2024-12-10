@@ -34,7 +34,11 @@ const Login = () => {
         e.preventDefault();
 
         try {
+<<<<<<< HEAD
             const resposta = await fetch('http://10.135.60.27:8085/receber_dados', {
+=======
+            const resposta = await fetch('http://10.135.60.28:8085/receber_dados', {
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -89,7 +89,7 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
     if (selectedTask && selectedTask.ID) {
       const novo_status = isTaskCompleted ? 1 : 0;
       try {
-        const response = await fetch('http://10.135.60.33:8085/check', {
+        const response = await fetch('http://10.135.60.28:8085/check', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -118,7 +118,7 @@ export default function Tarefas({ modalVisible3, setModalVisible3, selectedTask,
   const handleDelete = async () => {
     if (selectedTask && selectedTask.ID) {
       try {
-        const response = await fetch(`http://10.135.60.33:8085/delete_task?taskId=${selectedTask.ID}`, {
+        const response = await fetch(`http://10.135.60.28:8085/delete_task?taskId=${selectedTask.ID}`, {
           method: 'DELETE',
         });
         const result = await response.json();

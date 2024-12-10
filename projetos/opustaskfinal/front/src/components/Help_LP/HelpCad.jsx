@@ -55,7 +55,7 @@ const AjudaCadastro = () => {
 
 
                             <strong>1. Já tenho uma conta?</strong> Se você já se cadastrou, use a tela de Login para acessar sua conta.
-                            <img className='imagem_help_login' src="./src/image/help_cad.png" alt="" />
+                            <img className='imagem_help_login' src="./src/image/help_cad2.png" alt="" />
                         </p>
 
                         <p className="text1_help">

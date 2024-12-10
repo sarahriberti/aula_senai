@@ -67,6 +67,10 @@ const AjudaCalend = () => {
                             <strong>4. Posso marcar as minhas tarefas como concluídas?</strong> Sim! Clique na tarefa e marque o checkbox de conclusão; assim, ela aparecerá riscada.
                             <img className='imagem_help_login' src="./src/image/taf_concluida_help.png" alt="" />
                         </p>
+                        <p className="text1_help">
+                            <strong>5. Como acesso o notificações?</strong> O notificações se localiza no canto superior direito da tela!
+                            <img className='imagem_help_login' src="./src/image/not_help.png" alt="" />
+                        </p>
                     </div>
 
                     <GerenciarHelp />

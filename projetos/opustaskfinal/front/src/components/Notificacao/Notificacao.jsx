@@ -22,7 +22,11 @@ const Notificacao = () => {
     // Função para confirmar a exclusão de uma notificação
     const confirmarDeletar = async () => {
         try {
+<<<<<<< HEAD
             const response = await fetch(`http://10.135.60.27:8085/excluir_notificacao?id=${notificacaoParaDeletar}`, {
+=======
+            const response = await fetch(`http://10.135.60.28:8085/excluir_notificacao?id=${notificacaoParaDeletar}`, {
+>>>>>>> da0941cd91f67c3ada7e6e34f69e9fde4db668ad
                 method: 'DELETE',
             });
 
@@ -60,7 +64,7 @@ const Notificacao = () => {
                 }
 
                 const response = await fetch(
-                    `http://10.135.60.33:8085/notificacoes?userId=${userId}`,
+                    `http://10.135.60.28:8085/notificacoes?userId=${userId}`,
                     { signal: controller.signal }
                 );
 
