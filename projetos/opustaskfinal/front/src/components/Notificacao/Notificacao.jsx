@@ -22,7 +22,7 @@ const Notificacao = () => {
     // Função para confirmar a exclusão de uma notificação
     const confirmarDeletar = async () => {
         try {
-            const response = await fetch(`http://10.135.60.33:8085/excluir_notificacao?id=${notificacaoParaDeletar}`, {
+            const response = await fetch(`http://10.135.60.27:8085/excluir_notificacao?id=${notificacaoParaDeletar}`, {
                 method: 'DELETE',
             });
 

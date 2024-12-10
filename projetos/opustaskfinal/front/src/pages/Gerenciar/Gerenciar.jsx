@@ -44,7 +44,7 @@ function Gerenciar() {
             imagemPerfil: novaImagem,
           }));
 
-          fetch('http://10.135.60.33:8085/atualizar_cad', {
+          fetch('http://10.135.60.27:8085/atualizar_cad', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ function Gerenciar() {
     }
 
     try {
-      const response = await fetch('http://10.135.60.33:8085/atualizar_cad', {
+      const response = await fetch('http://10.135.60.27:8085/atualizar_cad', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

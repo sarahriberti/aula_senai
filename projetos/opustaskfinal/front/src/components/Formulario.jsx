@@ -31,7 +31,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
       console.log("ID da tarefa:", id_tarefa);  // Verifica se o ID da tarefa está correto
   
       // Fazer a requisição para buscar as tarefas relacionadas
-      const response = await fetch(`http://10.135.60.33:8085/tarefas/relacionadas/${id_tarefa}`, {
+      const response = await fetch(`http://10.135.60.27:8085/tarefas/relacionadas/${id_tarefa}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
       const idPai = result.tarefas[0]?.ID_PAI || id_tarefa; // Se não encontrar o ID_PAI, usa o id_tarefa como padrão
   
       // Agora, faz a atualização das tarefas relacionadas com o ID encontrado
-      const updateResponse = await fetch(`http://10.135.60.33:8085/tarefas/atualizar/${idPai}`, {
+      const updateResponse = await fetch(`http://10.135.60.27:8085/tarefas/atualizar/${idPai}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -187,8 +187,8 @@ function Formulario({ taskToEdit, isEditing, onClose, selectedDate }) {
     };
 
     const apiUrl = isEditing
-      ? 'http://10.135.60.33:8085/atualizar_tarefa'
-      : 'http://10.135.60.33:8085/receber_dados';
+      ? 'http://10.135.60.27:8085/atualizar_tarefa'
+      : 'http://10.135.60.27:8085/receber_dados';
 
     try {
       const response = await fetch(apiUrl, {

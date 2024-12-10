@@ -16,7 +16,7 @@ const Sugestao = ({ userId }) => {
             setFeedbackMessage('');
 
             try {
-                const response = await fetch('http://10.135.60.33:8085/receber_dados', {
+                const response = await fetch('http://10.135.60.27:8085/receber_dados', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const Sugestao = ({ userId }) => {
 
     return (
         <>
-            <Button variant="primary2" onClick={() => setIsOpen(true)} style={{ backgroundColor: 'none' }}>
+            <Button variant="primary2" onClick={() => setIsOpen(true)} style={{ backgroundColor: 'none', padding:0 }}>
                 Sugestão
             </Button>
 
